@@ -4,7 +4,6 @@ import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { ThemeProvider } from "./_components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Personal Website",
@@ -21,11 +20,9 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
-      <body suppressHydrationWarning>
-        <ThemeProvider defaultTheme="dark" storageKey="theme">
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </ThemeProvider>
+    <html lang="en" className={`${geist.variable}`}>
+      <body>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
   );

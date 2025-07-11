@@ -35,24 +35,14 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="bg-white dark:bg-black text-black dark:text-white overflow-x-hidden"
+      className="bg-black text-white overflow-x-hidden"
     >
       <Navigation />
-      <div id="hero">
-        <HeroSection />
-      </div>
-      <div id="experience">
-        <WorkExperience />
-      </div>
-      <div id="skills">
-        <TechnologyStack />
-      </div>
-      <div id="education">
-        <Education />
-      </div>
-      <div id="projects">
-        <PersonalProjects />
-      </div>
+      <HeroSection />
+      <WorkExperience />
+      <TechnologyStack />
+      <Education />
+      <PersonalProjects />
     </motion.main>
   );
 }

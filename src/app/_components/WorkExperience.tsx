@@ -82,20 +82,20 @@ export function WorkExperience() {
     <motion.section
       id="experience"
       ref={ref}
-      className="min-h-screen py-20 px-6 bg-gray-50 dark:bg-gray-900"
+      className="min-h-screen py-20 px-6"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
     >
       <div className="max-w-6xl mx-auto">
         <motion.div className="text-center mb-20" variants={itemVariants}>
-          <h2 className="text-5xl md:text-7xl font-bold mb-6 text-black dark:text-white">
+          <h2 className="text-5xl md:text-7xl font-bold mb-6">
             Work
             <span className="block bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
               Experience
             </span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Building exceptional digital products with cutting-edge technologies
           </p>
         </motion.div>
@@ -112,22 +112,22 @@ export function WorkExperience() {
               
               {/* Timeline dot */}
               <motion.div
-                className="absolute left-6 top-8 w-4 h-4 bg-black dark:bg-white rounded-full hidden md:block"
+                className="absolute left-6 top-8 w-4 h-4 bg-white rounded-full hidden md:block"
                 whileHover={{ scale: 1.5 }}
                 transition={{ duration: 0.3 }}
               />
 
               <LiquidCard className="md:ml-20">
-                <div className="p-8 bg-white dark:bg-black/50 rounded-2xl border border-gray-200 dark:border-white/10">
+                <div className="p-8">
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
                     <div>
-                      <h3 className="text-2xl font-bold text-black dark:text-white mb-2">
+                      <h3 className="text-2xl font-bold text-white mb-2">
                         {exp.position}
                       </h3>
-                      <h4 className="text-xl text-blue-500 dark:text-blue-400 mb-2">
+                      <h4 className="text-xl text-blue-400 mb-2">
                         {exp.company}
                       </h4>
-                      <p className="text-gray-600 dark:text-gray-400">{exp.duration}</p>
+                      <p className="text-gray-400">{exp.duration}</p>
                     </div>
                   </div>
 
@@ -135,12 +135,12 @@ export function WorkExperience() {
                     {exp.description.map((item, idx) => (
                       <motion.li
                         key={idx}
-                        className="text-gray-700 dark:text-gray-300 flex items-start"
+                        className="text-gray-300 flex items-start"
                         initial={{ opacity: 0, x: -20 }}
                         animate={inView ? { opacity: 1, x: 0 } : {}}
                         transition={{ delay: 0.1 * idx, duration: 0.5 }}
                       >
-                        <span className="text-blue-500 dark:text-blue-400 mr-3 mt-2">•</span>
+                        <span className="text-blue-400 mr-3 mt-2">•</span>
                         {item}
                       </motion.li>
                     ))}
@@ -150,7 +150,7 @@ export function WorkExperience() {
                     {exp.technologies.map((tech, idx) => (
                       <motion.span
                         key={idx}
-                        className="px-3 py-1 bg-gray-100 dark:bg-white/10 rounded-full text-sm text-gray-700 dark:text-gray-300"
+                        className="px-3 py-1 bg-white/10 rounded-full text-sm text-gray-300"
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.2 }}
                       >
