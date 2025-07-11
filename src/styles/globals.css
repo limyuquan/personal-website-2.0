@@ -4,3 +4,72 @@
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
+/* Theme variables - Default to dark mode */
+:root {
+  --bg-primary: 0 0 0;
+  --bg-secondary: 17 24 39;
+  --bg-tertiary: 31 41 55;
+  --bg-card: 255 255 255 / 0.05;
+  --bg-card-hover: 255 255 255 / 0.1;
+  
+  --text-primary: 255 255 255;
+  --text-secondary: 209 213 219;
+  --text-tertiary: 156 163 175;
+  --text-muted: 107 114 128;
+  
+  --border-primary: 255 255 255 / 0.1;
+  --border-secondary: 255 255 255 / 0.2;
+  --border-hover: 255 255 255 / 0.3;
+  
+  --nav-bg: 0 0 0 / 0.8;
+  --nav-border: 255 255 255 / 0.1;
+}
+
+/* Body styling with theme support */
+body {
+  background: rgb(var(--bg-primary));
+  color: rgb(var(--text-primary));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme-aware scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--bg-secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--text-muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--text-tertiary));
+}
+
+/* Custom styles for experimental animations */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Theme-aware selection */
+::selection {
+  background: rgb(var(--text-primary) / 0.2);
+  color: rgb(var(--text-primary));
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Override transitions for motion components */
+[data-framer-appear-id] * {
+  transition: none !important;
+}
