@@ -66,11 +66,11 @@ export function LiquidCard({
         }}
       >
         {/* Subtle background effect */}
-        <div className="absolute inset-0 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10" />
+        <div className="absolute inset-0 rounded-2xl bg-gray-100 dark:bg-white/5 backdrop-blur-sm border border-gray-200 dark:border-white/10" />
         
         {/* Subtle animated border */}
         <motion.div
-          className="absolute inset-0 rounded-2xl border border-white/20"
+          className="absolute inset-0 rounded-2xl border border-gray-300 dark:border-white/20"
           animate={{
             opacity: [0.3, 0.6, 0.3]
           }}
@@ -118,7 +118,7 @@ export function ElasticButton({
     >
       {/* Ripple effect on click */}
       <motion.div
-        className="absolute inset-0 bg-white/20 rounded-full"
+        className="absolute inset-0 bg-gray-200 dark:bg-white/20 rounded-full"
         initial={{ scale: 0, opacity: 1 }}
         whileTap={{
           scale: 4,

@@ -108,7 +108,7 @@ export function TechnologyStack() {
           <motion.div
             key={i}
             className={`w-2 h-2 rounded-full ${
-              i < level ? "bg-blue-400" : "bg-gray-600"
+              i < level ? "bg-blue-500 dark:bg-blue-400" : "bg-gray-300 dark:bg-gray-600"
             }`}
             initial={{ scale: 0 }}
             animate={inView ? { scale: 1 } : {}}
@@ -123,20 +123,20 @@ export function TechnologyStack() {
     <motion.section
       id="tech-stack"
       ref={ref}
-      className="min-h-screen py-20 px-6"
+      className="min-h-screen py-20 px-6 bg-white dark:bg-black"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
     >
       <div className="max-w-6xl mx-auto">
         <motion.div className="text-center mb-20" variants={categoryVariants}>
-          <h2 className="text-5xl md:text-7xl font-bold mb-6">
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 text-black dark:text-white">
             Tech
             <span className="block bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
               Stack
             </span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Modern technologies and tools I use to build exceptional digital experiences
           </p>
         </motion.div>
@@ -148,28 +148,28 @@ export function TechnologyStack() {
               className="space-y-6"
               variants={categoryVariants}
             >
-              <h3 className="text-3xl font-bold text-white mb-8">
+              <h3 className="text-3xl font-bold text-black dark:text-white mb-8">
                 {category.title}
               </h3>
               
-                               <div className="grid grid-cols-2 gap-4">
-                   {category.technologies.map((tech, techIndex) => (
-                     <motion.div
-                       key={techIndex}
-                       variants={techVariants}
-                     >
-                       <LiquidCard>
-                         <div className="p-6 text-center">
-                           <div className="text-3xl mb-3">{tech.icon}</div>
-                           <h4 className="text-lg font-semibold text-white mb-2">
-                             {tech.name}
-                           </h4>
-                           {renderProficiencyDots(tech.level)}
-                         </div>
-                       </LiquidCard>
-                     </motion.div>
-                   ))}
-                 </div>
+              <div className="grid grid-cols-2 gap-4">
+                {category.technologies.map((tech, techIndex) => (
+                  <motion.div
+                    key={techIndex}
+                    variants={techVariants}
+                  >
+                    <LiquidCard>
+                      <div className="p-6 text-center bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/10">
+                        <div className="text-3xl mb-3">{tech.icon}</div>
+                        <h4 className="text-lg font-semibold text-black dark:text-white mb-2">
+                          {tech.name}
+                        </h4>
+                        {renderProficiencyDots(tech.level)}
+                      </div>
+                    </LiquidCard>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
@@ -178,7 +178,7 @@ export function TechnologyStack() {
           className="mt-20 text-center"
           variants={categoryVariants}
         >
-          <p className="text-gray-400 mb-8">
+          <p className="text-gray-600 dark:text-gray-400 mb-8">
             Always learning and exploring new technologies
           </p>
           <motion.div

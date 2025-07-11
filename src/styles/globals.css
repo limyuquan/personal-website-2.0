@@ -5,50 +5,49 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-/* Theme variables - Default to dark mode */
+/* Dark mode configuration */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Light mode styles */
 :root {
-  --bg-primary: 0 0 0;
-  --bg-secondary: 17 24 39;
-  --bg-tertiary: 31 41 55;
-  --bg-card: 255 255 255 / 0.05;
-  --bg-card-hover: 255 255 255 / 0.1;
-  
-  --text-primary: 255 255 255;
-  --text-secondary: 209 213 219;
-  --text-tertiary: 156 163 175;
-  --text-muted: 107 114 128;
-  
-  --border-primary: 255 255 255 / 0.1;
-  --border-secondary: 255 255 255 / 0.2;
-  --border-hover: 255 255 255 / 0.3;
-  
-  --nav-bg: 0 0 0 / 0.8;
-  --nav-border: 255 255 255 / 0.1;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
 }
 
-/* Body styling with theme support */
-body {
-  background: rgb(var(--bg-primary));
-  color: rgb(var(--text-primary));
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Theme-aware scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgb(var(--bg-secondary));
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgb(var(--text-muted));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--text-tertiary));
+/* Dark mode styles */
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 94.0%;
 }
 
 /* Custom styles for experimental animations */
@@ -56,20 +55,18 @@ body {
   perspective: 1000px;
 }
 
-/* Theme-aware selection */
-::selection {
-  background: rgb(var(--text-primary) / 0.2);
-  color: rgb(var(--text-primary));
-}
-
-/* Smooth transitions for theme changes */
+/* Smooth theme transitions */
 * {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-/* Override transitions for motion components */
-[data-framer-appear-id] * {
-  transition: none !important;
+/* Custom cursor styles */
+.custom-cursor-active {
+  cursor: none;
+}
+
+/* Page background */
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
 }

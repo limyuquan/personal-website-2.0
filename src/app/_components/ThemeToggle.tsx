@@ -4,68 +4,83 @@ import { motion } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
 
 export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme, actualTheme } = useTheme();
+
+  const toggleTheme = () => {
+    if (theme === "system") {
+      setTheme(actualTheme === "dark" ? "light" : "dark");
+    } else {
+      setTheme(theme === "light" ? "dark" : "light");
+    }
+  };
 
   return (
     <motion.button
       onClick={toggleTheme}
-      className="relative w-14 h-7 rounded-full p-1 transition-colors duration-300 bg-[rgb(var(--bg-card))] border border-[rgb(var(--border-primary))] hover:border-[rgb(var(--border-secondary))]"
+      className="relative flex h-10 w-20 items-center justify-between rounded-full bg-gray-200 p-1 dark:bg-gray-800 transition-colors duration-300"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      initial={false}
-      animate={{
-        backgroundColor: theme === "dark" ? "rgb(55 65 81)" : "rgb(229 231 235)",
-      }}
-      transition={{ duration: 0.3 }}
+      aria-label="Toggle theme"
     >
-      {/* Toggle circle */}
+      {/* Sun Icon */}
       <motion.div
-        className="w-5 h-5 rounded-full bg-[rgb(var(--text-primary))] shadow-lg flex items-center justify-center"
+        className="flex h-8 w-8 items-center justify-center text-yellow-500"
         animate={{
-          x: theme === "dark" ? 0 : 28,
+          opacity: actualTheme === "light" ? 1 : 0.3,
+          scale: actualTheme === "light" ? 1 : 0.8,
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="12" cy="12" r="5"></circle>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+        </svg>
+      </motion.div>
+
+      {/* Moon Icon */}
+      <motion.div
+        className="flex h-8 w-8 items-center justify-center text-blue-300"
+        animate={{
+          opacity: actualTheme === "dark" ? 1 : 0.3,
+          scale: actualTheme === "dark" ? 1 : 0.8,
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </motion.div>
+
+      {/* Sliding indicator */}
+      <motion.div
+        className="absolute h-8 w-8 rounded-full bg-white shadow-lg dark:bg-gray-700"
+        animate={{
+          x: actualTheme === "light" ? 0 : 44,
         }}
         transition={{
           type: "spring",
           stiffness: 500,
           damping: 30,
         }}
-      >
-        {/* Icon */}
-        <motion.div
-          key={theme}
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          exit={{ scale: 0, rotate: 180 }}
-          transition={{ duration: 0.3 }}
-          className="text-xs"
-        >
-          {theme === "dark" ? "🌙" : "☀️"}
-        </motion.div>
-      </motion.div>
-
-      {/* Background icons */}
-      <div className="absolute inset-0 flex items-center justify-between px-2 pointer-events-none">
-        <motion.span
-          className="text-xs opacity-60"
-          animate={{
-            opacity: theme === "dark" ? 0.6 : 0.3,
-            scale: theme === "dark" ? 1 : 0.8,
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          🌙
-        </motion.span>
-        <motion.span
-          className="text-xs opacity-60"
-          animate={{
-            opacity: theme === "light" ? 0.6 : 0.3,
-            scale: theme === "light" ? 1 : 0.8,
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          ☀️
-        </motion.span>
-      </div>
+      />
     </motion.button>
   );
 } 

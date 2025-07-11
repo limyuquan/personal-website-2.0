@@ -29,8 +29,8 @@ export function MorphingBlobs() {
     return () => clearInterval(morphInterval);
   }, []);
 
-      return (
-    <div className="absolute inset-0 overflow-hidden opacity-10">
+  return (
+    <div className="absolute inset-0 overflow-hidden opacity-5 dark:opacity-10">
       {/* Blob 1 */}
       <motion.div
         className="absolute -top-1/2 -left-1/2 w-full h-full"
@@ -53,12 +53,12 @@ export function MorphingBlobs() {
               <stop offset="100%" stopColor="#45B7D1" />
             </linearGradient>
           </defs>
-                     <path
-             ref={pathRef}
-             d={morphPaths[0]}
-             fill="url(#gradient1)"
-             transform="translate(100 100)"
-           />
+          <path
+            ref={pathRef}
+            d={morphPaths[0]}
+            fill="url(#gradient1)"
+            transform="translate(100 100)"
+          />
         </svg>
       </motion.div>
 
@@ -84,11 +84,11 @@ export function MorphingBlobs() {
               <stop offset="100%" stopColor="#f093fb" />
             </linearGradient>
           </defs>
-                     <path
-             d={morphPaths[1]}
-             fill="url(#gradient2)"
-             transform="translate(100 100)"
-           />
+          <path
+            d={morphPaths[1]}
+            fill="url(#gradient2)"
+            transform="translate(100 100)"
+          />
         </svg>
       </motion.div>
 
@@ -113,11 +113,11 @@ export function MorphingBlobs() {
               <stop offset="100%" stopColor="#fcb69f" />
             </radialGradient>
           </defs>
-                     <path
-             d={morphPaths[2]}
-             fill="url(#gradient3)"
-             transform="translate(100 100)"
-           />
+          <path
+            d={morphPaths[2]}
+            fill="url(#gradient3)"
+            transform="translate(100 100)"
+          />
         </svg>
       </motion.div>
     </div>
@@ -173,7 +173,7 @@ export function FloatingParticles() {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute w-2 h-2 bg-white rounded-full opacity-20"
+          className="absolute w-2 h-2 bg-black dark:bg-white rounded-full opacity-10 dark:opacity-20"
           initial={{
             x: particle.initialX,
             y: particle.initialY,

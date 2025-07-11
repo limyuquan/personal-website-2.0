@@ -129,20 +129,20 @@ export function PersonalProjects() {
     <motion.section
       id="projects"
       ref={ref}
-      className="min-h-screen py-20 px-6"
+      className="min-h-screen py-20 px-6 bg-white dark:bg-black"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
     >
       <div className="max-w-7xl mx-auto">
         <motion.div className="text-center mb-20" variants={projectVariants}>
-          <h2 className="text-5xl md:text-7xl font-bold mb-6">
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 text-black dark:text-white">
             Personal
             <span className="block bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
               Projects
             </span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Innovative projects showcasing creativity, technical skills, and problem-solving abilities
           </p>
         </motion.div>
@@ -155,14 +155,14 @@ export function PersonalProjects() {
               variants={projectVariants}
             >
               <motion.div
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 h-full"
+                className="bg-gray-50 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-300 h-full"
                 whileHover={{ y: -10, scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
                 {/* Status indicator */}
                 <div className="flex items-center justify-between mb-6">
                   <motion.div
-                    className={`px-3 py-1 rounded-full text-xs font-medium text-black ${getStatusColor(project.status)}`}
+                    className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(project.status)}`}
                     whileHover={{ scale: 1.1 }}
                   >
                     {getStatusText(project.status)}
@@ -173,7 +173,7 @@ export function PersonalProjects() {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+                      className="w-10 h-10 bg-gray-200 dark:bg-white/10 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"
                       whileHover={{ scale: 1.1, rotate: 360 }}
                       transition={{ duration: 0.3 }}
                     >
@@ -185,7 +185,7 @@ export function PersonalProjects() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+                        className="w-10 h-10 bg-gray-200 dark:bg-white/10 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"
                         whileHover={{ scale: 1.1, rotate: -360 }}
                         transition={{ duration: 0.3 }}
                       >
@@ -195,28 +195,28 @@ export function PersonalProjects() {
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-bold text-white mb-4">
+                <h3 className="text-2xl font-bold text-black dark:text-white mb-4">
                   {project.title}
                 </h3>
 
-                <p className="text-gray-300 mb-6 leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
                   {project.longDescription}
                 </p>
 
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">
+                  <h4 className="text-lg font-semibold text-black dark:text-white mb-3">
                     Key Features
                   </h4>
                   <ul className="space-y-2">
                     {project.features.map((feature, idx) => (
                       <motion.li
                         key={idx}
-                        className="text-gray-300 flex items-start text-sm"
+                        className="text-gray-700 dark:text-gray-300 flex items-start text-sm"
                         initial={{ opacity: 0, x: -20 }}
                         animate={inView ? { opacity: 1, x: 0 } : {}}
                         transition={{ delay: 0.1 * idx, duration: 0.3 }}
                       >
-                        <span className="text-orange-400 mr-3 mt-1">•</span>
+                        <span className="text-orange-500 dark:text-orange-400 mr-3 mt-1">•</span>
                         {feature}
                       </motion.li>
                     ))}
@@ -227,7 +227,7 @@ export function PersonalProjects() {
                   {project.technologies.map((tech, idx) => (
                     <motion.span
                       key={idx}
-                      className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300"
+                      className="px-3 py-1 bg-gray-200 dark:bg-white/10 rounded-full text-xs text-gray-700 dark:text-gray-300"
                       whileHover={{ scale: 1.05, y: -2 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -252,7 +252,7 @@ export function PersonalProjects() {
                   
                   {project.liveUrl && (
                     <motion.button
-                      className="px-6 py-3 border border-white/30 rounded-lg hover:border-white/60 transition-colors"
+                      className="px-6 py-3 border border-gray-300 dark:border-white/30 text-black dark:text-white rounded-lg hover:border-gray-500 dark:hover:border-white/60 transition-colors"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -270,11 +270,11 @@ export function PersonalProjects() {
           variants={projectVariants}
         >
           <motion.div
-            className="inline-flex items-center gap-4 bg-white/5 rounded-full px-8 py-4"
+            className="inline-flex items-center gap-4 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-8 py-4"
             whileHover={{ scale: 1.05 }}
           >
             <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse" />
-            <span className="text-purple-400 font-medium">
+            <span className="text-purple-500 dark:text-purple-400 font-medium">
               More projects coming soon...
             </span>
           </motion.div>
