@@ -1,16 +1,152 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { TextScramble } from "./TextScramble";
+import { useState, useEffect, useMemo } from "react";
 import { MorphingBlobs, FloatingParticles } from "./MorphingBlobs";
 import { ElasticButton } from "./LiquidCard";
+
+// Advanced title animation component
+function AnimatedTitle({ text, isActive }: { text: string; isActive: boolean }) {
+  const words = useMemo(() => text.split(' '), [text]);
+
+  const springConfig = {
+    type: "spring" as const,
+    damping: 25,
+    stiffness: 200,
+    mass: 0.8,
+  };
+
+  return (
+    <div className="flex flex-wrap justify-center items-center leading-none gap-x-4 lg:gap-x-6">
+      {words.map((word, wordIndex) => (
+        <div key={`${text}-word-${wordIndex}`} className="flex">
+          {word.split('').map((char, charIndex) => (
+            <motion.span
+              key={`${text}-${wordIndex}-${charIndex}`}
+              className="inline-block font-bold tracking-tight bg-white bg-clip-text text-transparent text-7xl lg:text-9xl lg:h-34"
+              initial={{ 
+                opacity: 0,
+                y: 100,
+                rotateX: -90,
+                scale: 0.3,
+                filter: "blur(20px)"
+              }}
+              animate={isActive ? { 
+                opacity: 1,
+                y: 0,
+                rotateX: 0,
+                scale: 1,
+                filter: "blur(0px)"
+              } : {
+                opacity: 0,
+                y: -100,
+                rotateX: 90,
+                scale: 0.3,
+                filter: "blur(20px)"
+              }}
+              exit={{
+                opacity: 0,
+                y: -100,
+                rotateX: 90,
+                scale: 0.3,
+                filter: "blur(20px)"
+              }}
+              transition={{
+                ...springConfig,
+                delay: (wordIndex * word.length + charIndex) * 0.03, // Stagger across words and characters
+                opacity: { duration: 0.4 },
+                filter: { duration: 0.3 }
+              }}
+              style={{
+                transformOrigin: "center center",
+                transformStyle: "preserve-3d",
+                perspective: "1000px"
+              }}
+              whileHover={{
+                scale: 1.1,
+                rotateY: 15,
+                transition: { duration: 0.3 }
+              }}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Enhanced title switcher with smooth transitions
+function TitleSwitcher({ titles }: { titles: string[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isChanging, setIsChanging] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      setIsChanging(true);
+      
+      // Wait for exit animation to complete
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % titles.length);
+        setIsChanging(false);
+      }, 600); // Delay for smooth transition
+      
+    }, 4000); // Change every 4 seconds to allow for longer animations
+
+    return () => clearInterval(interval);
+  }, [titles.length]);
+
+  return (
+    <div className="relative h-42 lg:h-70 flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          {!isChanging && (
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <AnimatedTitle 
+                text={titles[currentIndex] ?? "Fullstack Engineer"} 
+                isActive={!isChanging}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      
+      {/* Subtle background glow effect */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r  rounded-full "
+        animate={{
+          scale: [0.8, 1.2, 0.8],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+    </div>
+  );
+}
 
 export function HeroSection() {
   const [ref, inView] = useInView({
     threshold: 0.3,
     triggerOnce: true,
   });
+
+  const titles = [
+    "Fullstack Engineer",
+    "Software Engineer",
+    "Student",
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -29,7 +165,9 @@ export function HeroSection() {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.8,
+        type: "spring" as const,
+        damping: 20,
+        stiffness: 100,
       },
     },
   };
@@ -37,7 +175,7 @@ export function HeroSection() {
   return (
     <motion.section
       ref={ref}
-      className="min-h-screen flex items-center justify-center relative px-6"
+      className="min-h-screen flex items-center justify-center relative px-6 pt-18 md:pt-0"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
@@ -46,25 +184,19 @@ export function HeroSection() {
       <MorphingBlobs />
       <FloatingParticles />
 
-      <div className="max-w-6xl mx-auto text-center relative z-10">
-        <motion.h1
-          className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8"
+      <div className="max-w-6xl md:max-w-none mx-auto text-center relative z-10 px-4">
+        {/* Greeting text */}
+        <motion.p
+          className="text-lg md:text-xl text-gray-400 mb-4 font-light md:text-left md:mt-16"
           variants={itemVariants}
         >
-          <span className="block">
-            <TextScramble trigger={inView} duration={1000} scrambleSpeed={80}>
-              Fullstack
-            </TextScramble>
-          </span>
-          <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 bg-clip-text text-transparent">
-            <TextScramble trigger={inView} duration={1200} scrambleSpeed={80}>
-              Engineer
-            </TextScramble>
-          </span>
-        </motion.h1>
+          Hello! I am Yu Quan, a
+        </motion.p>
+
+        <TitleSwitcher titles={titles} />
 
         <motion.p
-          className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed"
+          className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed mt-10 md:mt-0 md:text-left"
           variants={itemVariants}
         >
           Crafting exceptional digital experiences with modern technologies,

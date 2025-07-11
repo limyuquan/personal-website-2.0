@@ -70,7 +70,7 @@ export function TextScramble({
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [trigger]);
+  }, [trigger, children]);
 
   return (
     <span 
