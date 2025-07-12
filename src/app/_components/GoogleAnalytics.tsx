@@ -32,9 +32,26 @@ export function GoogleAnalytics({ gtag }: GoogleAnalyticsProps) {
   );
 }
 
+// Type definitions for Google Analytics
+interface GtagEventParams {
+  event_category?: string;
+  event_label?: string;
+  value?: number;
+  custom_parameter?: string;
+  [key: string]: string | number | boolean | undefined;
+}
+
+interface GtagConfigParams {
+  page_title?: string;
+  page_location?: string;
+  page_path?: string;
+  custom_map?: Record<string, string>;
+  [key: string]: string | number | boolean | Record<string, string> | undefined;
+}
+
 // Optional: Create a hook for tracking events
 export function useGoogleAnalytics() {
-  const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
+  const trackEvent = (eventName: string, parameters?: GtagEventParams) => {
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', eventName, parameters);
     }
@@ -49,7 +66,7 @@ declare global {
     gtag: (
       command: 'config' | 'event' | 'js' | 'set',
       targetId: string | Date,
-      config?: Record<string, any>
+      config?: GtagConfigParams
     ) => void;
   }
 } 
