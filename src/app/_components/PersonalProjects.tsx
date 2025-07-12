@@ -2,17 +2,18 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useState } from "react";
 
 interface Project {
   title: string;
   description: string;
-  longDescription: string;
-  technologies: string[];
   features: string[];
+  technologies: string[];
   githubUrl: string;
   liveUrl?: string;
-  imageUrl?: string;
-  status: "completed" | "in-progress" | "planned";
+  imageUrls?: string[];
+  status: "completed" | "in-progress" | "planned" | "deprecated";
+  gradient: string;
 }
 
 export function PersonalProjects() {
@@ -21,69 +22,75 @@ export function PersonalProjects() {
     triggerOnce: true,
   });
 
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: number]: number }>({});
+
   const projects: Project[] = [
     {
-      title: "AI-Powered Task Manager",
-      description: "Smart productivity app with AI-driven insights and automation",
-      longDescription: "A comprehensive task management application that uses machine learning to predict task completion times, suggest optimal scheduling, and automate recurring workflows.",
-      technologies: ["Next.js", "TypeScript", "OpenAI API", "Prisma", "PostgreSQL", "Tailwind CSS"],
+      title: "Multitwitcher",
+      description: "Multitwitcher is a platform that allows you to watch multiple Twitch streamers at once, or switch between them with a single click. This is the best way to view live-streamed events from multiple POVs",
+      technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Twitch API", "Vercel"],
       features: [
-        "AI-powered task prioritization",
-        "Smart scheduling recommendations",
-        "Automated workflow triggers",
-        "Real-time collaboration",
-        "Advanced analytics dashboard"
+        "Watch multiple Twitch streamers at once",
+        "Customisable stream windows",
+        "Real time chat",
+        "Custom group themes"
       ],
-      githubUrl: "https://github.com/username/ai-task-manager",
-      liveUrl: "https://ai-task-manager.vercel.app",
-      status: "completed"
+      githubUrl: "https://github.com/limyuquan/multitwitch",
+      liveUrl: "https://multitwitcher.vercel.app/",
+      imageUrls: ["/images/projects/multitwitcher1.png", "/images/projects/multitwitcher.png"],
+      status: "completed",
+      gradient: "from-purple-500 via-pink-500 to-red-500"
     },
     {
-      title: "Crypto Portfolio Tracker",
-      description: "Real-time cryptocurrency portfolio management with advanced analytics",
-      longDescription: "A sophisticated crypto portfolio tracker that provides real-time price updates, profit/loss analysis, and market insights with beautiful data visualizations.",
-      technologies: ["React", "Node.js", "Express", "MongoDB", "Chart.js", "WebSocket"],
+      title: "Reflective Minds Journaling",
+      description: "ReflectiveMinds is designed to provide users with a simple and intuitive platform to record their daily thoughts and experiences.",
+      technologies: ["React", "Flask", "Javascript", "Python", "MySQL", "Vercel", "Heroku"],
       features: [
-        "Real-time price tracking",
-        "Portfolio performance analytics",
-        "Price alerts and notifications",
-        "Historical data visualization",
-        "Multi-exchange support"
+        "AI-powered journal prompt generation",
+        "Journal entry creation, editing, and deletion",
+        "Journal entries search, sorting and filtering",
+        "Emotion-labeling, tagging, and templating",
+        "Emotion visualization",
+        "Achievement system"
       ],
-      githubUrl: "https://github.com/username/crypto-tracker",
-      liveUrl: "https://crypto-tracker-demo.com",
-      status: "completed"
+      githubUrl: "https://github.com/limyuquan/orbital-reflectiveminds",
+      imageUrls: ["/images/projects/journal.png", "/images/projects/journal1.png", "/images/projects/journal2.png", "/images/projects/journal3.png", "/images/projects/journal4.png"],
+      status: "completed",
+      gradient: "from-green-400 via-blue-500 to-purple-600"
     },
-    {
-      title: "Social Media Analytics Platform",
-      description: "Comprehensive social media analytics with sentiment analysis",
-      longDescription: "An enterprise-grade platform for analyzing social media performance across multiple platforms with AI-powered sentiment analysis and competitor tracking.",
-      technologies: ["Vue.js", "Python", "FastAPI", "Redis", "PostgreSQL", "Docker"],
-      features: [
-        "Multi-platform integration",
-        "Sentiment analysis",
-        "Competitor tracking",
-        "Custom reporting",
-        "API rate limiting"
-      ],
-      githubUrl: "https://github.com/username/social-analytics",
-      status: "in-progress"
-    },
-    {
-      title: "Blockchain Voting System",
-      description: "Secure and transparent voting system built on blockchain",
-      longDescription: "A decentralized voting platform ensuring transparency, security, and immutability using blockchain technology with a user-friendly interface.",
-      technologies: ["React", "Solidity", "Web3.js", "Ethereum", "IPFS", "MetaMask"],
-      features: [
-        "Blockchain-based security",
-        "Anonymous voting",
-        "Real-time results",
-        "Audit trail",
-        "Mobile-responsive design"
-      ],
-      githubUrl: "https://github.com/username/blockchain-voting",
-      status: "planned"
-    }
+    // {
+    //   title: "Social Media Analytics Platform",
+    //   description: "An enterprise-grade platform for analyzing social media performance across multiple platforms with AI-powered sentiment analysis and competitor tracking. Designed for businesses and agencies.",
+    //   technologies: ["Vue.js", "Python", "FastAPI", "Redis", "PostgreSQL", "Docker"],
+    //   features: [
+    //     "Multi-platform integration",
+    //     "Sentiment analysis",
+    //     "Competitor tracking",
+    //     "Custom reporting",
+    //     "API rate limiting"
+    //   ],
+    //   githubUrl: "https://github.com/username/social-analytics",
+    //   imageUrl: "/projects/social-analytics.jpg", // Placeholder
+    //   status: "in-progress",
+    //   gradient: "from-orange-400 via-red-500 to-pink-500"
+    // },
+    // {
+    //   title: "Blockchain Voting System",
+    //   description: "A decentralized voting platform ensuring transparency, security, and immutability using blockchain technology with a user-friendly interface. Perfect for organizations requiring secure voting mechanisms.",
+    //   technologies: ["React", "Solidity", "Web3.js", "Ethereum", "IPFS", "MetaMask"],
+    //   features: [
+    //     "Blockchain-based security",
+    //     "Anonymous voting",
+    //     "Real-time results",
+    //     "Audit trail",
+    //     "Mobile-responsive design"
+    //   ],
+    //   githubUrl: "https://github.com/username/blockchain-voting",
+    //   imageUrl: "/projects/blockchain-voting.jpg", // Placeholder
+    //   status: "planned",
+    //   gradient: "from-blue-400 via-purple-500 to-indigo-600"
+    // }
   ];
 
   const containerVariants = {
@@ -91,36 +98,37 @@ export function PersonalProjects() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.3,
       },
     },
   };
 
   const projectVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { y: 100, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.6,
+        duration: 0.8,
       },
     },
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "bg-green-500";
-      case "in-progress": return "bg-yellow-500";
+      case "completed": return "bg-emerald-500";
+      case "in-progress": return "bg-amber-500";
       case "planned": return "bg-blue-500";
       default: return "bg-gray-500";
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status: string, liveUrl?: string) => {
     switch (status) {
-      case "completed": return "Completed";
-      case "in-progress": return "In Progress";
-      case "planned": return "Planned";
+      case "completed": return liveUrl ? "Live & Complete" : "Complete";
+      case "in-progress": return "In Development";
+      case "planned": return "Coming Soon";
+      case "deprecated": return "Deprecated";
       default: return "Unknown";
     }
   };
@@ -129,153 +137,296 @@ export function PersonalProjects() {
     <motion.section
       id="projects"
       ref={ref}
-      className="min-h-screen py-20 px-6"
+      className="min-h-screen px-6 bg-black pb-20"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
     >
       <div className="max-w-7xl mx-auto">
-        <motion.div className="text-center mb-20" variants={projectVariants}>
-          <h2 className="text-5xl md:text-7xl font-bold mb-6">
-            Personal
-            <span className="block bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+        {/* Header */}
+        <motion.div className="text-center mb-24" variants={projectVariants}>
+          <motion.h2 
+            className="text-6xl md:text-8xl font-black mb-8 tracking-tight"
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1 }}
+          >
+            Featured
+            <motion.span 
+              className="block bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 bg-clip-text text-transparent"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
               Projects
-            </span>
-          </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Innovative projects showcasing creativity, technical skills, and problem-solving abilities
-          </p>
+            </motion.span>
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            Innovative solutions crafted with passion and precision. Each project represents a unique challenge solved with cutting-edge technology and creative problem-solving.
+          </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className="relative group"
-              variants={projectVariants}
-            >
-              <motion.div
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 h-full"
-                whileHover={{ y: -10, scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Status indicator */}
-                <div className="flex items-center justify-between mb-6">
-                  <motion.div
-                    className={`px-3 py-1 rounded-full text-xs font-medium text-black ${getStatusColor(project.status)}`}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {getStatusText(project.status)}
-                  </motion.div>
-                  
-                  <div className="flex gap-3">
-                    <motion.a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
-                      whileHover={{ scale: 1.1, rotate: 360 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <span className="text-lg">📱</span>
-                    </motion.a>
-                    
-                    {project.liveUrl && (
-                      <motion.a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
-                        whileHover={{ scale: 1.1, rotate: -360 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <span className="text-lg">🚀</span>
-                      </motion.a>
-                    )}
-                  </div>
-                </div>
-
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  {project.title}
-                </h3>
-
-                <p className="text-gray-300 mb-6 leading-relaxed">
-                  {project.longDescription}
-                </p>
-
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">
-                    Key Features
-                  </h4>
-                  <ul className="space-y-2">
-                    {project.features.map((feature, idx) => (
-                      <motion.li
-                        key={idx}
-                        className="text-gray-300 flex items-start text-sm"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={inView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ delay: 0.1 * idx, duration: 0.3 }}
-                      >
-                        <span className="text-orange-400 mr-3 mt-1">•</span>
-                        {feature}
-                      </motion.li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.map((tech, idx) => (
-                    <motion.span
-                      key={idx}
-                      className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {tech}
-                    </motion.span>
-                  ))}
-                </div>
-
+        {/* Projects Showcase */}
+        <div className="space-y-32 md:space-y-64">
+          {projects.map((project, index) => {
+            const isEven = index % 2 === 0;
+            
+            return (
+                             <motion.div
+                 key={index}
+                 className="relative"
+                 variants={projectVariants}
+                 onHoverStart={() => {
+                   setHoveredProject(index);
+                   if (project.imageUrls && project.imageUrls.length > 1) {
+                     const interval = setInterval(() => {
+                       setCurrentImageIndex(prev => ({
+                         ...prev,
+                         [index]: ((prev[index] || 0) + 1) % project.imageUrls!.length
+                       }));
+                     }, 1500); // Change image every 1.5 seconds
+                     
+                     // Store interval in a way we can clean it up
+                     (document as any)[`imageInterval_${index}`] = interval;
+                   }
+                 }}
+                 onHoverEnd={() => {
+                   setHoveredProject(null);
+                   if ((document as any)[`imageInterval_${index}`]) {
+                     clearInterval((document as any)[`imageInterval_${index}`]);
+                     delete (document as any)[`imageInterval_${index}`];
+                     // Reset to first image
+                     setCurrentImageIndex(prev => ({
+                       ...prev,
+                       [index]: 0
+                     }));
+                   }
+                 }}
+               >
+                {/* Background Gradient Orb */}
                 <motion.div
-                  className="flex gap-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.5, duration: 0.3 }}
-                >
-                  <motion.button
-                    className="flex-1 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-300"
+                  className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-10 blur-3xl rounded-full`}
+                  animate={{
+                    scale: hoveredProject === index ? 1.2 : 1,
+                    opacity: hoveredProject === index ? 0.2 : 0.1,
+                  }}
+                  transition={{ duration: 0.6 }}
+                />
+
+                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${isEven ? '' : 'lg:grid-flow-col-dense'}`}>
+                  {/* Project Image */}
+                  <motion.div
+                    className={`relative ${!isEven ? 'lg:col-start-2' : ''}`}
                     whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.4 }}
                   >
-                    View Details
-                  </motion.button>
-                  
-                  {project.liveUrl && (
-                    <motion.button
-                      className="px-6 py-3 border border-white/30 rounded-lg hover:border-white/60 transition-colors"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20">
+                      {/* Status Badge */}
+                      <motion.div
+                        className={`absolute top-6 left-6 px-4 py-2 rounded-full text-sm font-bold text-black z-10 ${getStatusColor(project.status)}`}
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        {getStatusText(project.status, project.liveUrl)}
+                      </motion.div>
+
+                        {/* Project Image */}
+                       <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
+                         {project.imageUrls && project.imageUrls.length > 0 ? (
+                           <motion.img
+                             key={currentImageIndex[index] || 0}
+                             src={project.imageUrls[currentImageIndex[index] || 0]}
+                             alt={`${project.title} screenshot ${(currentImageIndex[index] || 0) + 1}`}
+                             className="w-full h-full object-cover"
+                             initial={{ scale: 1.1, opacity: 0 }}
+                             animate={{ scale: 1, opacity: 1 }}
+                             exit={{ scale: 0.9, opacity: 0 }}
+                             transition={{ duration: 0.5 }}
+                             whileHover={{ scale: 1.05 }}
+                           />
+                         ) : (
+                           <>
+                             <motion.div
+                               className={`w-32 h-32 bg-gradient-to-r ${project.gradient} rounded-full opacity-30`}
+                               animate={{
+                                 scale: [1, 1.2, 1],
+                                 rotate: [0, 180, 360],
+                               }}
+                               transition={{
+                                 duration: 8,
+                                 repeat: Infinity,
+                                 ease: "linear",
+                               }}
+                             />
+                             <div className="absolute inset-0 flex items-center justify-center">
+                               <motion.div
+                                 className="text-6xl opacity-40"
+                                 animate={{
+                                   rotateY: hoveredProject === index ? 360 : 0,
+                                 }}
+                                 transition={{ duration: 0.6 }}
+                               >
+                                 🚀
+                               </motion.div>
+                             </div>
+                           </>
+                         )}
+                        
+                        {/* Overlay on hover */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-center pb-8"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: hoveredProject === index ? 1 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <div className="flex gap-4">
+                            <motion.a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium hover:bg-white/30 transition-colors"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <span>📱</span> View Code
+                            </motion.a>
+                            
+                            {project.liveUrl && (
+                              <motion.a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${project.gradient} rounded-full text-white font-medium transition-all`}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <span>🚀</span> Live Demo
+                              </motion.a>
+                            )}
+                          </div>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Project Content */}
+                  <motion.div
+                    className={`space-y-8 ${!isEven ? 'lg:col-start-1 lg:row-start-1' : ''}`}
+                    initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                    animate={inView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.8, delay: index * 0.2 }}
+                  >
+                    {/* Project Title */}
+                    <motion.h3 
+                      className="text-4xl md:text-5xl font-bold text-white leading-tight"
+                      whileHover={{ scale: 1.02 }}
                     >
-                      Live Demo
-                    </motion.button>
-                  )}
-                </motion.div>
+                      {project.title}
+                    </motion.h3>
+
+                    {/* Project Description */}
+                    <motion.p 
+                      className="text-lg text-gray-300 leading-relaxed"
+                      initial={{ opacity: 0 }}
+                      animate={inView ? { opacity: 1 } : {}}
+                      transition={{ duration: 0.8, delay: index * 0.2 + 0.2 }}
+                    >
+                      {project.description}
+                    </motion.p>
+
+                    {/* Key Features */}
+                    <motion.div
+                      className="space-y-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={inView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ duration: 0.8, delay: index * 0.2 + 0.4 }}
+                    >
+                      <h4 className="text-xl font-bold text-white mb-4">Key Features</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {project.features.map((feature, idx) => (
+                          <motion.div
+                            key={idx}
+                            className="flex items-start gap-3 group"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={inView ? { opacity: 1, x: 0 } : {}}
+                            transition={{ delay: index * 0.2 + idx * 0.1, duration: 0.5 }}
+                            whileHover={{ x: 5 }}
+                          >
+                            <motion.div
+                              className={`w-2 h-2 bg-gradient-to-r ${project.gradient} rounded-full mt-2 flex-shrink-0`}
+                              whileHover={{ scale: 1.5 }}
+                            />
+                            <span className="text-gray-300 text-sm group-hover:text-white transition-colors">
+                              {feature}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    {/* Tech Stack */}
+                    <motion.div
+                      className="space-y-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={inView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ duration: 0.8, delay: index * 0.2 + 0.6 }}
+                    >
+                      <h4 className="text-xl font-bold text-white">Tech Stack</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {project.technologies.map((tech, idx) => (
+                          <motion.span
+                            key={idx}
+                            className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300 border border-white/20 hover:border-white/40 transition-colors"
+                            whileHover={{ 
+                              scale: 1.05, 
+                              y: -2,
+                              backgroundColor: "rgba(255, 255, 255, 0.15)"
+                            }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            {tech}
+                          </motion.span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                </div>
               </motion.div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
 
+        {/* Footer CTA */}
         <motion.div
-          className="mt-20 text-center"
+          className="mt-32 text-center"
           variants={projectVariants}
         >
           <motion.div
-            className="inline-flex items-center gap-4 bg-white/5 rounded-full px-8 py-4"
-            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center gap-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-full px-8 py-6 border border-white/20"
+            whileHover={{ 
+              scale: 1.05,
+              backgroundColor: "rgba(139, 92, 246, 0.3)"
+            }}
+            transition={{ duration: 0.3 }}
           >
-            <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse" />
-            <span className="text-purple-400 font-medium">
-              More projects coming soon...
+            <motion.div
+              className="w-4 h-4 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.7, 1, 0.7],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <span className="text-lg font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              More innovative projects in development
             </span>
           </motion.div>
         </motion.div>

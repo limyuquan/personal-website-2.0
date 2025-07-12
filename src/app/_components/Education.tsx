@@ -63,7 +63,7 @@ export function Education() {
     <section
       id="education"
       ref={containerRef}
-      className="relative min-h-screen py-32 px-6 bg-black overflow-hidden"
+      className="relative min-h-screen pt-32 pb-24 px-6 bg-black overflow-hidden"
     >
       {/* Animated background elements */}
       <motion.div
