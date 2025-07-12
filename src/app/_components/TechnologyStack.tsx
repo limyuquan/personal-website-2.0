@@ -292,7 +292,7 @@ export function TechnologyStack() {
       
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div className="text-center mb-20" variants={categoryVariants}>
-          <motion.h2 
+          <motion.h1 
             className="text-5xl md:text-7xl font-bold mb-6"
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -300,7 +300,7 @@ export function TechnologyStack() {
             <span className="block bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               Stack
             </span>
-          </motion.h2>
+          </motion.h1>
           <motion.p 
             className="text-xl text-gray-400 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}

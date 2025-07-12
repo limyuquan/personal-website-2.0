@@ -84,7 +84,7 @@ function TitleSwitcher({ titles }: { titles: string[] }) {
   const [isChanging, setIsChanging] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
       setIsChanging(true);
       
       // Wait for exit animation to complete
@@ -207,13 +207,17 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           variants={itemVariants}
         >
-          <ElasticButton className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-colors">
-            View My Work
-          </ElasticButton>
+          <a href="#projects">
+            <ElasticButton className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-colors">
+              View My Work
+            </ElasticButton>
+          </a>
           
-          <ElasticButton className="px-8 py-4 border border-white/30 rounded-full hover:border-white/60 transition-colors">
-            Download Resume
-          </ElasticButton>
+          <a href="/files/limyuquan-resume.pdf" target="_blank" rel="noopener noreferrer">
+            <ElasticButton className="px-8 py-4 border border-white/30 rounded-full hover:border-white/60 transition-colors">
+              Download Resume
+            </ElasticButton>
+          </a>
         </motion.div>
 
         <motion.div

@@ -4,11 +4,13 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Lenis from "lenis";
 import { HeroSection } from "./_components/HeroSection";
+import { AboutMe } from "./_components/AboutMe";
 import { WorkExperience } from "./_components/WorkExperience";
 import { TechnologyStack } from "./_components/TechnologyStack";
 import { Education } from "./_components/Education";
 import { PersonalProjects } from "./_components/PersonalProjects";
 import { Navigation } from "./_components/Navigation";
+import { FooterSection } from "./_components/FooterSection";
 
 export default function Home() {
   useEffect(() => {
@@ -39,10 +41,12 @@ export default function Home() {
     >
       <Navigation />
       <HeroSection />
+      <AboutMe />
       <WorkExperience />
       <TechnologyStack />
       <Education />
       <PersonalProjects />
+      <FooterSection />
     </motion.main>
   );
 }

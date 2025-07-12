@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface Project {
   title: string;
@@ -23,7 +23,8 @@ export function PersonalProjects() {
   });
 
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: number]: number }>({});
+  const [currentImageIndex, setCurrentImageIndex] = useState<Record<number, number>>({});
+  const intervalRefs = useRef<Record<number, NodeJS.Timeout>>({});
 
   const projects: Project[] = [
     {
@@ -187,19 +188,19 @@ export function PersonalProjects() {
                      const interval = setInterval(() => {
                        setCurrentImageIndex(prev => ({
                          ...prev,
-                         [index]: ((prev[index] || 0) + 1) % project.imageUrls!.length
+                         [index]: ((prev[index] ?? 0) + 1) % project.imageUrls!.length
                        }));
                      }, 1500); // Change image every 1.5 seconds
                      
-                     // Store interval in a way we can clean it up
-                     (document as any)[`imageInterval_${index}`] = interval;
+                     // Store interval in ref for cleanup
+                     intervalRefs.current[index] = interval;
                    }
                  }}
                  onHoverEnd={() => {
                    setHoveredProject(null);
-                   if ((document as any)[`imageInterval_${index}`]) {
-                     clearInterval((document as any)[`imageInterval_${index}`]);
-                     delete (document as any)[`imageInterval_${index}`];
+                   if (intervalRefs.current[index]) {
+                     clearInterval(intervalRefs.current[index]);
+                     delete intervalRefs.current[index];
                      // Reset to first image
                      setCurrentImageIndex(prev => ({
                        ...prev,
@@ -238,9 +239,9 @@ export function PersonalProjects() {
                        <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
                          {project.imageUrls && project.imageUrls.length > 0 ? (
                            <motion.img
-                             key={currentImageIndex[index] || 0}
-                             src={project.imageUrls[currentImageIndex[index] || 0]}
-                             alt={`${project.title} screenshot ${(currentImageIndex[index] || 0) + 1}`}
+                             key={currentImageIndex[index] ?? 0}
+                             src={project.imageUrls[currentImageIndex[index] ?? 0]}
+                             alt={`${project.title} screenshot ${(currentImageIndex[index] ?? 0) + 1}`}
                              className="w-full h-full object-cover"
                              initial={{ scale: 1.1, opacity: 0 }}
                              animate={{ scale: 1, opacity: 1 }}

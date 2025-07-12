@@ -127,7 +127,7 @@ export function Education() {
               >
                 {/* Timeline dot */}
                 <motion.div
-                  className="absolute left-1/2 top-1/2 w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10"
+                  className="absolute left-1/2 top-1/2 w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block"
                   whileHover={{ scale: 1.5 }}
                   transition={{ duration: 0.3 }}
                 >

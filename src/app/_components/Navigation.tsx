@@ -23,6 +23,8 @@ export function Navigation() {
   };
 
   const navItems = [
+    { name: "Home", id: "#" },
+    { name: "About Me", id: "about" },
     { name: "Experience", id: "experience" },
     { name: "Tech Stack", id: "tech-stack" },
     { name: "Education", id: "education" },
@@ -44,7 +46,7 @@ export function Navigation() {
         <div className="flex items-center justify-between">
           <motion.button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-2xl font-bold tracking-tight hover:text-gray-300 transition-colors"
+            className="text-2xl font-bold tracking-tight hover:text-gray-300 transition-colors cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -56,11 +58,15 @@ export function Navigation() {
               <motion.button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-sm font-medium hover:text-gray-300 transition-colors relative"
+                className="text-sm font-medium hover:text-gray-300 transition-colors relative cursor-pointer"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                whileHover={{ y: -2 }}
+                whileHover={{ 
+                  y: -2,
+                  scale: 1.02,
+                  transition: { duration: 0.15, ease: "easeOut" }
+                }}
               >
                 {item.name}
                 <motion.div

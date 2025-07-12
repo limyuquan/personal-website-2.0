@@ -100,11 +100,10 @@ export function ElasticButton({
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
-  [key: string]: any;
-}) {
+} & React.ComponentProps<typeof motion.button>) {
   return (
     <motion.button
-      className={`relative overflow-hidden ${className}`}
+      className={`relative overflow-hidden cursor-pointer ${className}`}
       onClick={onClick}
       whileHover={{ 
         scale: 1.02,
