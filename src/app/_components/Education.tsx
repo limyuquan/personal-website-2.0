@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useRef } from "react";
+import Image from "next/image";
 
 interface EducationItem {
   institution: string;
@@ -11,6 +12,7 @@ interface EducationItem {
   duration: string;
   achievements: string[];
   gpa?: string;
+  logo: string; // Add logo property
 }
 
 export function Education() {
@@ -38,7 +40,8 @@ export function Education() {
       achievements: [
         "A+ for IS2238 Economics of IT and AI",
         "A for CS2100 Computer Organisation, CS2105 Introduction to Computer Networks, ST2334 Probability and Statistics, MA1521 Calculus for Computing"
-      ]
+      ],
+      logo: "/images/logos/nus.png"
     },
     {
       institution: "Anglo-Chinese Junior College",
@@ -48,7 +51,8 @@ export function Education() {
       gpa: "87.5 RP",
       achievements: [
         "6 A-Level Distinctions in Mathematics, Physics, Chemistry, Economics, Chinese, and Project Work"
-      ]
+      ],
+      logo: "/images/logos/acjc.png"
     }
   ];
 
@@ -155,10 +159,14 @@ export function Education() {
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            transition={{ duration: 0.3 }}
                          >
-                           {/* Placeholder for school logo */}
-                           <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-xl flex items-center justify-center">
-                             <span className="text-xl md:text-2xl">🎓</span>
-                           </div>
+                           <Image
+                             src={edu.logo}
+                             alt={edu.institution + " logo"}
+                             width={48}
+                             height={48}
+                             className="w-10 h-10 md:w-12 md:h-12 object-contain rounded-xl"
+                             priority={index === 0}
+                           />
                          </motion.div>
 
                          <div className="flex-1 min-w-0">
