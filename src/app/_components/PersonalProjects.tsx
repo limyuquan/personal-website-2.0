@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface Project {
   title: string;
@@ -59,40 +59,16 @@ export function PersonalProjects() {
       imageUrls: ["/images/projects/journal.png", "/images/projects/journal1.png", "/images/projects/journal2.png", "/images/projects/journal3.png", "/images/projects/journal4.png"],
       status: "completed",
       gradient: "from-green-400 via-blue-500 to-purple-600"
-    },
-    // {
-    //   title: "Social Media Analytics Platform",
-    //   description: "An enterprise-grade platform for analyzing social media performance across multiple platforms with AI-powered sentiment analysis and competitor tracking. Designed for businesses and agencies.",
-    //   technologies: ["Vue.js", "Python", "FastAPI", "Redis", "PostgreSQL", "Docker"],
-    //   features: [
-    //     "Multi-platform integration",
-    //     "Sentiment analysis",
-    //     "Competitor tracking",
-    //     "Custom reporting",
-    //     "API rate limiting"
-    //   ],
-    //   githubUrl: "https://github.com/username/social-analytics",
-    //   imageUrl: "/projects/social-analytics.jpg", // Placeholder
-    //   status: "in-progress",
-    //   gradient: "from-orange-400 via-red-500 to-pink-500"
-    // },
-    // {
-    //   title: "Blockchain Voting System",
-    //   description: "A decentralized voting platform ensuring transparency, security, and immutability using blockchain technology with a user-friendly interface. Perfect for organizations requiring secure voting mechanisms.",
-    //   technologies: ["React", "Solidity", "Web3.js", "Ethereum", "IPFS", "MetaMask"],
-    //   features: [
-    //     "Blockchain-based security",
-    //     "Anonymous voting",
-    //     "Real-time results",
-    //     "Audit trail",
-    //     "Mobile-responsive design"
-    //   ],
-    //   githubUrl: "https://github.com/username/blockchain-voting",
-    //   imageUrl: "/projects/blockchain-voting.jpg", // Placeholder
-    //   status: "planned",
-    //   gradient: "from-blue-400 via-purple-500 to-indigo-600"
-    // }
+    }
   ];
+
+  useEffect(() => {
+    return () => {
+      // cleanup any stray intervals on unmount
+      Object.values(intervalRefs.current).forEach(clearInterval);
+      intervalRefs.current = {} as Record<number, NodeJS.Timeout>;
+    };
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -102,7 +78,7 @@ export function PersonalProjects() {
         staggerChildren: 0.3,
       },
     },
-  };
+  } as const;
 
   const projectVariants = {
     hidden: { y: 100, opacity: 0 },
@@ -113,7 +89,7 @@ export function PersonalProjects() {
         duration: 0.8,
       },
     },
-  };
+  } as const;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -178,40 +154,40 @@ export function PersonalProjects() {
             const isEven = index % 2 === 0;
             
             return (
-                             <motion.div
-                 key={index}
-                 className="relative"
-                 variants={projectVariants}
-                 onHoverStart={() => {
-                   setHoveredProject(index);
-                   if (project.imageUrls && project.imageUrls.length > 1) {
-                     const interval = setInterval(() => {
-                       setCurrentImageIndex(prev => ({
-                         ...prev,
-                         [index]: ((prev[index] ?? 0) + 1) % project.imageUrls!.length
-                       }));
-                     }, 1500); // Change image every 1.5 seconds
-                     
-                     // Store interval in ref for cleanup
-                     intervalRefs.current[index] = interval;
-                   }
-                 }}
-                 onHoverEnd={() => {
-                   setHoveredProject(null);
-                   if (intervalRefs.current[index]) {
-                     clearInterval(intervalRefs.current[index]);
-                     delete intervalRefs.current[index];
-                     // Reset to first image
-                     setCurrentImageIndex(prev => ({
-                       ...prev,
-                       [index]: 0
-                     }));
-                   }
-                 }}
-               >
+              <motion.div
+                key={index}
+                className="relative"
+                variants={projectVariants}
+                onHoverStart={() => {
+                  setHoveredProject(index);
+                  if (project.imageUrls && project.imageUrls.length > 1) {
+                    const interval = setInterval(() => {
+                      setCurrentImageIndex(prev => ({
+                        ...prev,
+                        [index]: ((prev[index] ?? 0) + 1) % project.imageUrls!.length
+                      }));
+                    }, 1500); // Change image every 1.5 seconds
+                    
+                    // Store interval in ref for cleanup
+                    intervalRefs.current[index] = interval;
+                  }
+                }}
+                onHoverEnd={() => {
+                  setHoveredProject(null);
+                  if (intervalRefs.current[index]) {
+                    clearInterval(intervalRefs.current[index]);
+                    delete intervalRefs.current[index];
+                    // Reset to first image
+                    setCurrentImageIndex(prev => ({
+                      ...prev,
+                      [index]: 0
+                    }));
+                  }
+                }}
+              >
                 {/* Background Gradient Orb */}
                 <motion.div
-                  className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-10 blur-3xl rounded-full`}
+                  className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-10 blur-3xl rounded.full will-change-transform transform-gpu`}
                   animate={{
                     scale: hoveredProject === index ? 1.2 : 1,
                     opacity: hoveredProject === index ? 0.2 : 0.1,
@@ -235,47 +211,48 @@ export function PersonalProjects() {
                         {getStatusText(project.status, project.liveUrl)}
                       </motion.div>
 
-                        {/* Project Image */}
-                       <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
-                         {project.imageUrls && project.imageUrls.length > 0 ? (
-                           <motion.img
-                             key={currentImageIndex[index] ?? 0}
-                             src={project.imageUrls[currentImageIndex[index] ?? 0]}
-                             alt={`${project.title} screenshot ${(currentImageIndex[index] ?? 0) + 1}`}
-                             className="w-full h-full object-cover"
-                             initial={{ scale: 1.1, opacity: 0 }}
-                             animate={{ scale: 1, opacity: 1 }}
-                             exit={{ scale: 0.9, opacity: 0 }}
-                             transition={{ duration: 0.5 }}
-                             whileHover={{ scale: 1.05 }}
-                           />
-                         ) : (
-                           <>
-                             <motion.div
-                               className={`w-32 h-32 bg-gradient-to-r ${project.gradient} rounded-full opacity-30`}
-                               animate={{
-                                 scale: [1, 1.2, 1],
-                                 rotate: [0, 180, 360],
-                               }}
-                               transition={{
-                                 duration: 8,
-                                 repeat: Infinity,
-                                 ease: "linear",
-                               }}
-                             />
-                             <div className="absolute inset-0 flex items-center justify-center">
-                               <motion.div
-                                 className="text-6xl opacity-40"
-                                 animate={{
-                                   rotateY: hoveredProject === index ? 360 : 0,
-                                 }}
-                                 transition={{ duration: 0.6 }}
-                               >
-                                 🚀
-                               </motion.div>
-                             </div>
-                           </>
-                         )}
+                      {/* Project Image */}
+                      <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
+                        {project.imageUrls && project.imageUrls.length > 0 ? (
+                          <motion.img
+                            key={currentImageIndex[index] ?? 0}
+                            src={project.imageUrls[currentImageIndex[index] ?? 0]}
+                            alt={`${project.title} screenshot ${(currentImageIndex[index] ?? 0) + 1}`}
+                            className="w-full h-full object-cover will-change-transform transform-gpu"
+                            initial={{ scale: 1.1, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ scale: 1.05 }}
+                          />
+                        ) : (
+                          <>
+                            <motion.div
+                              className={`w-32 h-32 bg-gradient-to-r ${project.gradient} rounded-full opacity-30 will-change-transform transform-gpu`}
+                              animate={{
+                                scale: [1, 1.2, 1],
+                                rotate: [0, 180, 360],
+                              }}
+                              transition={{
+                                duration: 8,
+                                repeat: Infinity,
+                                ease: "linear",
+                              }}
+                              whileInView={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <motion.div
+                                className="text-6xl opacity-40 will-change-transform transform-gpu"
+                                animate={{
+                                  rotateY: hoveredProject === index ? 360 : 0,
+                                }}
+                                transition={{ duration: 0.6 }}
+                              >
+                                🚀
+                              </motion.div>
+                            </div>
+                          </>
+                        )}
                         
                         {/* Overlay on hover */}
                         <motion.div
@@ -289,7 +266,7 @@ export function PersonalProjects() {
                               href={project.githubUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium hover:bg-white/30 transition-colors"
+                              className="flex items-center gap-2 px-6 py-3 bg.white/20 backdrop-blur-sm rounded-full text-white font-medium hover:bg-white/30 transition-colors"
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
@@ -358,7 +335,7 @@ export function PersonalProjects() {
                             whileHover={{ x: 5 }}
                           >
                             <motion.div
-                              className={`w-2 h-2 bg-gradient-to-r ${project.gradient} rounded-full mt-2 flex-shrink-0`}
+                              className={`w-2 h-2 bg-gradient-to-r ${project.gradient} rounded-full mt-2 flex-shrink-0 will-change-transform transform-gpu`}
                               whileHover={{ scale: 1.5 }}
                             />
                             <span className="text-gray-300 text-sm group-hover:text-white transition-colors">
@@ -381,7 +358,7 @@ export function PersonalProjects() {
                         {project.technologies.map((tech, idx) => (
                           <motion.span
                             key={idx}
-                            className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300 border border-white/20 hover:border-white/40 transition-colors"
+                            className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300 border border-white/20 hover:border-white/40 transition-colors will-change-transform transform-gpu"
                             whileHover={{ 
                               scale: 1.05, 
                               y: -2,
@@ -415,7 +392,7 @@ export function PersonalProjects() {
             transition={{ duration: 0.3 }}
           >
             <motion.div
-              className="w-4 h-4 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+              className="w-4 h-4 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full will-change-transform transform-gpu"
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.7, 1, 0.7],
@@ -425,6 +402,7 @@ export function PersonalProjects() {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
+              whileInView={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
             />
             <span className="text-lg font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               More innovative projects in development

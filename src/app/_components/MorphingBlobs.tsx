@@ -29,11 +29,11 @@ export function MorphingBlobs() {
     return () => clearInterval(morphInterval);
   }, []);
 
-      return (
+  return (
     <div className="absolute inset-0 overflow-hidden opacity-10">
       {/* Blob 1 */}
       <motion.div
-        className="absolute -top-1/2 -left-1/2 w-full h-full"
+        className="absolute -top-1/2 -left-1/2 w-full h-full will-change-transform transform-gpu"
         animate={{
           x: [0, 100, 0],
           y: [0, 50, 0],
@@ -44,6 +44,7 @@ export function MorphingBlobs() {
           repeat: Infinity,
           ease: "linear"
         }}
+        whileInView={{ x: [0, 100, 0], y: [0, 50, 0], rotate: [0, 180, 360] }}
       >
         <svg viewBox="0 0 200 200" className="w-full h-full">
           <defs>
@@ -53,18 +54,19 @@ export function MorphingBlobs() {
               <stop offset="100%" stopColor="#45B7D1" />
             </linearGradient>
           </defs>
-                     <path
-             ref={pathRef}
-             d={morphPaths[0]}
-             fill="url(#gradient1)"
-             transform="translate(100 100)"
-           />
+          <path
+            ref={pathRef}
+            d={morphPaths[0]}
+            fill="url(#gradient1)"
+            transform="translate(100 100)"
+            style={{ willChange: "d" as any }}
+          />
         </svg>
       </motion.div>
 
       {/* Blob 2 */}
       <motion.div
-        className="absolute -bottom-1/2 -right-1/2 w-3/4 h-3/4"
+        className="absolute -bottom-1/2 -right-1/2 w-3/4 h-3/4 will-change-transform transform-gpu"
         animate={{
           x: [0, -150, 0],
           y: [0, -100, 0],
@@ -75,6 +77,7 @@ export function MorphingBlobs() {
           repeat: Infinity,
           ease: "linear"
         }}
+        whileInView={{ x: [0, -150, 0], y: [0, -100, 0], rotate: [360, 180, 0] }}
       >
         <svg viewBox="0 0 200 200" className="w-full h-full">
           <defs>
@@ -84,17 +87,17 @@ export function MorphingBlobs() {
               <stop offset="100%" stopColor="#f093fb" />
             </linearGradient>
           </defs>
-                     <path
-             d={morphPaths[1]}
-             fill="url(#gradient2)"
-             transform="translate(100 100)"
-           />
+          <path
+            d={morphPaths[1]}
+            fill="url(#gradient2)"
+            transform="translate(100 100)"
+          />
         </svg>
       </motion.div>
 
       {/* Blob 3 */}
       <motion.div
-        className="absolute top-1/3 left-1/4 w-1/2 h-1/2"
+        className="absolute top-1/3 left-1/4 w-1/2 h-1/2 will-change-transform transform-gpu"
         animate={{
           x: [0, 200, 0],
           y: [0, -100, 0],
@@ -105,6 +108,7 @@ export function MorphingBlobs() {
           repeat: Infinity,
           ease: "linear"
         }}
+        whileInView={{ x: [0, 200, 0], y: [0, -100, 0], scale: [1, 1.5, 1] }}
       >
         <svg viewBox="0 0 200 200" className="w-full h-full">
           <defs>
@@ -113,11 +117,11 @@ export function MorphingBlobs() {
               <stop offset="100%" stopColor="#fcb69f" />
             </radialGradient>
           </defs>
-                     <path
-             d={morphPaths[2]}
-             fill="url(#gradient3)"
-             transform="translate(100 100)"
-           />
+          <path
+            d={morphPaths[2]}
+            fill="url(#gradient3)"
+            transform="translate(100 100)"
+          />
         </svg>
       </motion.div>
     </div>
@@ -173,7 +177,7 @@ export function FloatingParticles() {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute w-2 h-2 bg-white rounded-full opacity-20"
+          className="absolute w-2 h-2 bg-white rounded-full opacity-20 will-change-transform transform-gpu"
           initial={{
             x: particle.initialX,
             y: particle.initialY,
@@ -188,6 +192,7 @@ export function FloatingParticles() {
             ease: "linear",
             delay: particle.delay,
           }}
+          whileInView={{ x: particle.animateX, y: particle.animateY }}
         />
       ))}
     </div>

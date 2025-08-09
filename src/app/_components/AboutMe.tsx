@@ -25,8 +25,8 @@ function useIsMobile() {
     };
 
     checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    return () => window.removeEventListener('resize', checkIsMobile);
+    window.addEventListener('resize', checkIsMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkIsMobile as any);
   }, []);
 
   return isMobile;
@@ -127,7 +127,7 @@ export function AboutMe() {
         delayChildren: isMobile ? 0.1 : 0.3,
       },
     },
-  };
+  } as const;
 
   const itemVariants = {
     hidden: { y: isMobile ? 20 : 60, opacity: 0 },
@@ -140,7 +140,7 @@ export function AboutMe() {
         damping: isMobile ? 30 : 20,
       },
     },
-  };
+  } as const;
 
   const cardVariants = {
     hidden: { scale: isMobile ? 0.95 : 0.8, opacity: 0 },
@@ -153,7 +153,7 @@ export function AboutMe() {
         damping: isMobile ? 30 : 20,
       },
     },
-  };
+  } as const;
 
   return (
     <motion.section
@@ -170,7 +170,7 @@ export function AboutMe() {
       {!isMobile && (
         <>
           <motion.div
-            className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
+            className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl will-change-transform transform-gpu"
             style={{ y: springY, opacity }}
             animate={{
               scale: [1, 1.2, 1],
@@ -181,9 +181,10 @@ export function AboutMe() {
               repeat: Infinity,
               ease: "linear",
             }}
+            whileInView={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
           />
           <motion.div
-            className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+            className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl will-change-transform transform-gpu"
             style={{ y: springY, opacity }}
             animate={{
               scale: [1.2, 1, 1.2],
@@ -194,6 +195,7 @@ export function AboutMe() {
               repeat: Infinity,
               ease: "linear",
             }}
+            whileInView={{ scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
           />
         </>
       )}
@@ -204,7 +206,7 @@ export function AboutMe() {
           {Array.from({ length: 6 }, (_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-white rounded-full opacity-20"
+              className="absolute w-2 h-2 bg-white rounded-full opacity-20 will-change-transform transform-gpu"
               animate={{
                 x: [0, 100, 0],
                 y: [0, -100, 0],
@@ -220,6 +222,7 @@ export function AboutMe() {
                 left: `${10 + i * 15}%`,
                 top: `${10 + i * 10}%`,
               }}
+              whileInView={{ x: [0, 100, 0], y: [0, -100, 0], opacity: [0.2, 0.8, 0.2] }}
             />
           ))}
         </div>
@@ -253,6 +256,7 @@ export function AboutMe() {
                 ease: "linear",
               }}
               style={{ backgroundSize: "200% 200%" }}
+              whileInView={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
             >
               Me
             </motion.span>
@@ -276,7 +280,7 @@ export function AboutMe() {
               {/* Animated Background Ring - disabled on mobile */}
               {(
                 <motion.div
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 opacity-20 blur-xl"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 opacity-20 blur-xl will-change-transform transform-gpu"
                   animate={{
                     rotate: [0, 360],
                     scale: [1, 1.1, 1],
@@ -286,12 +290,13 @@ export function AboutMe() {
                     repeat: Infinity,
                     ease: "linear",
                   }}
+                  whileInView={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
                 />
               )}
               
               {/* Profile Photo Container */}
               <motion.div
-                className="relative w-96 h-96 md:w-[32rem] md:h-[32rem] rounded-full overflow-hidden border-4 border-white/20 bg-gradient-to-br from-gray-800 to-gray-900"
+                className="relative w-96 h-96 md:w-[32rem] md:h-[32rem] rounded-full overflow-hidden border-4 border-white/20 bg-gradient-to-br from-gray-800 to-gray-900 will-change-transform transform-gpu"
                 style={!isMobile ? { scale: springScale } : {}}
                 whileHover={!isMobile ? {
                   borderColor: "rgba(255,255,255,0.4)",
@@ -303,7 +308,7 @@ export function AboutMe() {
                   <motion.img
                     src="/images/photos/limyuquan.jpg"
                     alt="Yu Quan Lim - Profile Photo"
-                    className="w-full h-full object-cover rounded-full"
+                    className="w-full h-full object-cover rounded-full will-change-transform transform-gpu"
                     animate={!isMobile && isHovering ? { rotateY: 180, scale: 1.1 } : { rotateY: 0, scale: 1 }}
                     transition={{ duration: 0.5, ease: "linear" }}
                     loading="lazy"
@@ -413,7 +418,7 @@ export function AboutMe() {
                 />
                 
                 <motion.div
-                  className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${stat.color} mb-4`}
+                  className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${stat.color} mb-4 will-change-transform transform-gpu`}
                   whileHover={!isMobile ? { scale: 1.1, rotate: 360 } : {}}
                   transition={{ duration: 0.6 }}
                 >
@@ -466,7 +471,7 @@ export function AboutMe() {
                 />
                 
                 <motion.div
-                  className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r ${highlight.gradient} mb-6 text-white`}
+                  className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r ${highlight.gradient} mb-6 text-white will-change-transform transform-gpu`}
                   whileHover={!isMobile ? { scale: 1.1, rotate: 360 } : {}}
                   transition={{ duration: 0.6 }}
                 >

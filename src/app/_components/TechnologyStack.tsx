@@ -64,7 +64,7 @@ function TechCard({ tech, category, techIndex, inView }: {
         duration: 0.6,
       },
     },
-  };
+  } as const;
 
   const iconVariants = {
     rest: { 
@@ -88,7 +88,7 @@ function TechCard({ tech, category, techIndex, inView }: {
         z: 50
       }}
       whileTap={{ scale: 0.95 }}
-      className="group relative"
+      className="group relative will-change-transform transform-gpu"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
@@ -96,6 +96,7 @@ function TechCard({ tech, category, techIndex, inView }: {
         className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 h-32 overflow-hidden"
         style={{
           background: `linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)`,
+          willChange: "transform, opacity",
         }}
         whileHover={{
           background: `linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.1) 100%)`,
@@ -115,7 +116,7 @@ function TechCard({ tech, category, techIndex, inView }: {
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
           <motion.div 
-            className="mb-2 flex items-center justify-center w-12 h-12"
+            className="mb-2 flex items-center justify-center w-12 h-12 will-change-transform transform-gpu"
             variants={iconVariants}
             animate={isHovered ? "hover" : "rest"}
           >
@@ -219,7 +220,7 @@ export function TechnologyStack() {
         staggerChildren: 0.3,
       },
     },
-  };
+  } as const;
 
   const categoryVariants = {
     hidden: { y: 100, opacity: 0 },
@@ -231,7 +232,7 @@ export function TechnologyStack() {
         staggerChildren: 0.1,
       },
     },
-  };
+  } as const;
 
   const FloatingParticles = () => {
     const [isClient, setIsClient] = useState(false);
@@ -259,7 +260,7 @@ export function TechnologyStack() {
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute w-2 h-2 bg-white/10 rounded-full"
+            className="absolute w-2 h-2 bg-white/10 rounded-full will-change-transform transform-gpu"
             style={{
               left: `${particle.left}%`,
               top: `${particle.top}%`,
@@ -273,6 +274,7 @@ export function TechnologyStack() {
               repeat: Infinity,
               delay: particle.delay,
             }}
+            whileInView={{ y: [0, -30, 0], opacity: [0.3, 0.8, 0.3] }}
           />
         ))}
       </div>
@@ -372,7 +374,7 @@ export function TechnologyStack() {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <motion.div
-              className="w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full"
+              className="w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full will-change-transform transform-gpu"
               animate={{ 
                 scale: [1, 1.2, 1],
                 opacity: [1, 0.7, 1]
@@ -382,6 +384,7 @@ export function TechnologyStack() {
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
+              whileInView={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
             />
             <span className="text-white font-medium text-lg">
               Always learning and exploring new technologies
@@ -389,7 +392,8 @@ export function TechnologyStack() {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="text-2xl"
+              className="text-2xl will-change-transform transform-gpu"
+              whileInView={{ rotate: 360 }}
             >
               🚀
             </motion.div>

@@ -16,9 +16,22 @@ export function MagneticCursor() {
   };
 
   useEffect(() => {
+    let rafId: number | null = null;
+    let lastEvent: MouseEvent | null = null;
+
+    const updateFromEvent = () => {
+      if (lastEvent) {
+        mouse.x.set(lastEvent.clientX);
+        mouse.y.set(lastEvent.clientY);
+      }
+      rafId = null;
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      mouse.x.set(e.clientX);
-      mouse.y.set(e.clientY);
+      lastEvent = e;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(updateFromEvent);
+      }
     };
 
     const handleMouseEnter = () => {
@@ -38,14 +51,15 @@ export function MagneticCursor() {
     // Initialize cursor visibility
     document.body.classList.add("custom-cursor-active");
 
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseenter", handleMouseEnter, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseenter", handleMouseEnter);
-      document.removeEventListener("mouseleave", handleMouseLeave);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.removeEventListener("mousemove", handleMouseMove as any);
+      document.removeEventListener("mouseenter", handleMouseEnter as any);
+      document.removeEventListener("mouseleave", handleMouseLeave as any);
       document.body.classList.remove("custom-cursor-active");
     };
   }, [mouse.x, mouse.y]);
@@ -61,6 +75,7 @@ export function MagneticCursor() {
           y: smoothMouse.y,
           translateX: "-50%",
           translateY: "-50%",
+          willChange: "transform, opacity",
         }}
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -77,6 +92,7 @@ export function MagneticCursor() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
+          style={{ willChange: "transform, opacity" }}
         />
         
         {/* Outer ring */}
@@ -92,6 +108,7 @@ export function MagneticCursor() {
             ease: "easeInOut",
             delay: 0.5
           }}
+          style={{ willChange: "transform, opacity" }}
         />
       </motion.div>
     </>
@@ -106,27 +123,43 @@ export function useMagnetic(strength = 0.1) {
     const element = ref.current;
     if (!element) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    let rafId: number | null = null;
+    let lastEvent: MouseEvent | null = null;
+
+    const applyTransform = () => {
+      if (!element || !lastEvent) {
+        rafId = null;
+        return;
+      }
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
-      const deltaX = (e.clientX - centerX) * strength;
-      const deltaY = (e.clientY - centerY) * strength;
+      const deltaX = (lastEvent.clientX - centerX) * strength;
+      const deltaY = (lastEvent.clientY - centerY) * strength;
       
       element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      rafId = null;
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      lastEvent = e;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(applyTransform);
+      }
     };
 
     const handleMouseLeave = () => {
       element.style.transform = "translate(0px, 0px)";
     };
 
-    element.addEventListener("mousemove", handleMouseMove);
-    element.addEventListener("mouseleave", handleMouseLeave);
+    element.addEventListener("mousemove", handleMouseMove as any, { passive: true } as any);
+    element.addEventListener("mouseleave", handleMouseLeave as any, { passive: true } as any);
 
     return () => {
-      element.removeEventListener("mousemove", handleMouseMove);
-      element.removeEventListener("mouseleave", handleMouseLeave);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      element.removeEventListener("mousemove", handleMouseMove as any);
+      element.removeEventListener("mouseleave", handleMouseLeave as any);
     };
   }, [strength]);
 

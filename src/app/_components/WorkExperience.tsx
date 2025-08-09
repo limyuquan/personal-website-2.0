@@ -79,17 +79,17 @@ export function WorkExperience() {
         staggerChildren: 0.2,
       },
     },
-  };
+  } as const;
 
   const itemVariants = {
     hidden: { y: 60, opacity: 0 },
     visible: { y: 0, opacity: 1 },
-  };
+  } as const;
 
   const cardVariants = {
     hidden: { scale: 0.95, opacity: 0 },
     visible: { scale: 1, opacity: 1 },
-  };
+  } as const;
 
   return (
     <motion.section
@@ -147,7 +147,7 @@ export function WorkExperience() {
                   animate={inView ? { scale: 1 } : { scale: 0 }}
                   transition={{ delay: 0.3 + index * 0.2, duration: 0.5 }}
                 >
-                  <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-4 border-slate-900 shadow-lg">
+                  <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-4 border-slate-900 shadow-lg will-change-transform transform-gpu">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-ping opacity-20" />
                   </div>
                 </motion.div>
@@ -166,57 +166,57 @@ export function WorkExperience() {
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         
                         <div className="relative p-8 lg:p-10">
-                                                     {/* Header */}
-                           <div className="flex items-start justify-between mb-8">
-                             <div className="flex-1">
-                               <motion.h3 
-                                 className="text-2xl lg:text-3xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300"
-                                 layoutId={`position-${index}`}
-                               >
-                                 {exp.position}
-                               </motion.h3>
-                               <div className="flex items-center gap-3 text-blue-400 text-lg font-semibold mb-2">
-                                 <BuildingOfficeIcon className="w-5 h-5" />
-                                 {exp.company}
-                               </div>
-                               <div className="flex items-center gap-2 text-gray-400">
-                                 <CalendarIcon className="w-4 h-4" />
-                                 {exp.duration}
-                               </div>
-                             </div>
-                             
-                             {/* Company Logo */}
-                             {exp.logo && (
-                               <motion.div
-                                 className="flex-shrink-0 ml-6"
-                                 initial={{ opacity: 0, scale: 0.8 }}
-                                 animate={inView ? { opacity: 1, scale: 1 } : {}}
-                                 transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-                                 whileHover={{ scale: 1.1 }}
-                               >
-                                 <div className="relative w-16 h-16 lg:w-22 lg:h-22">
-                                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300" />
-                                   <div className="relative w-full h-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2 group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-300">
-                                     <img
-                                       src={exp.logo}
-                                       alt={`${exp.company} logo`}
-                                       className="w-full h-full object-contain rounded-lg"
-                                       onError={(e) => {
-                                         // Fallback to company initial if logo fails to load
-                                         const target = e.target as HTMLImageElement;
-                                         target.style.display = 'none';
-                                         const fallback = target.nextElementSibling as HTMLDivElement;
-                                         if (fallback) fallback.style.display = 'flex';
-                                       }}
-                                     />
-                                     <div className="absolute inset-0 hidden items-center justify-center text-2xl lg:text-3xl font-bold text-white bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg">
-                                       {exp.company.charAt(0)}
-                                     </div>
-                                   </div>
-                                 </div>
-                               </motion.div>
-                             )}
-                           </div>
+                          {/* Header */}
+                          <div className="flex items-start justify-between mb-8">
+                            <div className="flex-1">
+                              <motion.h3 
+                                className="text-2xl lg:text-3xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300 will-change-transform transform-gpu"
+                                layoutId={`position-${index}`}
+                              >
+                                {exp.position}
+                              </motion.h3>
+                              <div className="flex items-center gap-3 text-blue-400 text-lg font-semibold mb-2">
+                                <BuildingOfficeIcon className="w-5 h-5" />
+                                {exp.company}
+                              </div>
+                              <div className="flex items-center gap-2 text-gray-400">
+                                <CalendarIcon className="w-4 h-4" />
+                                {exp.duration}
+                              </div>
+                            </div>
+                            
+                            {/* Company Logo */}
+                            {exp.logo && (
+                              <motion.div
+                                className="flex-shrink-0 ml-6"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                                transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+                                whileHover={{ scale: 1.1 }}
+                              >
+                                <div className="relative w-16 h-16 lg:w-22 lg:h-22">
+                                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300" />
+                                  <div className="relative w-full h-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2 group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-300">
+                                    <img
+                                      src={exp.logo}
+                                      alt={`${exp.company} logo`}
+                                      className="w-full h-full object-contain rounded-lg"
+                                      onError={(e) => {
+                                        // Fallback to company initial if logo fails to load
+                                        const target = e.target as HTMLImageElement;
+                                        target.style.display = 'none';
+                                        const fallback = target.nextElementSibling as HTMLDivElement;
+                                        if (fallback) fallback.style.display = 'flex';
+                                      }}
+                                    />
+                                    <div className="absolute inset-0 hidden items-center justify-center text-2xl lg:text-3xl font-bold text.white bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg">
+                                      {exp.company.charAt(0)}
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </div>
 
                           {/* Highlights */}
                           {exp.highlights && (
@@ -261,49 +261,49 @@ export function WorkExperience() {
                             </ul>
                           </div>
 
-                           {/* Technologies */}
-                           <div>
-                             <h4 className="text-sm font-semibold text-gray-400 mb-4 uppercase tracking-wider">
-                               Technologies
-                             </h4>
-                             <div className="flex flex-wrap gap-2">
-                               {exp.technologies.map((tech, idx) => (
-                                 <motion.span
-                                   key={idx}
-                                   className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300 font-medium hover:bg-white/10 hover:border-white/20 hover:text-white transition-all duration-300"
-                                   whileHover={{ scale: 1.05, y: -2 }}
-                                   transition={{ duration: 0.2 }}
-                                   initial={{ opacity: 0, y: 20 }}
-                                   animate={inView ? { opacity: 1, y: 0 } : {}}
-                                   style={{ transitionDelay: `${0.1 * idx + 0.9}s` }}
-                                 >
-                                   {tech}
-                                 </motion.span>
-                               ))}
-                             </div>
-                           </div>
+                          {/* Technologies */}
+                          <div>
+                            <h4 className="text-sm font-semibold text-gray-400 mb-4 uppercase tracking-wider">
+                              Technologies
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {exp.technologies.map((tech, idx) => (
+                                <motion.span
+                                  key={idx}
+                                  className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300 font-medium hover:bg-white/10 hover:border-white/20 hover:text-white transition-all duration-300 will-change-transform transform-gpu"
+                                  whileHover={{ scale: 1.05, y: -2 }}
+                                  transition={{ duration: 0.2 }}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                                  style={{ transitionDelay: `${0.1 * idx + 0.9}s` }}
+                                >
+                                  {tech}
+                                </motion.span>
+                              ))}
+                            </div>
+                          </div>
 
-                           {/* Project Link */}
-                           {exp.projectUrl && exp.projectName && (
-                             <motion.div
-                               className="mt-8 pt-6 border-t border-white/10"
-                               initial={{ opacity: 0, y: 20 }}
-                               animate={inView ? { opacity: 1, y: 0 } : {}}
-                               transition={{ delay: 1.2, duration: 0.5 }}
-                             >
-                               <motion.a
-                                 href={exp.projectUrl}
-                                 target="_blank"
-                                 rel="noopener noreferrer"
-                                 className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-semibold text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 group"
-                                 whileHover={{ scale: 1.02, y: -2 }}
-                                 whileTap={{ scale: 0.98 }}
-                               >
-                                 <span>Check out {exp.projectName}</span>
-                                 <ChevronRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                               </motion.a>
-                             </motion.div>
-                           )}
+                          {/* Project Link */}
+                          {exp.projectUrl && exp.projectName && (
+                            <motion.div
+                              className="mt-8 pt-6 border-t border-white/10"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={inView ? { opacity: 1, y: 0 } : {}}
+                              transition={{ delay: 1.2, duration: 0.5 }}
+                            >
+                              <motion.a
+                                href={exp.projectUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-semibold text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 group"
+                                whileHover={{ scale: 1.02, y: -2 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                <span>Check out {exp.projectName}</span>
+                                <ChevronRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                              </motion.a>
+                            </motion.div>
+                          )}
                         </div>
                       </LiquidCard>
                     </motion.div>

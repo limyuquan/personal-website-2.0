@@ -7,12 +7,22 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const onScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      ticking = false;
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(onScroll);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll as any);
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -90,6 +100,7 @@ export function Navigation() {
               repeat: Infinity,
               ease: "easeInOut",
             }}
+            whileInView={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
           />
         </div>
       </div>

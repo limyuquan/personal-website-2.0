@@ -19,7 +19,7 @@ export function GoogleAnalytics({ gtag }: GoogleAnalyticsProps) {
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+            function gtag(){dataLayer.push(arguments);} 
             gtag('js', new Date());
             gtag('config', '${gtag}', {
               page_title: document.title,
@@ -52,7 +52,7 @@ interface GtagConfigParams {
 // Optional: Create a hook for tracking events
 export function useGoogleAnalytics() {
   const trackEvent = (eventName: string, parameters?: GtagEventParams) => {
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', eventName, parameters);
     }
   };

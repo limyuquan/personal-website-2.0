@@ -71,7 +71,7 @@ export function Education() {
     >
       {/* Animated background elements */}
       <motion.div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-30 will-change-transform transform-gpu"
         style={{ y }}
       >
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl" />
@@ -131,7 +131,7 @@ export function Education() {
               >
                 {/* Timeline dot */}
                 <motion.div
-                  className="absolute left-1/2 top-1/2 w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block"
+                  className="absolute left-1/2 top-1/2 w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block will-change-transform transform-gpu"
                   whileHover={{ scale: 1.5 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -147,15 +147,15 @@ export function Education() {
                    transition={{ duration: 0.3 }}
                  >
                    <div className="relative group">
-                     {/* Glass morphism card */}
-                     <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300" />
-                     
-                     <div className="relative bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl rounded-3xl p-6 md:p-10 border border-white/10 group-hover:border-cyan-400/30 transition-all duration-300">
+                                           {/* Glass morphism card */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 will-change-transform transform-gpu" />
+                      
+                      <div className="relative bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl rounded-3xl p-6 md:p-10 border border-white/10 group-hover:border-cyan-400/30 transition-all duration-300">
                        {/* Institution header with logo space */}
                        <div className="flex items-start gap-4 md:gap-6 mb-6 md:mb-8">
                          {/* Logo placeholder */}
-                         <motion.div
-                           className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl border border-white/20 flex items-center justify-center group-hover:border-cyan-400/30 transition-all duration-300"
+                                                   <motion.div
+                           className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl border border-white/20 flex items-center justify-center group-hover:border-cyan-400/30 transition-all duration-300 will-change-transform transform-gpu"
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            transition={{ duration: 0.3 }}
                          >
@@ -171,12 +171,12 @@ export function Education() {
 
                          <div className="flex-1 min-w-0">
                            <motion.h3
-                             className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-3 group-hover:text-cyan-400 transition-colors duration-300"
+                             className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-3 group-hover:text-cyan-400 transition-colors duration-300 will-change-transform transform-gpu"
                              whileHover={{ x: 5 }}
                            >
                              {edu.institution}
                            </motion.h3>
-                           <h4 className="text-lg md:text-xl font-semibold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1 md:mb-2">
+                                                       <h4 className="text-lg md:text-xl font-semibold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1 md:mb-2">
                              {edu.degree}
                            </h4>
                            <p className="text-base md:text-lg text-gray-400 font-medium">{edu.field}</p>
@@ -214,7 +214,7 @@ export function Education() {
                             whileHover={{ x: 5 }}
                           >
                             <motion.div
-                              className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mt-2 flex-shrink-0"
+                              className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mt-2 flex-shrink-0 will-change-transform transform-gpu"
                               whileHover={{ scale: 1.5 }}
                             />
                             <span className="text-gray-300 text-sm leading-relaxed group-hover/item:text-white transition-colors duration-200">

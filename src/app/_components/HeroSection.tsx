@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect, useMemo } from "react";
 import { MorphingBlobs, FloatingParticles } from "./MorphingBlobs";
@@ -24,7 +24,7 @@ function AnimatedTitle({ text, isActive }: { text: string; isActive: boolean }) 
           {word.split('').map((char, charIndex) => (
             <motion.span
               key={`${text}-${wordIndex}-${charIndex}`}
-              className="inline-block font-bold tracking-tight bg-white bg-clip-text text-transparent text-7xl lg:text-9xl lg:h-34"
+              className="inline-block font-bold tracking-tight bg-white bg-clip-text text-transparent text-7xl lg:text-9xl lg:h-34 will-change-transform transform-gpu"
               initial={{ 
                 opacity: 0,
                 y: 100,
@@ -61,7 +61,8 @@ function AnimatedTitle({ text, isActive }: { text: string; isActive: boolean }) 
               style={{
                 transformOrigin: "center center",
                 transformStyle: "preserve-3d",
-                perspective: "1000px"
+                perspective: "1000px",
+                willChange: "transform, opacity, filter",
               }}
               whileHover={{
                 scale: 1.1,
@@ -131,6 +132,7 @@ function TitleSwitcher({ titles }: { titles: string[] }) {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        whileInView={{ opacity: [0.3, 0.6, 0.3] }}
       />
     </div>
   );
@@ -141,6 +143,7 @@ export function HeroSection() {
     threshold: 0.3,
     triggerOnce: true,
   });
+  const prefersReducedMotion = useReducedMotion();
 
   const titles = [
     "Fullstack Engineer",
@@ -157,7 +160,7 @@ export function HeroSection() {
         delayChildren: 0.2,
       },
     },
-  };
+  } as const;
 
   const itemVariants = {
     hidden: { y: 100, opacity: 0 },
@@ -170,7 +173,7 @@ export function HeroSection() {
         stiffness: 100,
       },
     },
-  };
+  } as const;
 
   return (
     <motion.section
@@ -234,6 +237,7 @@ export function HeroSection() {
               repeat: Infinity,
               ease: "easeInOut",
             }}
+            whileInView={{ scaleY: [0, 1, 0] }}
           />
           <motion.p
             className="text-sm text-gray-400 mt-4"
@@ -245,6 +249,7 @@ export function HeroSection() {
               repeat: Infinity,
               ease: "easeInOut",
             }}
+            whileInView={{ opacity: [0.5, 1, 0.5] }}
           >
             Scroll to explore
           </motion.p>
