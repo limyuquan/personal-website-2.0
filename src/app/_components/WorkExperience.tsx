@@ -161,7 +161,7 @@ export function WorkExperience() {
                       whileHover={{ y: -8 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <LiquidCard className="relative overflow-hidden">
+                      <LiquidCard className="relative overflow-visible">
                         {/* Card Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         
