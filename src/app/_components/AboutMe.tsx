@@ -20,13 +20,13 @@ function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkIsMobile = () => {
+    const checkIsMobile = (_e?: UIEvent) => {
       setIsMobile(window.innerWidth < 768);
     };
 
     checkIsMobile();
     window.addEventListener('resize', checkIsMobile, { passive: true });
-    return () => window.removeEventListener('resize', checkIsMobile as any);
+    return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
   return isMobile;

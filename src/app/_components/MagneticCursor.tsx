@@ -29,9 +29,7 @@ export function MagneticCursor() {
 
     const handleMouseMove = (e: MouseEvent) => {
       lastEvent = e;
-      if (rafId === null) {
-        rafId = requestAnimationFrame(updateFromEvent);
-      }
+      rafId ??= requestAnimationFrame(updateFromEvent);
     };
 
     const handleMouseEnter = () => {
@@ -57,9 +55,9 @@ export function MagneticCursor() {
 
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
-      window.removeEventListener("mousemove", handleMouseMove as any);
-      document.removeEventListener("mouseenter", handleMouseEnter as any);
-      document.removeEventListener("mouseleave", handleMouseLeave as any);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      document.removeEventListener("mouseleave", handleMouseLeave);
       document.body.classList.remove("custom-cursor-active");
     };
   }, [mouse.x, mouse.y]);
@@ -144,22 +142,20 @@ export function useMagnetic(strength = 0.1) {
 
     const handleMouseMove = (e: MouseEvent) => {
       lastEvent = e;
-      if (rafId === null) {
-        rafId = requestAnimationFrame(applyTransform);
-      }
+      rafId ??= requestAnimationFrame(applyTransform);
     };
 
     const handleMouseLeave = () => {
       element.style.transform = "translate(0px, 0px)";
     };
 
-    element.addEventListener("mousemove", handleMouseMove as any, { passive: true } as any);
-    element.addEventListener("mouseleave", handleMouseLeave as any, { passive: true } as any);
+    element.addEventListener("mousemove", handleMouseMove, { passive: true });
+    element.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
-      element.removeEventListener("mousemove", handleMouseMove as any);
-      element.removeEventListener("mouseleave", handleMouseLeave as any);
+      element.removeEventListener("mousemove", handleMouseMove);
+      element.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [strength]);
 
