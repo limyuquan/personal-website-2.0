@@ -25,6 +25,18 @@ export function WorkExperience() {
 
   const experiences: ExperienceItem[] = [
     {
+      company: "Rakuten",
+      position: "Full Stack Engineer Intern",
+      duration: "Aug 2025 – Present",
+      description: [
+        "Under the Visual Intelligence department, worked on an AI ad banner generation platform for merchants to utilise AI to generate Ad banners for their products",
+        "Developed responsive and intuitive user interfaces enabling merchants to seamlessly create AI-powered advertisement banners",
+        "Collaborated with cross-functional teams to integrate AI models with frontend components for real-time banner generation"
+      ],
+      technologies: ["Next.js", "TypeScript", "React", "Tailwind CSS"],
+      logo: "/images/logos/rakuten.png"
+    },
+    {
       company: "Razer",
       position: "Software Engineer (Cloud) Intern",
       duration: "Jan 2025 – Jun 2025",

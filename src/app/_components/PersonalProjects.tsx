@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
 interface Project {
   title: string;
@@ -25,6 +26,19 @@ export function PersonalProjects() {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<number, number>>({});
   const intervalRefs = useRef<Record<number, NodeJS.Timeout>>({});
+  const [preloadedProjects, setPreloadedProjects] = useState<Set<number>>(new Set());
+
+  // Function to preload images
+  const preloadImages = (imageUrls: string[], projectIndex: number) => {
+    if (preloadedProjects.has(projectIndex)) return;
+    
+    imageUrls.forEach((url) => {
+      const img = new window.Image();
+      img.src = url;
+    });
+    
+    setPreloadedProjects(prev => new Set(prev).add(projectIndex));
+  };
 
   const projects: Project[] = [
     {
@@ -69,6 +83,20 @@ export function PersonalProjects() {
       intervalRefs.current = {} as Record<number, NodeJS.Timeout>;
     };
   }, []);
+
+  // Preload all project images when section is in view
+  useEffect(() => {
+    if (inView) {
+      projects.forEach((project, index) => {
+        if (project.imageUrls && project.imageUrls.length > 0) {
+          // Preload images with a slight delay to avoid blocking
+          setTimeout(() => {
+            preloadImages(project.imageUrls!, index);
+          }, 100 * index);
+        }
+      });
+    }
+  }, [inView]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -160,6 +188,10 @@ export function PersonalProjects() {
                 variants={projectVariants}
                 onHoverStart={() => {
                   setHoveredProject(index);
+                  // Preload images on hover if not already preloaded
+                  if (project.imageUrls && project.imageUrls.length > 0) {
+                    preloadImages(project.imageUrls, index);
+                  }
                   if (project.imageUrls && project.imageUrls.length > 1) {
                     const interval = setInterval(() => {
                       setCurrentImageIndex(prev => ({
@@ -214,17 +246,25 @@ export function PersonalProjects() {
                       {/* Project Image */}
                       <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
                         {project.imageUrls && project.imageUrls.length > 0 ? (
-                          <motion.img
+                          <motion.div
                             key={currentImageIndex[index] ?? 0}
-                            src={project.imageUrls[currentImageIndex[index] ?? 0]}
-                            alt={`${project.title} screenshot ${(currentImageIndex[index] ?? 0) + 1}`}
-                            className="w-full h-full object-cover will-change-transform transform-gpu"
+                            className="w-full h-full relative"
                             initial={{ scale: 1.1, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
                             transition={{ duration: 0.5 }}
                             whileHover={{ scale: 1.05 }}
-                          />
+                          >
+                            <Image
+                              src={project.imageUrls[currentImageIndex[index] ?? 0]!}
+                              alt={`${project.title} screenshot ${(currentImageIndex[index] ?? 0) + 1}`}
+                              fill
+                              className="object-cover will-change-transform transform-gpu"
+                              priority={index === 0 && (currentImageIndex[index] ?? 0) === 0}
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              quality={90}
+                            />
+                          </motion.div>
                         ) : (
                           <>
                             <motion.div
