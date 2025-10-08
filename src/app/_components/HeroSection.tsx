@@ -92,9 +92,9 @@ function TitleSwitcher({ titles }: { titles: string[] }) {
       setTimeout(() => {
         setCurrentIndex((prev) => (prev + 1) % titles.length);
         setIsChanging(false);
-      }, 600); // Delay for smooth transition
+      }, 500); // Delay for smooth transition
       
-    }, 4000); // Change every 4 seconds to allow for longer animations
+    }, 2500); // Change every 2.5 seconds for quicker transitions
 
     return () => clearInterval(interval);
   }, [titles.length]);
@@ -146,8 +146,8 @@ export function HeroSection() {
   const prefersReducedMotion = useReducedMotion();
 
   const titles = [
-    "Fullstack Engineer",
     "Software Engineer",
+    "Fullstack Engineer",
     "Student",
   ];
 
