@@ -418,37 +418,6 @@ export function PersonalProjects() {
           })}
         </div>
 
-        {/* Footer CTA */}
-        <motion.div
-          className="mt-32 text-center"
-          variants={projectVariants}
-        >
-          <motion.div
-            className="inline-flex items-center gap-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-full px-8 py-6 border border-white/20"
-            whileHover={{ 
-              scale: 1.05,
-              backgroundColor: "rgba(139, 92, 246, 0.3)"
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <motion.div
-              className="w-4 h-4 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full will-change-transform transform-gpu"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.7, 1, 0.7],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              whileInView={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
-            />
-            <span className="text-lg font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              More innovative projects in development
-            </span>
-          </motion.div>
-        </motion.div>
       </div>
     </motion.section>
   );

@@ -125,7 +125,7 @@ export function Navigation() {
     }
     const element = document.getElementById(id);
     if (element) {
-      const offset = 100; // Offset for the fixed header
+      const offset = 70; // Offset for the fixed header (lower than detection threshold to ensure active state triggers)
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;

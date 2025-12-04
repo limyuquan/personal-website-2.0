@@ -362,43 +362,6 @@ export function TechnologyStack() {
             </motion.div>
           ))}
         </div>
-
-        {/* Bottom section */}
-        <motion.div
-          className="mt-20 text-center"
-          variants={categoryVariants}
-        >
-          <motion.div
-            className="inline-flex items-center gap-6 bg-gray-900/30 backdrop-blur-sm border border-gray-700/30 rounded-full px-8 py-4"
-            whileHover={{ scale: 1.05, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <motion.div
-              className="w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full will-change-transform transform-gpu"
-              animate={{ 
-                scale: [1, 1.2, 1],
-                opacity: [1, 0.7, 1]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              whileInView={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
-            />
-            <span className="text-white font-medium text-lg">
-              Always learning and exploring new technologies
-            </span>
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="text-2xl will-change-transform transform-gpu"
-              whileInView={{ rotate: 360 }}
-            >
-              🚀
-            </motion.div>
-          </motion.div>
-        </motion.div>
       </div>
     </motion.section>
   );
