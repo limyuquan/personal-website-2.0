@@ -107,7 +107,7 @@ export function WorkExperience() {
     <motion.section
       id="experience"
       ref={ref}
-      className="min-h-screen py-32 px-6 relative overflow-hidden"
+      className="min-h-screen py-24 px-6 relative overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
@@ -120,15 +120,6 @@ export function WorkExperience() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div className="text-center mb-24" variants={itemVariants}>
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 mb-8"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <BuildingOfficeIcon className="w-5 h-5 text-blue-400" />
-            <span className="text-blue-400 font-medium">Professional Journey</span>
-          </motion.div>
-          
           <h2 className="text-6xl md:text-8xl font-bold mb-8 leading-tight">
             Work
             <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent">

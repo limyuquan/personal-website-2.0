@@ -1,501 +1,486 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useRef, useState, useEffect } from "react";
-import { 
-  FaGithub, 
-  FaLinkedin, 
-  FaMapMarkerAlt, 
-  FaGraduationCap,
-  FaCode,
-  FaHeart,
-  FaRocket,
-  FaFileAlt
-} from "react-icons/fa";
-import { AnimatedSocialButton } from "./AnimatedSocialButton";
+import { useState, useEffect } from "react";
+import { FaGithub, FaLinkedin, FaFileAlt } from "react-icons/fa";
 
 // Custom hook to detect mobile devices
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkIsMobile = (_e?: UIEvent) => {
+    const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
     checkIsMobile();
-    window.addEventListener('resize', checkIsMobile, { passive: true });
-    return () => window.removeEventListener('resize', checkIsMobile);
+    window.addEventListener("resize", checkIsMobile, { passive: true });
+    return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
   return isMobile;
 }
 
-interface AboutStat {
-  number: string;
-  label: string;
-  icon: React.ReactNode;
-  color: string;
+// Animated dot grid background
+function DotGrid() {
+  return (
+    <div className="absolute inset-0 overflow-hidden opacity-20">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+          backgroundSize: "48px 48px",
+        }}
+      />
+    </div>
+  );
 }
 
-interface AboutHighlight {
-  title: string;
-  description: string;
+// Animated floating accent shapes with blue/purple colors
+function FloatingAccents({ isMobile }: { isMobile: boolean }) {
+  if (isMobile) return null;
+
+  const shapes = [
+    { size: 120, color: "#60A5FA", x: "10%", y: "20%", delay: 0 }, // blue-400
+    { size: 80, color: "#A78BFA", x: "85%", y: "15%", delay: 1.5 }, // purple-400
+    { size: 60, color: "#F472B6", x: "75%", y: "70%", delay: 0.8 }, // pink-400
+    { size: 40, color: "#22D3EE", x: "5%", y: "75%", delay: 2.2 }, // cyan-400
+    { size: 100, color: "#A78BFA", x: "60%", y: "85%", delay: 1.2 }, // purple-400
+  ];
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {shapes.map((shape, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full will-change-transform transform-gpu"
+          style={{
+            width: shape.size,
+            height: shape.size,
+            left: shape.x,
+            top: shape.y,
+            background: `radial-gradient(circle at 30% 30%, ${shape.color}40, ${shape.color}10)`,
+            border: `1px solid ${shape.color}30`,
+          }}
+          animate={{
+            y: [-20, 20, -20],
+            x: [-10, 10, -10],
+            rotate: [0, 180, 360],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 12 + i * 2,
+            repeat: Infinity,
+            delay: shape.delay,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// Animated line decorations with blue/purple colors
+function DecorativeLines() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Vertical line */}
+      <motion.div
+        className="absolute left-[15%] top-0 w-px h-full"
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.3), transparent)" }}
+        initial={{ scaleY: 0 }}
+        whileInView={{ scaleY: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        viewport={{ once: true }}
+      />
+      {/* Horizontal line */}
+      <motion.div
+        className="absolute left-0 top-[30%] w-full h-px"
+        style={{ background: "linear-gradient(to right, transparent, rgba(34, 211, 238, 0.2), transparent)" }}
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
+        viewport={{ once: true }}
+      />
+    </div>
+  );
+}
+
+// 3D Flip Card Profile Picture
+function ProfilePicture({ isMobile }: { isMobile: boolean }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <motion.div
+      className="relative"
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }}
+      style={{ perspective: "1000px" }}
+    >
+      {/* Outer ring decoration */}
+      <motion.div
+        className="absolute -inset-4 rounded-full border-2 border-dashed will-change-transform transform-gpu"
+        style={{ borderColor: "rgba(139, 92, 246, 0.3)" }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* Second ring */}
+      <motion.div
+        className="absolute -inset-8 rounded-full border will-change-transform transform-gpu"
+        style={{ borderColor: "rgba(34, 211, 238, 0.2)" }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* 3D Flip Card Container */}
+      <motion.div
+        className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 cursor-pointer"
+        onMouseEnter={() => !isMobile && setIsFlipped(true)}
+        onMouseLeave={() => !isMobile && setIsFlipped(false)}
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Card Inner - this rotates */}
+        <motion.div
+          className="relative w-full h-full will-change-transform transform-gpu"
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {/* Front Face */}
+          <div
+            className="absolute inset-0 rounded-full overflow-hidden"
+            style={{
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+            }}
+          >
+            {/* Gradient border */}
+            <div
+              className="absolute inset-0 rounded-full p-[3px]"
+              style={{
+                background: "conic-gradient(from 0deg, #22D3EE, #8B5CF6, #EC4899, #22D3EE)",
+              }}
+            >
+              <div className="w-full h-full rounded-full overflow-hidden bg-black">
+                <img
+                  src="/images/photos/limyuquan.jpg"
+                  alt="Yu Quan Lim - Front"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            
+            {/* Glow effect */}
+            <div
+              className="absolute inset-0 rounded-full pointer-events-none"
+              style={{
+                boxShadow: "0 0 60px rgba(139, 92, 246, 0.3), 0 0 120px rgba(34, 211, 238, 0.2)",
+              }}
+            />
+          </div>
+
+          {/* Back Face */}
+          <div
+            className="absolute inset-0 rounded-full overflow-hidden"
+            style={{
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+              transform: "rotateY(180deg)",
+            }}
+          >
+            {/* Gradient border - different angle for back */}
+            <div
+              className="absolute inset-0 rounded-full p-[3px]"
+              style={{
+                background: "conic-gradient(from 180deg, #EC4899, #8B5CF6, #22D3EE, #EC4899)",
+              }}
+            >
+              <div className="w-full h-full rounded-full overflow-hidden bg-black">
+                <img
+                  src="/images/photos/limyuquan.jpg"
+                  alt="Yu Quan Lim - Back"
+                  className="w-full h-full object-cover"
+                  style={{ transform: "scaleX(-1)" }} // Mirror the image for visual difference
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            
+            {/* Glow effect - different colors for back */}
+            <div
+              className="absolute inset-0 rounded-full pointer-events-none"
+              style={{
+                boxShadow: "0 0 60px rgba(236, 72, 153, 0.3), 0 0 120px rgba(139, 92, 246, 0.2)",
+              }}
+            />
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Floating accent dots */}
+      {!isMobile && (
+        <>
+          <motion.div
+            className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-cyan-400"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <motion.div
+            className="absolute -bottom-4 -left-4 w-6 h-6 rounded-full bg-purple-500"
+            animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+          />
+          <motion.div
+            className="absolute top-1/2 -right-8 w-3 h-3 rounded-full bg-pink-400"
+            animate={{ scale: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+          />
+        </>
+      )}
+    </motion.div>
+  );
+}
+
+// Simple social link button without magnetic effect
+function SocialButton({
+  href,
+  icon,
+  label,
+  accentColor,
+}: {
+  href: string;
   icon: React.ReactNode;
-  gradient: string;
+  label: string;
+  accentColor: string;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.a
+      href={href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+      className="group relative flex items-center gap-3 px-6 py-4 rounded-full border transition-all duration-300"
+      style={{
+        borderColor: isHovered ? accentColor : "rgba(255,255,255,0.15)",
+        backgroundColor: isHovered ? `${accentColor}15` : "transparent",
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.02 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+    >
+      {/* Icon */}
+      <motion.span
+        className="text-xl transition-colors duration-300"
+        style={{ color: isHovered ? accentColor : "white" }}
+        animate={isHovered ? { rotate: [0, -10, 10, 0] } : { rotate: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        {icon}
+      </motion.span>
+
+      {/* Label */}
+      <span
+        className="font-medium transition-colors duration-300"
+        style={{ color: isHovered ? accentColor : "white" }}
+      >
+        {label}
+      </span>
+
+      {/* Animated underline */}
+      <motion.div
+        className="absolute bottom-3 left-6 right-6 h-px origin-left"
+        style={{ backgroundColor: accentColor }}
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+    </motion.a>
+  );
+}
+
+// Animated text reveal
+function AnimatedText({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }}
+      viewport={{ once: true }}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 export function AboutMe() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const [ref, inView] = useInView({
+  const [ref] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Smooth scroll animations - disabled on mobile for performance
-  const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 1.2]);
-  
-  // Spring animations for smoother feel - disabled on mobile
-  const springY = useSpring(y, { stiffness: 100, damping: 20 });
-  const springScale = useSpring(scale, { stiffness: 100, damping: 20 });
-
-  const [isHovering, setIsHovering] = useState(false);
-
-  const stats: AboutStat[] = [
+  const socialLinks = [
     {
-      number: "10+",
-      label: "Projects Built",
-      icon: <FaCode className="w-6 h-6" />,
-      color: "from-blue-400 to-cyan-500"
+      href: "https://linkedin.com/in/limyuquan",
+      icon: <FaLinkedin />,
+      label: "LinkedIn",
+      color: "#60A5FA", // blue-400
     },
     {
-      number: "5+",
-      label: "Years Coding",
-      icon: <FaRocket className="w-6 h-6" />,
-      color: "from-purple-400 to-pink-500"
+      href: "https://github.com/limyuquan",
+      icon: <FaGithub />,
+      label: "GitHub",
+      color: "#A78BFA", // purple-400
     },
     {
-      number: "2+",
-      label: "Years of Experience",
-      icon: <FaGraduationCap className="w-6 h-6" />,
-      color: "from-green-400 to-emerald-500"
+      href: "/files/limyuquan-resume.pdf",
+      icon: <FaFileAlt />,
+      label: "Resume",
+      color: "#F472B6", // pink-400
     },
-    {
-      number: "∞",
-      label: "Passion for Engineering",
-      icon: <FaHeart className="w-6 h-6" />,
-      color: "from-red-400 to-orange-500"
-    }
   ];
-
-  const highlights: AboutHighlight[] = [
-    {
-      title: "Full-Stack Development",
-      description: "Experienced in building end-to-end solutions with modern web technologies, from responsive frontends to scalable backends.",
-      icon: <FaCode className="w-8 h-8" />,
-      gradient: "from-blue-500 via-purple-500 to-pink-500"
-    },
-    {
-      title: "Problem Solver",
-      description: "Passionate about tackling complex challenges and creating innovative solutions that make a real impact to end users.",
-      icon: <FaRocket className="w-8 h-8" />,
-      gradient: "from-green-500 via-teal-500 to-cyan-500"
-    },
-    {
-      title: "Continuous Experimenter",
-      description: "Always exploring new technologies and methodologies to stay at the forefront of software engineering in the age of AI.",
-      icon: <FaGraduationCap className="w-8 h-8" />,
-      gradient: "from-orange-500 via-red-500 to-pink-500"
-    }
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: isMobile ? 0.1 : 0.2,
-        delayChildren: isMobile ? 0.1 : 0.3,
-      },
-    },
-  } as const;
-
-  const itemVariants = {
-    hidden: { y: isMobile ? 20 : 60, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: isMobile ? 200 : 100,
-        damping: isMobile ? 30 : 20,
-      },
-    },
-  } as const;
-
-  const cardVariants = {
-    hidden: { scale: isMobile ? 0.95 : 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: isMobile ? 200 : 150,
-        damping: isMobile ? 30 : 20,
-      },
-    },
-  } as const;
 
   return (
-    <motion.section
-      ref={containerRef}
+    <section
+      ref={ref}
       id="about"
-      className="min-h-screen py-24 md:pt-32 pb-36 px-6 relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black"
-      variants={containerVariants}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
+      className="min-h-screen py-24 md:py-32 px-6 relative overflow-hidden bg-black"
     >
-      <div ref={ref} className="absolute inset-0" />
-      
-      {/* Animated Background Elements - disabled on mobile */}
-      {!isMobile && (
-        <>
-          <motion.div
-            className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl will-change-transform transform-gpu"
-            style={{ y: springY, opacity }}
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            whileInView={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
-          />
-          <motion.div
-            className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl will-change-transform transform-gpu"
-            style={{ y: springY, opacity }}
-            animate={{
-              scale: [1.2, 1, 1.2],
-              rotate: [360, 180, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            whileInView={{ scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
-          />
-        </>
-      )}
+      {/* Background elements */}
+      <DotGrid />
+      <FloatingAccents isMobile={isMobile} />
+      <DecorativeLines />
 
-      {/* Floating Orbs - disabled on mobile */}
-      {(
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: 6 }, (_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-white rounded-full opacity-20 will-change-transform transform-gpu"
-              animate={{
-                x: [0, 100, 0],
-                y: [0, -100, 0],
-                opacity: [0.2, 0.8, 0.2],
-              }}
-              transition={{
-                duration: 10 + i * 2,
-                repeat: Infinity,
-                delay: i * 1.5,
-                ease: "easeInOut",
-              }}
-              style={{
-                left: `${10 + i * 15}%`,
-                top: `${10 + i * 10}%`,
-              }}
-              whileInView={{ x: [0, 100, 0], y: [0, -100, 0], opacity: [0.2, 0.8, 0.2] }}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <motion.div className="text-center mb-20" variants={itemVariants}>
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 mb-8"
-            whileHover={!isMobile ? { scale: 1.05 } : {}}
-            transition={{ duration: 0.2 }}
-          >
-            <FaMapMarkerAlt className="w-4 h-4 text-cyan-400" />
-            <span className="text-cyan-400 font-medium">Singapore</span>
-          </motion.div>
-          
-          <motion.h2 
-            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
-            variants={itemVariants}
-          >
-            About{" "}
-            <motion.span 
-              className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 bg-clip-text text-transparent"
-              animate={!isMobile ? {
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              } : {}}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{ backgroundSize: "200% 200%" }}
-              whileInView={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-            >
-              Me
-            </motion.span>
-          </motion.h2>
-        </motion.div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-          {/* Profile Photo Section */}
-          <motion.div
-            className="relative flex justify-center lg:justify-start"
-            variants={itemVariants}
-          >
-            <motion.div
-              className="relative"
-              onMouseEnter={!isMobile ? () => setIsHovering(true) : undefined}
-              onMouseLeave={!isMobile ? () => setIsHovering(false) : undefined}
-              whileHover={!isMobile ? { scale: 1.05 } : {}}
-              transition={{ duration: 0.3 }}
-            >
-              {/* Animated Background Ring - disabled on mobile */}
-              {(
-                <motion.div
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 opacity-20 blur-xl will-change-transform transform-gpu"
-                  animate={{
-                    rotate: [0, 360],
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  whileInView={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-                />
-              )}
-              
-              {/* Profile Photo Container */}
-              <motion.div
-                className="relative w-96 h-96 md:w-[32rem] md:h-[32rem] rounded-full overflow-hidden border-4 border-white/20 bg-gradient-to-br from-gray-800 to-gray-900 will-change-transform transform-gpu"
-                style={!isMobile ? { scale: springScale } : {}}
-                whileHover={!isMobile ? {
-                  borderColor: "rgba(255,255,255,0.4)",
-                } : {}}
-                transition={{ duration: 0.3 }}
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Section header */}
+        <div className="text-center mb-16 md:mb-24">
+          <AnimatedText delay={0.1}>
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
+              About{" "}
+              <motion.span
+                className="inline-block bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: "linear-gradient(135deg, #22D3EE, #8B5CF6, #EC4899)",
+                  backgroundSize: "200% 200%",
+                }}
+                animate={{
+                  backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               >
-                {/* Profile photo */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-purple-500/20 to-pink-400/20 flex items-center justify-center">
-                  <motion.img
-                    src="/images/photos/limyuquan.jpg"
-                    alt="Yu Quan Lim - Profile Photo"
-                    className="w-full h-full object-cover rounded-full will-change-transform transform-gpu"
-                    animate={!isMobile && isHovering ? { rotateY: 180, scale: 1.1 } : { rotateY: 0, scale: 1 }}
-                    transition={{ duration: 0.5, ease: "linear" }}
-                    loading="lazy"
-                    style={{
-                      transformStyle: "preserve-3d",
-                      perspective: "1000px"
-                    }}
-                  />
-                </div>
-                
-                {/* Overlay Effect - disabled on mobile */}
-                {!isMobile && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                    animate={{
-                      opacity: isHovering ? 0.8 : 0.3,
-                    }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* About Text Section */}
-          <motion.div className="space-y-8" variants={itemVariants}>
-            <motion.div
-              className="space-y-6"
-              variants={itemVariants}
-            >
-              <motion.h3 
-                className="text-3xl md:text-4xl font-bold text-white mb-4"
-                variants={itemVariants}
-              >
-                Hello, I&apos;m Yu Quan!
-              </motion.h3>
-              
-              <motion.p 
-                className="text-lg md:text-xl text-gray-300 leading-relaxed"
-                variants={itemVariants}
-              >
-                I&apos;m a passionate <span className="text-cyan-400 font-semibold">Full-Stack Software Engineer</span> and 
-                <span className="text-purple-400 font-semibold"> Computer Science student</span> at the National University of Singapore.
-              </motion.p>
-              
-              <motion.p 
-                className="md:mt-10 text-lg md:text-xl text-gray-300 leading-relaxed"
-                variants={itemVariants}
-              >
-                I love crafting digital experiences that blend beautiful design with robust functionality. 
-                From responsive and beautiful web applications to scalable and performant backend systems, I&apos;m always excited to tackle new challenges 
-                and learn emerging technologies.
-              </motion.p>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 pt-8"
-              variants={itemVariants}
-            >
-              <AnimatedSocialButton
-                icon={<FaLinkedin className="w-5 h-5" />}
-                text="LinkedIn Profile"
-                variant="primary"
-                href="https://linkedin.com/in/limyuquan"
-              />
-              
-              <AnimatedSocialButton
-                icon={<FaGithub className="w-5 h-5" />}
-                text="GitHub Profile"
-                variant="secondary"
-                href="https://github.com/limyuquan"
-              />
-              
-              <AnimatedSocialButton
-                icon={<FaFileAlt className="w-5 h-5" />}
-                text="Resume"
-                variant="accent"
-                href="/files/limyuquan-resume.pdf"
-              />
-            </motion.div>
-          </motion.div>
+                Me
+              </motion.span>
+            </h2>
+          </AnimatedText>
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20"
-          variants={containerVariants}
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              className="relative group"
-              variants={cardVariants}
-              whileHover={!isMobile ? { y: -10 } : {}}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="relative p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 text-center overflow-hidden"
-                whileHover={!isMobile ? {
-                  borderColor: "rgba(255,255,255,0.3)",
-                  background: "rgba(255,255,255,0.1)",
-                } : {}}
-              >
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-                />
-                
-                <motion.div
-                  className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${stat.color} mb-4 will-change-transform transform-gpu`}
-                  whileHover={!isMobile ? { scale: 1.1, rotate: 360 } : {}}
-                  transition={{ duration: 0.6 }}
-                >
-                  <span className="text-white">{stat.icon}</span>
-                </motion.div>
-                
-                <motion.h4
-                  className="text-3xl font-bold text-white mb-2"
-                  initial={{ opacity: 0 }}
-                  animate={inView ? { opacity: 1 } : {}}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                >
-                  {stat.number}
-                </motion.h4>
-                
-                <motion.p
-                  className="text-gray-400 text-sm"
-                  initial={{ opacity: 0 }}
-                  animate={inView ? { opacity: 1 } : {}}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                >
-                  {stat.label}
-                </motion.p>
-              </motion.div>
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Main content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Left side - Profile picture */}
+          <div className="flex justify-center lg:justify-start order-1 lg:order-1">
+            <ProfilePicture isMobile={isMobile} />
+          </div>
 
-        {/* Highlights Section */}
+          {/* Right side - Content */}
+          <div className="space-y-8 order-2 lg:order-2">
+            <AnimatedText delay={0.2}>
+              <h3 className="text-3xl md:text-4xl font-bold text-white">
+                Hello, I&apos;m{" "}
+                <span className="text-cyan-400">Yu Quan</span>
+              </h3>
+            </AnimatedText>
+
+            <AnimatedText delay={0.3}>
+              <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
+                A{" "}
+                <span className="text-white font-medium">
+                  Full-Stack Software Engineer
+                </span>{" "}
+                based in Singapore. I build digital experiences that are both
+                beautiful and functional.
+              </p>
+            </AnimatedText>
+
+            <AnimatedText delay={0.4}>
+              <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
+                Currently pursuing{" "}
+                <span className="text-white font-medium">Computer Science</span>{" "}
+                at the National University of Singapore, with a passion for
+                crafting elegant solutions to complex problems.
+              </p>
+            </AnimatedText>
+
+            {/* Social links */}
+            <AnimatedText delay={0.5}>
+              <div className="flex flex-wrap gap-4 pt-6">
+                {socialLinks.map((link) => (
+                  <SocialButton
+                    key={link.label}
+                    href={link.href}
+                    icon={link.icon}
+                    label={link.label}
+                    accentColor={link.color}
+                  />
+                ))}
+              </div>
+            </AnimatedText>
+          </div>
+        </div>
+
+        {/* Bottom decorative element */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          variants={containerVariants}
+          className="mt-24 md:mt-32 flex justify-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          viewport={{ once: true }}
         >
-          {highlights.map((highlight, index) => (
-            <motion.div
-              key={index}
-              className="relative group"
-              variants={cardVariants}
-              whileHover={!isMobile ? { y: -5 } : {}}
-            >
+          <div className="flex items-center gap-4">
+            {[...Array(3)].map((_, i) => (
               <motion.div
-                className="relative p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 h-full overflow-hidden"
-                whileHover={!isMobile ? {
-                  borderColor: "rgba(255,255,255,0.3)",
-                  background: "rgba(255,255,255,0.1)",
-                } : {}}
-              >
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-r ${highlight.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-                />
-                
-                <motion.div
-                  className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r ${highlight.gradient} mb-6 text-white will-change-transform transform-gpu`}
-                  whileHover={!isMobile ? { scale: 1.1, rotate: 360 } : {}}
-                  transition={{ duration: 0.6 }}
-                >
-                  {highlight.icon}
-                </motion.div>
-                
-                <motion.h4
-                  className="text-xl font-bold text-white mb-4"
-                  variants={itemVariants}
-                >
-                  {highlight.title}
-                </motion.h4>
-                
-                <motion.p
-                  className="text-gray-400 leading-relaxed"
-                  variants={itemVariants}
-                >
-                  {highlight.description}
-                </motion.p>
-              </motion.div>
-            </motion.div>
-          ))}
+                key={i}
+                className="w-2 h-2 rounded-full"
+                style={{
+                  backgroundColor: ["#22D3EE", "#8B5CF6", "#EC4899"][i],
+                }}
+                animate={{
+                  y: [-5, 5, -5],
+                  opacity: [0.5, 1, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: i * 0.3,
+                }}
+              />
+            ))}
+          </div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
-} 
+}
