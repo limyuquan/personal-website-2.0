@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 type NavSize = "full" | "medium" | "collapsed";
 
@@ -11,14 +11,14 @@ export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { name: "Home", id: "#" },
     { name: "About", id: "about" },
     { name: "Experience", id: "experience" },
     { name: "Stack", id: "tech-stack" },
     { name: "Education", id: "education" },
     { name: "Projects", id: "projects" },
-  ];
+  ], []);
 
   useEffect(() => {
     let ticking = false;
@@ -75,7 +75,7 @@ export function Navigation() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, navItems]);
 
   // Helper to get size-based classes
   const getSizeClasses = () => {

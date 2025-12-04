@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect, useMemo } from "react";
 import { MorphingBlobs, FloatingParticles } from "./MorphingBlobs";
@@ -143,7 +143,6 @@ export function HeroSection() {
     threshold: 0.3,
     triggerOnce: true,
   });
-  const prefersReducedMotion = useReducedMotion();
 
   const titles = [
     "Software Engineer",

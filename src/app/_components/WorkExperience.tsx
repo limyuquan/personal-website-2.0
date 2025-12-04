@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useState } from "react";
 import { LiquidCard } from "./LiquidCard";
 import { CalendarIcon, BuildingOfficeIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 interface ExperienceItem {
   company: string;
@@ -22,6 +24,7 @@ export function WorkExperience() {
     threshold: 0.1,
     triggerOnce: true,
   });
+  const [failedLogos, setFailedLogos] = useState<Set<number>>(new Set());
 
   const experiences: ExperienceItem[] = [
     {
@@ -200,21 +203,23 @@ export function WorkExperience() {
                                 <div className="relative w-16 h-16 lg:w-22 lg:h-22">
                                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300" />
                                   <div className="relative w-full h-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2 group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-300">
-                                    <img
-                                      src={exp.logo}
-                                      alt={`${exp.company} logo`}
-                                      className="w-full h-full object-contain rounded-lg"
-                                      onError={(e) => {
-                                        // Fallback to company initial if logo fails to load
-                                        const target = e.target as HTMLImageElement;
-                                        target.style.display = 'none';
-                                        const fallback = target.nextElementSibling as HTMLDivElement;
-                                        if (fallback) fallback.style.display = 'flex';
-                                      }}
-                                    />
-                                    <div className="absolute inset-0 hidden items-center justify-center text-2xl lg:text-3xl font-bold text.white bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg">
-                                      {exp.company.charAt(0)}
-                                    </div>
+                                    {failedLogos.has(index) ? (
+                                      <div className="absolute inset-0 flex items-center justify-center text-2xl lg:text-3xl font-bold text-white bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg">
+                                        {exp.company.charAt(0)}
+                                      </div>
+                                    ) : (
+                                      <div className="relative w-full h-full">
+                                        <Image
+                                          src={exp.logo}
+                                          alt={`${exp.company} logo`}
+                                          fill
+                                          className="object-contain rounded-lg"
+                                          onError={() => {
+                                            setFailedLogos(prev => new Set(prev).add(index));
+                                          }}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </motion.div>

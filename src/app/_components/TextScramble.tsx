@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 interface TextScrambleProps {
   children: string;
@@ -24,7 +24,7 @@ export function TextScramble({
 
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  const scrambleText = () => {
+  const scrambleText = useCallback(() => {
     if (!trigger) return;
     
     setIsScrambling(true);
@@ -59,7 +59,7 @@ export function TextScramble({
       setDisplayText(originalText);
       setIsScrambling(false);
     }, duration);
-  };
+  }, [trigger, children, scrambleSpeed, duration]);
 
   useEffect(() => {
     if (trigger) {
@@ -70,7 +70,7 @@ export function TextScramble({
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [trigger, children]);
+  }, [trigger, scrambleText]);
 
   return (
     <span 

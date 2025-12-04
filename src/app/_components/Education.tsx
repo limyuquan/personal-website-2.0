@@ -28,7 +28,6 @@ export function Education() {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
 
   const education: EducationItem[] = [
     {
@@ -56,12 +55,6 @@ export function Education() {
     }
   ];
 
-  const certifications = [
-    { name: "AWS Solutions Architect", issuer: "Amazon Web Services", year: "2023", color: "from-orange-400 to-red-500" },
-    { name: "Google Cloud Professional", issuer: "Google Cloud", year: "2022", color: "from-blue-400 to-cyan-500" },
-    { name: "React Developer Certification", issuer: "Meta", year: "2022", color: "from-cyan-400 to-blue-500" },
-    { name: "Kubernetes Administrator", issuer: "CNCF", year: "2021", color: "from-purple-400 to-pink-500" }
-  ];
 
   return (
     <section

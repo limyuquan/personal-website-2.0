@@ -7,7 +7,6 @@ import {
   FaLinkedin,
   FaEnvelope,
   FaMapMarkerAlt,
-  FaHeart,
   FaArrowUp,
   FaFileAlt,
 } from "react-icons/fa";

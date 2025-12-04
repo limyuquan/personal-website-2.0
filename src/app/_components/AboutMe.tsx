@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
 import { FaGithub, FaLinkedin, FaFileAlt } from "react-icons/fa";
+import Image from "next/image";
 
 // Custom hook to detect mobile devices
 function useIsMobile() {
@@ -165,11 +166,12 @@ function ProfilePicture({ isMobile }: { isMobile: boolean }) {
                 background: "conic-gradient(from 0deg, #22D3EE, #8B5CF6, #EC4899, #22D3EE)",
               }}
             >
-              <div className="w-full h-full rounded-full overflow-hidden bg-black">
-                <img
+              <div className="w-full h-full rounded-full overflow-hidden bg-black relative">
+                <Image
                   src="/images/photos/limyuquan.jpg"
                   alt="Yu Quan Lim - Front"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                   loading="lazy"
                 />
               </div>
@@ -200,11 +202,12 @@ function ProfilePicture({ isMobile }: { isMobile: boolean }) {
                 background: "conic-gradient(from 180deg, #EC4899, #8B5CF6, #22D3EE, #EC4899)",
               }}
             >
-              <div className="w-full h-full rounded-full overflow-hidden bg-black">
-                <img
+              <div className="w-full h-full rounded-full overflow-hidden bg-black relative">
+                <Image
                   src="/images/photos/limyuquan.jpg"
                   alt="Yu Quan Lim - Back"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                   style={{ transform: "scaleX(-1)" }} // Mirror the image for visual difference
                   loading="lazy"
                 />
@@ -460,7 +463,7 @@ export function AboutMe() {
           viewport={{ once: true }}
         >
           <div className="flex items-center gap-4">
-            {[...Array(3)].map((_, i) => (
+            {Array.from({ length: 3 }).map((_, i) => (
               <motion.div
                 key={i}
                 className="w-2 h-2 rounded-full"

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 
 interface Project {
@@ -29,7 +29,7 @@ export function PersonalProjects() {
   const [preloadedProjects, setPreloadedProjects] = useState<Set<number>>(new Set());
 
   // Function to preload images
-  const preloadImages = (imageUrls: string[], projectIndex: number) => {
+  const preloadImages = useCallback((imageUrls: string[], projectIndex: number) => {
     if (preloadedProjects.has(projectIndex)) return;
     
     imageUrls.forEach((url) => {
@@ -38,9 +38,9 @@ export function PersonalProjects() {
     });
     
     setPreloadedProjects(prev => new Set(prev).add(projectIndex));
-  };
+  }, [preloadedProjects]);
 
-  const projects: Project[] = [
+  const projects: Project[] = useMemo(() => [
     {
       title: "Multitwitcher",
       description: "Multitwitcher is a platform that allows you to watch multiple Twitch streamers at once, or switch between them with a single click. This is the best way to view live-streamed events from multiple POVs",
@@ -74,7 +74,7 @@ export function PersonalProjects() {
       status: "completed",
       gradient: "from-green-400 via-blue-500 to-purple-600"
     }
-  ];
+  ], []);
 
   useEffect(() => {
     return () => {
@@ -96,7 +96,7 @@ export function PersonalProjects() {
         }
       });
     }
-  }, [inView]);
+  }, [inView, preloadImages, projects]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
