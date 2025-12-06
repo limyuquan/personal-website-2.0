@@ -1,0 +1,117 @@
+---
+title: "Lessons I learned from building with AI"
+description: "A comprehensive guide to my thought process when building with AI."
+date: "2024-12-06"
+tags: ["ai-development", "cursor", "software engineering"]
+---
+
+I have been building software for close to 4 years. During the first half of that time, LLMs were nice to have but inconsistent. Most of the time they provided questionable outputs, though occasionally they would deliver something genuinely impressive.
+
+In the second half of those 4 years, LLM tools for developers have improved at an alarming rate. If you do not incorporate them into at least some part of your development workflow, you are not making full use of your potential and time.
+
+I believe I started coding at the perfect time. Had I started earlier, I would have been daunted by difficult syntax, software engineering principles, and concepts, without an LLM to explain what I had done wrong and where I could improve. Had I started later, I would have struggled to learn because I would have been too dependent on LLMs to do my work for me, which would have been detrimental to my growth as a developer.
+
+## Top 3 Lessons learned
+
+---
+
+### 1. Always think about what you want the agent to do. Never let the agent think for you.
+
+**This is the number one rule in AI-assisted development.** It is easy to become overly dependent on AI. As our attention spans shrink, our willingness to think deeply decreases. Our willingness to review code carefully decreases. **This is extremely dangerous.**
+
+Fortunately, the most popular AI development tools are actively trying to prevent developers from falling into this trap.
+
+#### Planning mode: Your safety net
+
+For example, in IDEs like Cursor, **planning mode** has become one of the most valuable features. It allows the agent to generate a plan of action, but crucially, it requires you to review and approve that plan before execution. This is one of the best features of modern AI IDEs because it gives you an opportunity to think critically and evaluate the approach before any code is written.
+
+In the "past" (just six months ago), AI-assisted development meant prompting the agent and immediately watching it execute. You only had one chance to review and evaluate the results after everything was done. With the planning step, you get an opportunity to refine your requirements and goals. This helps you better understand the changes being made and allows the AI agent to make more accurate decisions.
+
+#### The skeleton technique
+
+Another powerful technique is **writing the skeleton of your code** as if the implementation details already exist. This forces you to think about the structure and flow before diving into implementation. For example, when building a user authentication feature, start by outlining the logic:
+
+```typescript
+async function handleUserLogin(email: string, password: string) {
+  // 1) Validate email format and password strength
+  const validationResult = validateCredentials(email, password);
+  
+  // 2) Check if user exists in database
+  const user = await findUserByEmail(email);
+  
+  // 3) Verify password matches stored hash
+  const isPasswordValid = await verifyPassword(password, user.passwordHash);
+  
+  // 4) Generate session token and update last login
+  const session = await createUserSession(user.id);
+  
+  // 5) Return authentication result
+  return { success: true, token: session.token, user };
+}
+```
+
+This approach keeps you actively engaged in understanding the code architecture while letting the AI handle the tedious implementation details. You maintain control over the business logic and flow, which is what truly matters. 
+
+Of course, each of these steps contains implementation details you should understand, but you can apply this same skeleton technique recursively to those functions as well.
+
+---
+
+### 2. Don't be afraid to write throwaway code
+
+With the speed at which AI can write accurate code, you should never feel like you are wasting time on one-off scripts or utilities.
+
+For example, I recently needed to find which university courses I could take alongside my internship. The courses had to either end before 10am or start after 7pm. NUSMods did not have a built-in filter for this specific use case (of course, why would they). However, they do provide a publicly available API with information about all university courses.
+
+Without hesitation, I wrote down my two requirements, provided the AI with the NUSMods API documentation, and within a minute I had a 200-300 line Python script that filtered courses matching my constraints. This would have taken me at least half an hour to write manually. **I used it once and never touched it again, and that is perfectly fine.**
+
+> **Key insight:** AI has fundamentally changed the economics of writing code. Tasks that would have been too time-consuming to justify are now trivial. Embrace this and solve problems pragmatically, even if the solution is temporary.
+
+---
+
+### 3. Review, Review, Review
+
+With the volume of code being written by both engineers and AI agents, **code review is more important now than ever before.** This means reviewing not only your teammates' code, but also your own code and especially the code generated by your AI agent. The more eyeballs on the code, the better.
+
+Personally, at the start of my software engineering journey, I was not a fan of code reviews. Why would I enjoy reading people's critique of my code, which I already knew was bad quality? However, after a while, I realized I was critiquing my own code as I wrote it, as if I was already anticipating comments. This made me more conscious of writing clean, modular, maintainable code. Even if it was still bad, I was definitely trying my best.
+
+#### Understanding AI model quirks
+
+Now, with code increasingly being written by AI rather than humans, reviewing code to spot AI-specific mistakes is more critical than ever. **Every AI model has its own quirks and coding patterns.** According to [this article by Kilo Code](https://blog.kilo.ai/p/benchmarking-gpt-51-vs-gemini-30-vs-opus-45), models like Gemini 3.0 tend to have a minimal style: they write the shortest working implementation, skip comments, and use loose `any[]` types. These are common pitfalls you need to catch during code review. Understanding the pros and cons of each model helps you select the right one for each task.
+
+> **Warning:** If AI-generated code is not reviewed properly before being committed and merged, terrible things will happen (at least with the current state of AI).
+
+It is definitely difficult to break the urge of just committing, especially if you are working on a solo project or never built the habit to begin with. But if you continue to skip reviews, one of three things will happen: your codebase will turn into AI slop, something will eventually break in a way that is difficult to debug, or something else worse.
+
+#### My 6-round review process
+
+My code review process is straightforward:
+
+1. Review the plan the AI agent is going to execute
+2. Review the code the agent created (tools like Cursor make it easy to view changes and discard anything that doesn't "vibe" with you)
+3. Review the file again when adding it to git staging
+4. Do one last review locally with all changes staged
+5. Before publishing your PR, review the code one more time
+6. Your team members review your code
+
+This means the code has been through **at least 6 rounds of review.** At that point, if there is still a mistake, it is probably not a careless error. It is more likely an edge case you had not considered or a flaw in the logic itself.
+
+#### What about AI code review tools?
+
+Recently, AI code review tools have emerged in various forms: local agents like Cursor's code review, cloud-based solutions, and CI pipeline integrations like Code Rabbit. Personally, I am not a huge fan of these tools because they might encourage lazy review discipline. It is easy for engineers to think *"AI already reviewed it, should be fine to merge."*
+
+However, **some code review is still better than none.** I have been in environments with zero peer code review culture, and I always wonder: how can anyone be that confident shipping code without someone else at least briefly looking through it? What if I wrote code at 3am and accidentally deployed it?
+
+> If you find yourself in circumstances where the engineering culture lacks even basic code review discipline, or if you are working on an independent project, these AI review tools are **DEFINITELY** worth it. They can catch expensive mistakes most of the time.
+
+---
+
+## Final Thoughts
+
+The relationship between developers and AI is still being defined. We are in a unique moment in software engineering history where we get to shape how this technology integrates into our workflows. Literally, our toolbox to build software can change week to week.
+
+The three lessons I have shared all point to the same principle: **AI is a tool that amplifies your intent, not a replacement for your judgment.** When you maintain control of the thinking process, embrace pragmatic solutions, and rigorously review your work, AI becomes a superpower rather than a crutch.
+
+I still believe I started coding at the perfect time. Early enough to understand the fundamentals without AI doing the work for me, but late enough to leverage AI to move faster and build more ambitious projects. If you are reading this, you are also in that sweet spot. Use it wisely.
+
+The developers who will thrive in this AI-augmented era are not the ones who write the most code or prompt the best. They are the ones who think clearly, review carefully, and never stop learning. Just try to keep that in mind as you build.
+

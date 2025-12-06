@@ -613,7 +613,7 @@ export function HeroSection() {
   return (
     <motion.section
       ref={ref}
-      className="min-h-screen flex items-center justify-center relative px-6 pt-18 md:pt-0 overflow-hidden"
+      className="min-h-screen flex items-center justify-center relative px-6 pt-32 md:pt-24 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}

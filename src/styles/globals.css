@@ -46,3 +46,154 @@
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
+
+/* Code block styling for rehype-pretty-code */
+[data-rehype-pretty-code-figure] {
+  margin: 1.5rem 0;
+}
+
+[data-rehype-pretty-code-figure] pre {
+  padding: 1.5rem 2rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Mobile: smaller font size for code blocks */
+@media (max-width: 640px) {
+  [data-rehype-pretty-code-figure] pre {
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Dark scrollbar for code blocks */
+[data-rehype-pretty-code-figure] pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+[data-rehype-pretty-code-figure] pre::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+[data-rehype-pretty-code-figure] pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+[data-rehype-pretty-code-figure] pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+[data-rehype-pretty-code-figure] code {
+  display: grid;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+}
+
+[data-rehype-pretty-code-figure] [data-line] {
+  padding: 0 0.25rem;
+  border-left: 2px solid transparent;
+}
+
+[data-rehype-pretty-code-figure] [data-line].highlighted {
+  background: rgba(255, 255, 255, 0.1);
+  border-left-color: #8b5cf6;
+}
+
+/* Code title styling */
+[data-rehype-pretty-code-title] {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+[data-rehype-pretty-code-title] + pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Rotating gradient text animation */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes gradient-rotate {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rotating-gradient-text {
+  background: linear-gradient(
+    to right,
+    #22d3ee,
+    #8b5cf6,
+    #ec4899,
+    #22d3ee
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-flow 5s linear infinite;
+  filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.3));
+}
+
+/* Rotating border gradient for blog cards */
+.blog-card-wrapper {
+  position: relative;
+  border-radius: 1rem;
+  padding: 1px;
+}
+
+.blog-card-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    #22d3ee,
+    #8b5cf6,
+    #ec4899,
+    #22d3ee
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.blog-card-wrapper:hover::before {
+  opacity: 1;
+  animation: gradient-rotate 3s linear infinite;
+}
+
+.blog-card-inner {
+  background: black;
+  border-radius: inherit;
+  height: 100%;
+}

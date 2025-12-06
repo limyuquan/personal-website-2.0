@@ -2,8 +2,16 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useMemo } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavSize = "full" | "medium" | "collapsed";
+
+interface NavItem {
+  name: string;
+  id: string;
+  isExternal?: boolean;
+}
 
 export function Navigation() {
   const [navSize, setNavSize] = useState<NavSize>("full");
@@ -11,13 +19,17 @@ export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
-  const navItems = useMemo(() => [
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
+  const navItems: NavItem[] = useMemo(() => [
     { name: "Home", id: "#" },
     { name: "About", id: "about" },
     { name: "Experience", id: "experience" },
     { name: "Stack", id: "tech-stack" },
     { name: "Education", id: "education" },
     { name: "Projects", id: "projects" },
+    { name: "Blog", id: "/blog", isExternal: true },
   ], []);
 
   useEffect(() => {
@@ -47,21 +59,24 @@ export function Navigation() {
         setIsMobileMenuOpen(false);
       }
       
-      // Update active section based on scroll position
-      const sections = navItems.map(item => item.id).filter(id => id !== "#");
-      let current = "";
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            current = section;
-            break;
+      // Only update active section on homepage
+      if (isHomePage) {
+        // Update active section based on scroll position
+        const sections = navItems.filter(item => !item.isExternal && item.id !== "#").map(item => item.id);
+        let current = "";
+        
+        for (const section of sections) {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            if (rect.top <= 100 && rect.bottom >= 100) {
+              current = section;
+              break;
+            }
           }
         }
+        setActiveSection(current);
       }
-      setActiveSection(current);
       
       ticking = false;
     };
@@ -75,7 +90,7 @@ export function Navigation() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobileMenuOpen, navItems]);
+  }, [isMobileMenuOpen, navItems, isHomePage]);
 
   // Helper to get size-based classes
   const getSizeClasses = () => {
@@ -115,14 +130,29 @@ export function Navigation() {
 
   const sizeClasses = getSizeClasses();
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id: string, isExternal?: boolean) => {
     // Close mobile menu when navigating
     setIsMobileMenuOpen(false);
     
+    // External routes are handled by Link component
+    if (isExternal) return;
+    
     if (id === "#") {
+      // If not on homepage, navigate to home first
+      if (!isHomePage) {
+        window.location.href = "/";
+        return;
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
+
+    // If not on homepage, navigate to home with hash
+    if (!isHomePage) {
+      window.location.href = `/#${id}`;
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
       const offset = 70; // Offset for the fixed header (lower than detection threshold to ensure active state triggers)
@@ -204,31 +234,55 @@ export function Navigation() {
 
             {/* Desktop Nav Items */}
             <div className={`hidden md:flex items-center ml-auto transition-all duration-300 ${sizeClasses.navGap}`}>
-              {navItems.map((item) => (
-                <motion.button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors relative cursor-pointer whitespace-nowrap px-2 py-1 rounded-full ${
-                    activeSection === item.id || (item.id === "#" && activeSection === "")
-                      ? "text-white" 
-                      : "text-gray-400 hover:text-gray-200"
-                  }`}
-                  whileHover={{ 
-                    scale: 1.05,
-                    color: "rgba(255, 255, 255, 1)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {item.name}
-                  {(activeSection === item.id || (item.id === "#" && activeSection === "")) && (
-                    <motion.div
-                      layoutId="activeSection"
-                      className={`absolute ${sizeClasses.bubblePadding} bg-gradient-to-r from-violet-500/30 via-sky-400/40 to-cyan-400/30 border border-sky-300/25 rounded-full -z-10 shadow-[0_0_12px_rgba(56,189,248,0.2)]`}
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                </motion.button>
-              ))}
+              {navItems.map((item) => {
+                const isActive = item.isExternal 
+                  ? pathname.startsWith(item.id)
+                  : (activeSection === item.id || (item.id === "#" && activeSection === "" && isHomePage));
+
+                if (item.isExternal) {
+                  return (
+                    <Link key={item.id} href={item.id}>
+                      <motion.span
+                        className={`text-sm font-medium transition-colors relative cursor-pointer whitespace-nowrap px-2 py-1 rounded-full inline-block ${
+                          isActive ? "text-white" : "text-gray-400 hover:text-gray-200"
+                        }`}
+                        whileHover={{ scale: 1.05, color: "rgba(255, 255, 255, 1)" }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {item.name}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeSection"
+                            className={`absolute ${sizeClasses.bubblePadding} bg-gradient-to-r from-violet-500/30 via-sky-400/40 to-cyan-400/30 border border-sky-300/25 rounded-full -z-10 shadow-[0_0_12px_rgba(56,189,248,0.2)]`}
+                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          />
+                        )}
+                      </motion.span>
+                    </Link>
+                  );
+                }
+
+                return (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`text-sm font-medium transition-colors relative cursor-pointer whitespace-nowrap px-2 py-1 rounded-full ${
+                      isActive ? "text-white" : "text-gray-400 hover:text-gray-200"
+                    }`}
+                    whileHover={{ scale: 1.05, color: "rgba(255, 255, 255, 1)" }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeSection"
+                        className={`absolute ${sizeClasses.bubblePadding} bg-gradient-to-r from-violet-500/30 via-sky-400/40 to-cyan-400/30 border border-sky-300/25 rounded-full -z-10 shadow-[0_0_12px_rgba(56,189,248,0.2)]`}
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                  </motion.button>
+                );
+              })}
             </div>
           </div>
         </motion.nav>
@@ -257,22 +311,49 @@ export function Navigation() {
               className="fixed top-24 left-4 right-4 z-50 glass-nav-scrolled rounded-2xl border border-white/10 p-6 md:hidden"
             >
               <nav className="flex flex-col gap-2">
-                {navItems.map((item, index) => (
-                  <motion.button
-                    key={item.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    onClick={() => scrollToSection(item.id)}
-                    className={`text-left text-lg font-medium py-3 px-4 rounded-xl transition-colors ${
-                      activeSection === item.id || (item.id === "#" && activeSection === "")
-                        ? "text-white bg-gradient-to-r from-violet-500/15 via-sky-400/20 to-cyan-400/15 border border-sky-300/15 shadow-[0_0_8px_rgba(56,189,248,0.1)]" 
-                        : "text-gray-400 hover:text-white hover:bg-white/5"
-                    }`}
-                  >
-                    {item.name}
-                  </motion.button>
-                ))}
+                {navItems.map((item, index) => {
+                  const isActive = item.isExternal 
+                    ? pathname.startsWith(item.id)
+                    : (activeSection === item.id || (item.id === "#" && activeSection === "" && isHomePage));
+                  
+                  const className = `text-left text-lg font-medium py-3 px-4 rounded-xl transition-colors ${
+                    isActive
+                      ? "text-white bg-gradient-to-r from-violet-500/15 via-sky-400/20 to-cyan-400/15 border border-sky-300/15 shadow-[0_0_8px_rgba(56,189,248,0.1)]" 
+                      : "text-gray-400 hover:text-white hover:bg-white/5"
+                  }`;
+
+                  if (item.isExternal) {
+                    return (
+                      <motion.div
+                        key={item.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                      >
+                        <Link
+                          href={item.id}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`block ${className}`}
+                        >
+                          {item.name}
+                        </Link>
+                      </motion.div>
+                    );
+                  }
+
+                  return (
+                    <motion.button
+                      key={item.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      onClick={() => scrollToSection(item.id)}
+                      className={className}
+                    >
+                      {item.name}
+                    </motion.button>
+                  );
+                })}
               </nav>
             </motion.div>
           </>

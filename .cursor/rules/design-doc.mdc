@@ -1,0 +1,193 @@
+---
+alwaysApply: true
+---
+
+
+# Design System Guide
+
+## Theme & Colors
+
+**Base**: Dark theme with pure black background (`bg-black`)
+
+**Text Hierarchy**:
+- Primary: `text-white`
+- Secondary: `text-gray-300`
+- Muted: `text-gray-400`
+
+**Accent Colors** (use for gradients, highlights, interactive states):
+- Cyan: `#22D3EE` / `cyan-400`
+- Purple: `#8B5CF6` / `purple-500`
+- Pink: `#EC4899` / `pink-400`
+- Blue: `#60A5FA` / `blue-400`
+
+**Gradient Patterns**:
+```tsx
+// Section title gradient
+"bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+
+// Card accent gradient
+"bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
+
+// Background orbs
+"bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl"
+```
+
+## Typography
+
+**Font**: Geist Sans (loaded via `next/font/google`)
+
+**Headings**:
+- Hero: `text-7xl lg:text-9xl font-bold tracking-tight`
+- Section: `text-5xl md:text-7xl lg:text-8xl font-bold` or `font-black`
+- Card Title: `text-2xl lg:text-3xl font-bold`
+
+**Body**: `text-lg md:text-xl text-gray-300/400 leading-relaxed`
+
+**Labels**: `text-sm font-semibold text-gray-400 uppercase tracking-wider`
+
+## Animation Patterns (Framer Motion)
+
+**Page Entry**:
+```tsx
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+transition={{ duration: 0.8 }}
+```
+
+**Scroll-triggered (use `react-intersection-observer`)**:
+```tsx
+const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
+
+// Staggered container
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, delayChildren: 0.2 }
+  }
+};
+
+// Child items
+const itemVariants = {
+  hidden: { y: 60, opacity: 0 },
+  visible: { y: 0, opacity: 1 }
+};
+```
+
+**Spring Config**:
+```tsx
+transition={{ type: "spring", stiffness: 200, damping: 25 }}
+```
+
+**Hover Interactions**:
+```tsx
+whileHover={{ scale: 1.02, y: -2 }}
+whileTap={{ scale: 0.98 }}
+```
+
+**Infinite Animations** (backgrounds, decorative elements):
+```tsx
+animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+```
+
+## Glass Morphism
+
+**Standard Glass Card**:
+```tsx
+"bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl"
+```
+
+**Navigation Glass**:
+```tsx
+// In globals.css
+.glass-nav {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+```
+
+**Hover Glow Effect**:
+```tsx
+"group-hover:border-white/20 group-hover:bg-white/10"
+// Or with color
+"group-hover:border-cyan-400/30"
+```
+
+## Component Patterns
+
+**Section Layout**:
+```tsx
+<section className="min-h-screen py-24 px-6 relative overflow-hidden bg-black">
+  <div className="max-w-7xl mx-auto relative z-10">
+    {/* Background decorative elements with blur */}
+    {/* Section header */}
+    {/* Content grid */}
+  </div>
+</section>
+```
+
+**LiquidCard (3D tilt on hover)**:
+- Uses `useMotionValue`, `useSpring`, `useTransform` for mouse-tracking tilt
+- Subtle border animation: `animate={{ opacity: [0.3, 0.6, 0.3] }}`
+- Wrapper with `perspective-1000` and `transform-gpu`
+
+**ElasticButton**:
+```tsx
+<motion.button
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+  className="px-8 py-4 bg-white text-black font-semibold rounded-full"
+>
+```
+
+**Tech/Tag Pills**:
+```tsx
+"px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300"
+// Hover: "hover:bg-white/10 hover:border-white/20"
+```
+
+**Timeline**:
+- Vertical line: `w-px bg-gradient-to-b from-transparent via-blue-500/50 to-transparent`
+- Node: `w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full`
+- Alternating card placement: `index % 2 === 0 ? 'justify-start' : 'justify-end'`
+
+## Background Decorations
+
+**Gradient Orbs**:
+```tsx
+<div className="absolute top-1/4 -right-48 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+```
+
+**Dot Grid**:
+```tsx
+style={{
+  backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+  backgroundSize: "48px 48px",
+}}
+```
+
+**Floating Particles**:
+```tsx
+// Random positioned, animated with y movement and opacity pulse
+animate={{ y: [0, -30, 0], opacity: [0.3, 0.8, 0.3] }}
+```
+
+## Performance
+
+- Use `will-change-transform transform-gpu` on animated elements
+- Lazy load images below the fold
+- Use `useMemo` for static arrays/configs
+- Lenis for smooth scrolling: `duration: 1.2, smoothWheel: true`
+
+## Key Libraries
+
+- `framer-motion` - all animations
+- `react-intersection-observer` - scroll triggers
+- `lenis` - smooth scrolling
+- `react-icons` - iconography (FaGithub, FaLinkedin, etc.)
+- `@heroicons/react` - UI icons
+- `next/image` - optimized images
