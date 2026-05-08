@@ -4,7 +4,11 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState } from "react";
 import { LiquidCard } from "./LiquidCard";
-import { CalendarIcon, BuildingOfficeIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import {
+  CalendarIcon,
+  BuildingOfficeIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 interface ExperienceItem {
@@ -13,7 +17,6 @@ interface ExperienceItem {
   duration: string;
   description: string[];
   technologies: string[];
-  highlights?: string[];
   logo?: string;
   projectUrl?: string;
   projectName?: string;
@@ -28,16 +31,37 @@ export function WorkExperience() {
 
   const experiences: ExperienceItem[] = [
     {
+      company: "ByteDance",
+      position: "Backend Software Engineer Intern",
+      duration: "Jan 2026 – Present",
+      description: [
+        "Built backend features for ByteCloud's AI Assistant, including per-agent LLM evaluation workflows for comparing model performance across agents",
+        "Created evaluation dashboards and simplified run management to make model selection and experiment review easier for internal teams",
+        "Integrated the AI Assistant with a ByteDance knowledge base product, allowing users to attach configurable knowledge bases to their assistants",
+        "Built multi-tenant backend capabilities for ByteClaw, supporting external business integrations and safer lifecycle management for OpenClaw instances",
+      ],
+      technologies: [
+        "Go",
+        "Python",
+        "MongoDB",
+        "LLM Evaluation",
+        "REST APIs",
+        "OpenClaw",
+        "ByteCloud",
+      ],
+      logo: "/images/logos/bytedance.svg",
+    },
+    {
       company: "Rakuten",
       position: "Full Stack Engineer Intern",
-      duration: "Aug 2025 – Present",
+      duration: "Aug 2025 – Dec 2025",
       description: [
         "Under the Visual Intelligence department, worked on an AI ad banner generation platform for merchants to utilise AI to generate Ad banners for their products",
         "Developed responsive and intuitive user interfaces enabling merchants to seamlessly create AI-powered advertisement banners",
-        "Collaborated with cross-functional teams to integrate AI models with frontend components for real-time banner generation"
+        "Collaborated with cross-functional teams to integrate AI models with frontend components for real-time banner generation",
       ],
       technologies: ["Next.js", "TypeScript", "React", "Tailwind CSS"],
-      logo: "/images/logos/rakuten.png"
+      logo: "/images/logos/rakuten.png",
     },
     {
       company: "Razer",
@@ -47,11 +71,10 @@ export function WorkExperience() {
         "Enhanced internal Customer Service Dashboard with new features and backend optimizations using Django, streamlining support agent workflows",
         "Designed and implemented a greenfield Go scheduled job to automate gift-with-purchase processing, including warranty registration validation and automated license code delivery",
         "Developed internal systems for exporting and uploading product serial numbers to Amazon Transparency using Go, ensuring secure and efficient data transfers",
-        "Upgraded internal Jira Syncing tool with Python, enabling seamless ticket synchronization and improving cross-team collaboration"
+        "Upgraded internal Jira Syncing tool with Python, enabling seamless ticket synchronization and improving cross-team collaboration",
       ],
-      highlights: ["Django Admin Dashboard", "Go Automation", "Backend Optimisations"],
       technologies: ["Python", "Go", "Django", "MySQL", "AWS S3"],
-      logo: "/images/logos/razer.webp"
+      logo: "/images/logos/razer.webp",
     },
     {
       company: "GovTech Singapore",
@@ -62,13 +85,23 @@ export function WorkExperience() {
         "Built responsive front-end interfaces with Svelte, TypeScript, and Tailwind CSS while developing scalable back-end APIs using Python and FastAPI",
         "Created end-to-end data pipeline with TypeScript for career-site scraping and Python for embedding generation and vector store indexing for RAG retrieval",
         "Developed GitLab CI/CD pipelines with automated testing, security (SAST & DAST) scans, and multi-environment deployments, enforcing code quality and reliability",
-        "Integrated Google Analytics and built custom dashboards for user interaction metrics, enabling data-informed insights"
+        "Integrated Google Analytics and built custom dashboards for user interaction metrics, enabling data-informed insights",
       ],
-      highlights: ["Fullstack LLM Implementation", "RAG Pipeline", "CI/CD Pipeline"],
-      technologies: ["Python", "FastAPI", "Svelte", "TypeScript", "JavaScript", "Tailwind CSS", "AWS Lambda", "AWS S3", "GitLab CI/CD", "Google Analytics"],
+      technologies: [
+        "Python",
+        "FastAPI",
+        "Svelte",
+        "TypeScript",
+        "JavaScript",
+        "Tailwind CSS",
+        "AWS Lambda",
+        "AWS S3",
+        "GitLab CI/CD",
+        "Google Analytics",
+      ],
       logo: "/images/logos/govtech.gif",
       projectUrl: "https://careerkaki.gov.sg/",
-      projectName: "Career Kaki"
+      projectName: "Career Kaki",
     },
     {
       company: "Learna Systems Pte Ltd",
@@ -78,12 +111,11 @@ export function WorkExperience() {
         "Developed and maintained Ruiche, an educational social media platform for parents and educators",
         "Led design and implementation of paid subscription service, spearheading app monetisation strategy with exclusive content delivery",
         "Enhanced platform UI/UX resulting in increased user engagement and satisfaction",
-        "Built scalable backend systems to support growing user base and feature expansion"
+        "Built scalable backend systems to support growing user base and feature expansion",
       ],
-      highlights: ["EdTech Platform", "Monetization Strategy", "UX Enhancement"],
       technologies: ["React", "JavaScript", "PHP", "Laravel", "SQL"],
-      logo: "/images/logos/ruiche.png"
-    }
+      logo: "/images/logos/ruiche.png",
+    },
   ];
 
   const containerVariants = {
@@ -110,35 +142,29 @@ export function WorkExperience() {
     <motion.section
       id="experience"
       ref={ref}
-      className="min-h-screen py-24 px-6 relative overflow-hidden"
+      className="relative min-h-screen overflow-hidden px-6 py-24"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
     >
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/50 via-transparent to-blue-900/20" />
-      <div className="absolute top-1/4 -right-48 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -left-48 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+      <div className="absolute inset-0 bg-black" />
+      <div className="absolute top-1/4 -right-48 h-96 w-96 rounded-full bg-cyan-500/[0.04] blur-3xl" />
+      <div className="absolute bottom-1/4 -left-48 h-96 w-96 rounded-full bg-white/[0.02] blur-3xl" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Header */}
-        <motion.div className="text-center mb-24" variants={itemVariants}>
-          <h2 className="text-6xl md:text-8xl font-bold mb-8 leading-tight">
+        <motion.div className="mb-24 text-center" variants={itemVariants}>
+          <h2 className="text-6xl leading-tight font-bold text-white md:text-8xl">
             Work
-            <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent">
-              Experience
-            </span>
+            <span className="block liquid-text">Experience</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Crafting exceptional digital experiences and leading innovative solutions 
-            across diverse technology stacks and dynamic environments
-          </p>
         </motion.div>
 
         {/* Experience Timeline */}
         <div className="relative">
           {/* Central Timeline Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-blue-500/50 to-transparent hidden lg:block" />
+          <div className="absolute top-0 bottom-0 left-1/2 hidden w-px -translate-x-1/2 transform bg-gradient-to-b from-transparent via-white/15 to-transparent lg:block" />
           <div className="space-y-10">
             {experiences.map((exp, index) => (
               <motion.div
@@ -148,18 +174,20 @@ export function WorkExperience() {
               >
                 {/* Timeline Node */}
                 <motion.div
-                  className="absolute left-1/2 transform -translate-x-1/2 top-12 hidden lg:block z-20"
+                  className="absolute top-12 left-1/2 z-20 hidden -translate-x-1/2 transform lg:block"
                   initial={{ scale: 0 }}
                   animate={inView ? { scale: 1 } : { scale: 0 }}
                   transition={{ delay: 0.3 + index * 0.2, duration: 0.5 }}
                 >
-                  <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-4 border-slate-900 shadow-lg will-change-transform transform-gpu">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-ping opacity-20" />
+                  <div className="h-6 w-6 transform-gpu rounded-full border-4 border-slate-900 bg-cyan-400 shadow-lg shadow-cyan-400/30 will-change-transform">
+                    <div className="absolute inset-0 animate-ping rounded-full bg-cyan-400 opacity-30" />
                   </div>
                 </motion.div>
 
                 {/* Experience Card */}
-                <div className={`lg:flex lg:items-center ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12`}>
+                <div
+                  className={`lg:flex lg:items-center ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} gap-12`}
+                >
                   {/* Card Content */}
                   <div className="lg:w-1/2 lg:px-8">
                     <motion.div
@@ -168,54 +196,59 @@ export function WorkExperience() {
                       transition={{ duration: 0.3 }}
                     >
                       <LiquidCard className="relative overflow-visible">
-                        {/* Card Glow Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        
+                        {/* Card sheen — subtle cool refraction on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-white/[0.02] to-cyan-200/[0.04] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
                         <div className="relative p-8 lg:p-10">
                           {/* Header */}
-                          <div className="flex items-start justify-between mb-8">
+                          <div className="mb-8 flex items-start justify-between">
                             <div className="flex-1">
-                              <motion.h3 
-                                className="text-2xl lg:text-3xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300 will-change-transform transform-gpu"
+                              <motion.h3
+                                className="mb-3 transform-gpu text-2xl font-bold text-white transition-colors duration-300 will-change-transform group-hover:text-cyan-400 lg:text-3xl"
                                 layoutId={`position-${index}`}
                               >
                                 {exp.position}
                               </motion.h3>
-                              <div className="flex items-center gap-3 text-blue-400 text-lg font-semibold mb-2">
-                                <BuildingOfficeIcon className="w-5 h-5" />
+                              <div className="mb-2 flex items-center gap-3 text-lg font-semibold text-cyan-400/90">
+                                <BuildingOfficeIcon className="h-5 w-5" />
                                 {exp.company}
                               </div>
                               <div className="flex items-center gap-2 text-gray-400">
-                                <CalendarIcon className="w-4 h-4" />
+                                <CalendarIcon className="h-4 w-4" />
                                 {exp.duration}
                               </div>
                             </div>
-                            
+
                             {/* Company Logo */}
                             {exp.logo && (
                               <motion.div
-                                className="flex-shrink-0 ml-6"
+                                className="ml-6 flex-shrink-0"
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={inView ? { opacity: 1, scale: 1 } : {}}
-                                transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+                                transition={{
+                                  delay: 0.3 + index * 0.1,
+                                  duration: 0.5,
+                                }}
                                 whileHover={{ scale: 1.1 }}
                               >
-                                <div className="relative w-16 h-16 lg:w-22 lg:h-22">
-                                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300" />
-                                  <div className="relative w-full h-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-2 group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-300">
+                                <div className="relative h-16 w-16 lg:h-22 lg:w-22">
+                                  <div className="absolute inset-0 rounded-2xl bg-cyan-400/10 blur-xl transition-all duration-300 group-hover:bg-cyan-400/20" />
+                                  <div className="relative h-full w-full rounded-2xl border border-white/15 bg-white/5 p-2 backdrop-blur-sm transition-all duration-300 group-hover:border-white/25 group-hover:bg-white/10">
                                     {failedLogos.has(index) ? (
-                                      <div className="absolute inset-0 flex items-center justify-center text-2xl lg:text-3xl font-bold text-white bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg">
+                                      <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-white/10 text-2xl font-bold text-white lg:text-3xl">
                                         {exp.company.charAt(0)}
                                       </div>
                                     ) : (
-                                      <div className="relative w-full h-full">
+                                      <div className="relative h-full w-full">
                                         <Image
                                           src={exp.logo}
                                           alt={`${exp.company} logo`}
                                           fill
-                                          className="object-contain rounded-lg"
+                                          className="rounded-lg object-contain"
                                           onError={() => {
-                                            setFailedLogos(prev => new Set(prev).add(index));
+                                            setFailedLogos((prev) =>
+                                              new Set(prev).add(index),
+                                            );
                                           }}
                                         />
                                       </div>
@@ -226,42 +259,22 @@ export function WorkExperience() {
                             )}
                           </div>
 
-                          {/* Highlights */}
-                          {exp.highlights && (
-                            <div className="mb-8">
-                              <h4 className="text-sm font-semibold text-purple-400 mb-3 uppercase tracking-wider">
-                                Key Achievements
-                              </h4>
-                              <div className="flex flex-wrap gap-2">
-                                {exp.highlights.map((highlight, idx) => (
-                                  <motion.span
-                                    key={idx}
-                                    className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full text-sm text-blue-300 font-medium"
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={inView ? { opacity: 1, scale: 1 } : {}}
-                                    transition={{ delay: 0.1 * idx + 0.5, duration: 0.3 }}
-                                    whileHover={{ scale: 1.05 }}
-                                  >
-                                    {highlight}
-                                  </motion.span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
                           {/* Description */}
                           <div className="mb-8">
                             <ul className="space-y-4">
                               {exp.description.map((item, idx) => (
                                 <motion.li
                                   key={idx}
-                                  className="text-gray-300 flex items-start leading-relaxed"
+                                  className="flex items-start leading-relaxed text-gray-300"
                                   initial={{ opacity: 0, x: -20 }}
                                   animate={inView ? { opacity: 1, x: 0 } : {}}
-                                  transition={{ delay: 0.1 * idx + 0.7, duration: 0.5 }}
+                                  transition={{
+                                    delay: 0.1 * idx + 0.7,
+                                    duration: 0.5,
+                                  }}
                                 >
-                                  <ChevronRightIcon className="w-5 h-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0" />
-                                  <span className="group-hover:text-white transition-colors duration-300">
+                                  <ChevronRightIcon className="mt-0.5 mr-3 h-5 w-5 flex-shrink-0 text-cyan-400/80" />
+                                  <span className="transition-colors duration-300 group-hover:text-white">
                                     {item}
                                   </span>
                                 </motion.li>
@@ -271,19 +284,21 @@ export function WorkExperience() {
 
                           {/* Technologies */}
                           <div>
-                            <h4 className="text-sm font-semibold text-gray-400 mb-4 uppercase tracking-wider">
+                            <h4 className="mb-4 text-sm font-semibold tracking-wider text-gray-400 uppercase">
                               Technologies
                             </h4>
                             <div className="flex flex-wrap gap-2">
                               {exp.technologies.map((tech, idx) => (
                                 <motion.span
                                   key={idx}
-                                  className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300 font-medium hover:bg-white/10 hover:border-white/20 hover:text-white transition-all duration-300 will-change-transform transform-gpu"
+                                  className="transform-gpu rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-gray-300 transition-all duration-300 will-change-transform hover:border-white/20 hover:bg-white/10 hover:text-white"
                                   whileHover={{ scale: 1.05, y: -2 }}
                                   transition={{ duration: 0.2 }}
                                   initial={{ opacity: 0, y: 20 }}
                                   animate={inView ? { opacity: 1, y: 0 } : {}}
-                                  style={{ transitionDelay: `${0.1 * idx + 0.9}s` }}
+                                  style={{
+                                    transitionDelay: `${0.1 * idx + 0.9}s`,
+                                  }}
                                 >
                                   {tech}
                                 </motion.span>
@@ -294,7 +309,7 @@ export function WorkExperience() {
                           {/* Project Link */}
                           {exp.projectUrl && exp.projectName && (
                             <motion.div
-                              className="mt-8 pt-6 border-t border-white/10"
+                              className="mt-8 border-t border-white/10 pt-6"
                               initial={{ opacity: 0, y: 20 }}
                               animate={inView ? { opacity: 1, y: 0 } : {}}
                               transition={{ delay: 1.2, duration: 0.5 }}
@@ -303,12 +318,12 @@ export function WorkExperience() {
                                 href={exp.projectUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-semibold text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 group"
+                                className="group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/40 hover:bg-white/10 hover:text-cyan-300"
                                 whileHover={{ scale: 1.02, y: -2 }}
                                 whileTap={{ scale: 0.98 }}
                               >
                                 <span>Check out {exp.projectName}</span>
-                                <ChevronRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                                <ChevronRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                               </motion.a>
                             </motion.div>
                           )}
@@ -327,4 +342,4 @@ export function WorkExperience() {
       </div>
     </motion.section>
   );
-} 
+}

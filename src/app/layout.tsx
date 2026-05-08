@@ -1,6 +1,6 @@
 import "~/styles/globals.css";
 
-import { type Metadata } from "next";
+import { type Metadata, type Viewport } from "next";
 import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
@@ -10,10 +10,12 @@ import { env } from "~/env";
 
 export const metadata: Metadata = {
   title: {
-    default: "Yu Quan Lim - Full-Stack Software Engineer & Computer Science Student",
-    template: "%s | Yu Quan Lim"
+    default:
+      "Yu Quan Lim - Full-Stack Software Engineer & Computer Science Student",
+    template: "%s | Yu Quan Lim",
   },
-  description: "Yu Quan Lim is a passionate Full-Stack Software Engineer and Computer Science student at NUS, Singapore. Specializing in React, Next.js, Python, Go, and modern web technologies. View my projects and experience.",
+  description:
+    "Yu Quan Lim is a Full-Stack Software Engineer and Computer Science student at NUS, Singapore. View my projects, experience, and work across modern web and backend systems.",
   keywords: [
     "Yu Quan Lim",
     "Full-Stack Software Engineer",
@@ -30,9 +32,11 @@ export const metadata: Metadata = {
     "Software Developer",
     "Portfolio",
     "Projects",
+    "ByteDance",
+    "Backend Software Engineer",
     "Razer",
     "Multitwitcher",
-    "Reflective Minds"
+    "Reflective Minds",
   ],
   authors: [{ name: "Yu Quan Lim", url: "https://www.limyuquan.com" }],
   creator: "Yu Quan Lim",
@@ -50,8 +54,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://www.limyuquan.com",
-    title: "Yu Quan Lim - Full-Stack Software Engineer & Computer Science Student",
-    description: "Yu Quan Lim is a passionate Full-Stack Software Engineer and Computer Science student at NUS, Singapore. Specializing in React, Next.js, Python, Go, and modern web technologies.",
+    title:
+      "Yu Quan Lim - Full-Stack Software Engineer & Computer Science Student",
+    description:
+      "Yu Quan Lim is a Full-Stack Software Engineer and Computer Science student at NUS, Singapore. View my projects, experience, and work across modern web and backend systems.",
     siteName: "Yu Quan Lim Portfolio",
     images: [
       {
@@ -64,15 +70,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yu Quan Lim - Full-Stack Software Engineer & Computer Science Student",
-    description: "Yu Quan Lim is a passionate Full-Stack Software Engineer and Computer Science student at NUS, Singapore. Specializing in React, Next.js, Python, Go, and modern web technologies.",
+    title:
+      "Yu Quan Lim - Full-Stack Software Engineer & Computer Science Student",
+    description:
+      "Yu Quan Lim is a Full-Stack Software Engineer and Computer Science student at NUS, Singapore. View my projects, experience, and work across modern web and backend systems.",
     images: ["https://www.limyuquan.com/images/og-image.jpg"],
     creator: "@limyuquan",
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
   },
   robots: {
     index: true,
@@ -91,10 +94,26 @@ export const metadata: Metadata = {
   icons: [
     { rel: "icon", url: "/favicon.ico" },
     { rel: "apple-touch-icon", url: "/apple-touch-icon.png" },
-    { rel: "icon", type: "image/png", sizes: "32x32", url: "/favicon-32x32.png" },
-    { rel: "icon", type: "image/png", sizes: "16x16", url: "/favicon-16x16.png" },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      url: "/favicon-32x32.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "16x16",
+      url: "/favicon-16x16.png",
+    },
   ],
   manifest: "/site.webmanifest",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 const geist = Geist({

@@ -67,8 +67,8 @@ export function Education() {
         className="absolute inset-0 opacity-30 will-change-transform transform-gpu"
         style={{ y }}
       >
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-green-500/20 to-cyan-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/[0.06] rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/[0.03] rounded-full blur-3xl" />
       </motion.div>
 
       <div className="relative max-w-7xl mx-auto">
@@ -81,31 +81,19 @@ export function Education() {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <motion.div
-            className="inline-block mb-8"
+            className="inline-block"
           >
             <h2 className="text-6xl md:text-8xl font-black tracking-tight">
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                EDUCATION
-              </span>
+              <span className="block liquid-text">EDUCATION</span>
             </h2>
           </motion.div>
-          
-          <motion.p
-            className="text-xl text-gray-400 max-w-3xl mx-auto font-light"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
-            A journey of continuous learning, research, and academic achievement 
-            in the ever-evolving field of computer science
-          </motion.p>
         </motion.div>
 
         {/* Education Timeline */}
         <div className="relative mb-32">
           {/* Vertical timeline line */}
           <motion.div
-            className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-400 to-transparent transform -translate-x-1/2"
+            className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent transform -translate-x-1/2"
             initial={{ scaleY: 0 }}
             animate={inView ? { scaleY: 1 } : {}}
             transition={{ delay: 0.8, duration: 1.5 }}
@@ -124,11 +112,11 @@ export function Education() {
               >
                 {/* Timeline dot */}
                 <motion.div
-                  className="absolute left-1/2 top-1/2 w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block will-change-transform transform-gpu"
+                  className="absolute left-1/2 top-1/2 w-6 h-6 bg-cyan-400 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block will-change-transform transform-gpu shadow-lg shadow-cyan-400/30"
                   whileHover={{ scale: 1.5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full animate-ping opacity-75" />
+                  <div className="absolute inset-0 bg-cyan-400 rounded-full animate-ping opacity-40" />
                 </motion.div>
 
                   {/* Education card */}
@@ -141,14 +129,14 @@ export function Education() {
                  >
                    <div className="relative group">
                                            {/* Glass morphism card */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 will-change-transform transform-gpu" />
+                      <div className="absolute inset-0 bg-white/[0.04] backdrop-blur-xl rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 will-change-transform transform-gpu" />
                       
-                      <div className="relative bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl rounded-3xl p-6 md:p-10 border border-white/10 group-hover:border-cyan-400/30 transition-all duration-300">
+                      <div className="relative bg-black/80 backdrop-blur-xl rounded-3xl p-6 md:p-10 border border-white/10 group-hover:border-white/20 transition-all duration-300">
                        {/* Institution header with logo space */}
                        <div className="flex items-start gap-4 md:gap-6 mb-6 md:mb-8">
                          {/* Logo placeholder */}
                                                    <motion.div
-                           className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl border border-white/20 flex items-center justify-center group-hover:border-cyan-400/30 transition-all duration-300 will-change-transform transform-gpu"
+                           className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white/5 rounded-2xl border border-white/15 flex items-center justify-center group-hover:border-white/25 transition-all duration-300 will-change-transform transform-gpu"
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            transition={{ duration: 0.3 }}
                          >
@@ -169,7 +157,7 @@ export function Education() {
                            >
                              {edu.institution}
                            </motion.h3>
-                                                       <h4 className="text-lg md:text-xl font-semibold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1 md:mb-2">
+                                                       <h4 className="text-lg md:text-xl font-semibold text-cyan-400/90 mb-1 md:mb-2">
                              {edu.degree}
                            </h4>
                            <p className="text-base md:text-lg text-gray-400 font-medium">{edu.field}</p>
@@ -188,7 +176,7 @@ export function Education() {
 
                       {/* Duration with styling */}
                       <motion.div
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full px-4 py-2 mb-6"
+                        className="inline-flex items-center gap-2 bg-cyan-400/[0.08] border border-cyan-400/20 rounded-full px-4 py-2 mb-6"
                         whileHover={{ scale: 1.05 }}
                       >
                         <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
@@ -207,7 +195,7 @@ export function Education() {
                             whileHover={{ x: 5 }}
                           >
                             <motion.div
-                              className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mt-2 flex-shrink-0 will-change-transform transform-gpu"
+                              className="w-1.5 h-1.5 bg-cyan-400 rounded-full mt-2 flex-shrink-0 will-change-transform transform-gpu"
                               whileHover={{ scale: 1.5 }}
                             />
                             <span className="text-gray-300 text-sm leading-relaxed group-hover/item:text-white transition-colors duration-200">

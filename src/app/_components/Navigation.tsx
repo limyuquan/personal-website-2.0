@@ -253,7 +253,7 @@ export function Navigation() {
                         {isActive && (
                           <motion.div
                             layoutId="activeSection"
-                            className={`absolute ${sizeClasses.bubblePadding} bg-gradient-to-r from-violet-500/30 via-sky-400/40 to-cyan-400/30 border border-sky-300/25 rounded-full -z-10 shadow-[0_0_12px_rgba(56,189,248,0.2)]`}
+                            className={`absolute ${sizeClasses.bubblePadding} bg-gradient-to-r from-white/20 via-white/30 to-cyan-200/25 border border-white/20 rounded-full -z-10 shadow-[0_0_14px_rgba(165,243,252,0.15)]`}
                             transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                           />
                         )}
@@ -276,7 +276,7 @@ export function Navigation() {
                     {isActive && (
                       <motion.div
                         layoutId="activeSection"
-                        className={`absolute ${sizeClasses.bubblePadding} bg-gradient-to-r from-violet-500/30 via-sky-400/40 to-cyan-400/30 border border-sky-300/25 rounded-full -z-10 shadow-[0_0_12px_rgba(56,189,248,0.2)]`}
+                        className={`absolute ${sizeClasses.bubblePadding} bg-gradient-to-r from-white/20 via-white/30 to-cyan-200/25 border border-white/20 rounded-full -z-10 shadow-[0_0_14px_rgba(165,243,252,0.15)]`}
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
@@ -318,7 +318,7 @@ export function Navigation() {
                   
                   const className = `text-left text-lg font-medium py-3 px-4 rounded-xl transition-colors ${
                     isActive
-                      ? "text-white bg-gradient-to-r from-violet-500/15 via-sky-400/20 to-cyan-400/15 border border-sky-300/15 shadow-[0_0_8px_rgba(56,189,248,0.1)]" 
+                      ? "text-white bg-gradient-to-r from-white/15 via-white/20 to-cyan-200/15 border border-white/15 shadow-[0_0_10px_rgba(165,243,252,0.1)]" 
                       : "text-gray-400 hover:text-white hover:bg-white/5"
                   }`;
 

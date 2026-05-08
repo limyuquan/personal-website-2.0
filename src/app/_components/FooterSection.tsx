@@ -130,9 +130,7 @@ export function FooterSection() {
               className="text-2xl font-bold mb-4"
               variants={itemVariants}
             >
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 bg-clip-text text-transparent">
-                Yu Quan Lim
-              </span>
+              <span className="liquid-text">Yu Quan Lim</span>
             </motion.h3>
             <motion.p
               className="text-gray-400 leading-relaxed mb-6 max-w-md"

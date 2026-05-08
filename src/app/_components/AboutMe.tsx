@@ -378,25 +378,8 @@ export function AboutMe() {
         {/* Section header */}
         <div className="text-center mb-16 md:mb-24">
           <AnimatedText delay={0.1}>
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-              About{" "}
-              <motion.span
-                className="inline-block bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: "linear-gradient(135deg, #22D3EE, #8B5CF6, #EC4899)",
-                  backgroundSize: "200% 200%",
-                }}
-                animate={{
-                  backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                Me
-              </motion.span>
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white">
+              About <span className="liquid-text">Me</span>
             </h2>
           </AnimatedText>
         </div>

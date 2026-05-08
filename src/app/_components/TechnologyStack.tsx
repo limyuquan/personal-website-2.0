@@ -36,7 +36,9 @@ import {
 interface TechCategory {
   title: string;
   technologies: Technology[];
-  gradient: string;
+  accentText: string; // e.g. "text-cyan-400"
+  accentBg: string; // e.g. "bg-cyan-400"
+  accentGlow: string; // e.g. "bg-cyan-400/10"
 }
 
 interface Technology {
@@ -93,24 +95,14 @@ function TechCard({ tech, category, techIndex, inView }: {
       onHoverEnd={() => setIsHovered(false)}
     >
       <motion.div
-        className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 h-32 overflow-hidden"
+        className="relative bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-xl p-4 h-32 overflow-hidden transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.07]"
         style={{
-          background: `linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)`,
           willChange: "transform, opacity",
         }}
-        whileHover={{
-          background: `linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.1) 100%)`,
-        }}
       >
-        {/* Animated background gradient */}
+        {/* Subtle accent glow on hover */}
         <motion.div
-          className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-          initial={false}
-        />
-        
-        {/* Glowing border effect */}
-        <motion.div
-          className={`absolute inset-0 rounded-xl bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300`}
+          className={`absolute inset-0 rounded-xl ${category.accentGlow} opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-300`}
           initial={false}
         />
 
@@ -141,7 +133,7 @@ function TechCard({ tech, category, techIndex, inView }: {
 
         {/* Corner accent */}
         <motion.div
-          className={`absolute top-0 right-0 w-4 h-4 bg-gradient-to-br ${category.gradient} rounded-bl-lg opacity-60`}
+          className={`absolute top-0 right-0 w-4 h-4 ${category.accentBg} rounded-bl-lg opacity-50`}
           initial={{ scale: 0, rotate: 180 }}
           animate={inView ? { scale: 1, rotate: 0 } : {}}
           transition={{ delay: 0.1 * techIndex, duration: 0.4 }}
@@ -160,7 +152,9 @@ export function TechnologyStack() {
   const techStack: TechCategory[] = [
     {
       title: "Backend",
-      gradient: "from-blue-500 via-purple-500 to-pink-500",
+      accentText: "text-cyan-400",
+      accentBg: "bg-cyan-400",
+      accentGlow: "bg-cyan-400/10",
       technologies: [
         { name: "Python", icon: <SiPython className="w-full h-full text-[#3776AB]" />, description: "Versatile programming language" },
         { name: "Go", icon: <SiGo className="w-full h-full text-[#00ADD8]" />, description: "Fast and efficient language" },
@@ -174,7 +168,9 @@ export function TechnologyStack() {
     },
     {
       title: "Frontend",
-      gradient: "from-green-500 via-emerald-500 to-teal-500",
+      accentText: "text-emerald-400",
+      accentBg: "bg-emerald-400",
+      accentGlow: "bg-emerald-400/10",
       technologies: [
         { name: "React", icon: <SiReact className="w-full h-full text-[#61DAFB]" />, description: "Component-based UI library" },
         { name: "Next.js", icon: <SiNextdotjs className="w-full h-full text-white" />, description: "Full-stack React framework" },
@@ -189,7 +185,9 @@ export function TechnologyStack() {
     
     {
       title: "Database & Cloud",
-      gradient: "from-orange-500 via-red-500 to-pink-500",
+      accentText: "text-amber-400",
+      accentBg: "bg-amber-400",
+      accentGlow: "bg-amber-400/10",
       technologies: [
         { name: "PostgreSQL", icon: <SiPostgresql className="w-full h-full text-[#4169E1]" />, description: "Advanced relational database" },
         { name: "MySQL", icon: <SiMysql className="w-full h-full text-[#4479A1]" />, description: "Popular relational database" },
@@ -200,7 +198,9 @@ export function TechnologyStack() {
     },
     {
       title: "Tools & Others",
-      gradient: "from-purple-500 via-indigo-500 to-blue-500",
+      accentText: "text-violet-400",
+      accentBg: "bg-violet-400",
+      accentGlow: "bg-violet-400/10",
       technologies: [
         { name: "Git", icon: <SiGit className="w-full h-full text-[#F05032]" />, description: "Version control system" },
         { name: "GitLab CI", icon: <SiGitlab className="w-full h-full text-[#FC6D26]" />, description: "Continuous integration" },
@@ -295,22 +295,12 @@ export function TechnologyStack() {
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div className="text-center mb-20" variants={categoryVariants}>
           <motion.h1 
-            className="text-5xl md:text-7xl font-bold mb-6"
+            className="text-5xl md:text-7xl font-bold text-white"
             transition={{ type: "spring", stiffness: 300 }}
           >
             Technology
-            <span className="block bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Stack
-            </span>
+            <span className="block liquid-text">Stack</span>
           </motion.h1>
-          <motion.p 
-            className="text-xl text-gray-400 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            Cutting-edge tools and technologies that power exceptional digital experiences
-          </motion.p>
         </motion.div>
 
         {/* 2x2 Grid Layout */}
@@ -327,17 +317,13 @@ export function TechnologyStack() {
                 whileHover={{ scale: 1.02 }}
               >
                 <motion.h3 
-                  className={`text-3xl md:text-4xl font-bold bg-gradient-to-r ${category.gradient} bg-clip-text text-transparent mb-3 inline-block`}
-                  whileHover={{ 
-                    backgroundSize: "200% 200%",
-                    backgroundPosition: "right center"
-                  }}
+                  className={`text-3xl md:text-4xl font-bold ${category.accentText} mb-3 inline-block`}
                   transition={{ duration: 0.3 }}
                 >
                   {category.title}
                 </motion.h3>
                 <motion.div 
-                  className={`h-1 w-16 mx-auto bg-gradient-to-r ${category.gradient} rounded-full`}
+                  className={`h-px w-16 mx-auto ${category.accentBg} rounded-full opacity-60`}
                   initial={{ scaleX: 0 }}
                   animate={inView ? { scaleX: 1 } : {}}
                   transition={{ delay: 0.2 + categoryIndex * 0.1, duration: 0.6 }}

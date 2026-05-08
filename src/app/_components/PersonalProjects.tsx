@@ -80,7 +80,7 @@ export function PersonalProjects() {
     return () => {
       // cleanup any stray intervals on unmount
       Object.values(intervalRefs.current).forEach(clearInterval);
-      intervalRefs.current = {} as Record<number, NodeJS.Timeout>;
+      intervalRefs.current = {};
     };
   }, []);
 
@@ -151,14 +151,14 @@ export function PersonalProjects() {
         {/* Header */}
         <motion.div className="text-center mb-24" variants={projectVariants}>
           <motion.h2 
-            className="text-6xl md:text-8xl font-black mb-8 tracking-tight"
+            className="text-6xl md:text-8xl font-black tracking-tight text-white"
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1 }}
           >
             Featured
             <motion.span 
-              className="block bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 bg-clip-text text-transparent"
+              className="block liquid-text"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 1, delay: 0.3 }}
@@ -166,14 +166,6 @@ export function PersonalProjects() {
               Projects
             </motion.span>
           </motion.h2>
-          <motion.p 
-            className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 1, delay: 0.6 }}
-          >
-            Innovative solutions crafted with passion and precision. Each project represents a unique challenge solved with cutting-edge technology and creative problem-solving.
-          </motion.p>
         </motion.div>
 
         {/* Projects Showcase */}

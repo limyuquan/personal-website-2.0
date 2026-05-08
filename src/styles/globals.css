@@ -197,3 +197,21 @@
   border-radius: inherit;
   height: 100%;
 }
+
+/* Liquid Glass title treatment.
+   Cool icy palette — bright white core fading into a clearer cyan refraction
+   on the trailing edge. Static (no animation) and free of blue/purple tones. */
+.liquid-text {
+  background: linear-gradient(
+    100deg,
+    #ffffff 0%,
+    #ffffff 25%,
+    #a5f3fc 75%, /* cyan-200 */
+    #67e8f9 100% /* cyan-300 */
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 24px rgba(103, 232, 249, 0.18));
+}
+
