@@ -3,6 +3,11 @@
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, monospace;
+  --font-grotesk: var(--font-space-grotesk), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-archivo: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Custom styles for experimental animations */
