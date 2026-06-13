@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 
 import { type Metadata, type Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk, Archivo } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { StructuredData } from "./_components/StructuredData";
@@ -121,11 +121,29 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+});
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  variable: "--font-archivo",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`}>
+    <html
+      lang="en"
+      className={`${geist.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${archivo.variable}`}
+    >
       <body className="bg-black">
         <StructuredData />
         {env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (

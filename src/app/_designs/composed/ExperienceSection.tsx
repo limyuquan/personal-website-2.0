@@ -1,122 +1,44 @@
 "use client";
 
-import { motion } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
-import { LiquidCard } from "./LiquidCard";
+import { useRef, useState } from "react";
+import { LiquidCard } from "../../_components/LiquidCard";
 import {
   CalendarIcon,
   BuildingOfficeIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { experiences } from "../shared/data";
 
-interface ExperienceItem {
-  company: string;
-  position: string;
-  duration: string;
-  description: string[];
-  technologies: string[];
-  logo?: string;
-  projectUrl?: string;
-  projectName?: string;
-}
-
-export function WorkExperience() {
+export function ExperienceSection() {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
   const [failedLogos, setFailedLogos] = useState<Set<number>>(new Set());
+  const prefersReducedMotion = useReducedMotion();
 
-  const experiences: ExperienceItem[] = [
-    {
-      company: "ByteDance",
-      position: "Backend Software Engineer Intern",
-      duration: "Jan 2026 – Present",
-      description: [
-        "Built backend features for ByteCloud's AI Assistant, including per-agent LLM evaluation workflows for comparing model performance across agents",
-        "Created evaluation dashboards and simplified run management to make model selection and experiment review easier for internal teams",
-        "Integrated the AI Assistant with a ByteDance knowledge base product, allowing users to attach configurable knowledge bases to their assistants",
-        "Built multi-tenant backend capabilities for ByteClaw, supporting external business integrations and safer lifecycle management for OpenClaw instances",
-      ],
-      technologies: [
-        "Go",
-        "Python",
-        "MongoDB",
-        "LLM Evaluation",
-        "REST APIs",
-        "OpenClaw",
-        "ByteCloud",
-      ],
-      logo: "/images/logos/bytedance.svg",
-    },
-    {
-      company: "Rakuten",
-      position: "Full Stack Engineer Intern",
-      duration: "Aug 2025 – Dec 2025",
-      description: [
-        "Under the Visual Intelligence department, worked on an AI ad banner generation platform for merchants to utilise AI to generate Ad banners for their products",
-        "Developed responsive and intuitive user interfaces enabling merchants to seamlessly create AI-powered advertisement banners",
-        "Collaborated with cross-functional teams to integrate AI models with frontend components for real-time banner generation",
-      ],
-      technologies: ["Next.js", "TypeScript", "React", "Tailwind CSS"],
-      logo: "/images/logos/rakuten.png",
-    },
-    {
-      company: "Razer",
-      position: "Software Engineer (Cloud) Intern",
-      duration: "Jan 2025 – Jun 2025",
-      description: [
-        "Enhanced internal Customer Service Dashboard with new features and backend optimizations using Django, streamlining support agent workflows",
-        "Designed and implemented a greenfield Go scheduled job to automate gift-with-purchase processing, including warranty registration validation and automated license code delivery",
-        "Developed internal systems for exporting and uploading product serial numbers to Amazon Transparency using Go, ensuring secure and efficient data transfers",
-        "Upgraded internal Jira Syncing tool with Python, enabling seamless ticket synchronization and improving cross-team collaboration",
-      ],
-      technologies: ["Python", "Go", "Django", "MySQL", "AWS S3"],
-      logo: "/images/logos/razer.webp",
-    },
-    {
-      company: "GovTech Singapore",
-      position: "Software Engineer Intern",
-      duration: "Jan 2024 – Nov 2024",
-      description: [
-        "Developed Career Kaki, a Ministry of Manpower initiative integrating LLMs to enhance Singaporean employability using agile methodologies",
-        "Built responsive front-end interfaces with Svelte, TypeScript, and Tailwind CSS while developing scalable back-end APIs using Python and FastAPI",
-        "Created end-to-end data pipeline with TypeScript for career-site scraping and Python for embedding generation and vector store indexing for RAG retrieval",
-        "Developed GitLab CI/CD pipelines with automated testing, security (SAST & DAST) scans, and multi-environment deployments, enforcing code quality and reliability",
-        "Integrated Google Analytics and built custom dashboards for user interaction metrics, enabling data-informed insights",
-      ],
-      technologies: [
-        "Python",
-        "FastAPI",
-        "Svelte",
-        "TypeScript",
-        "JavaScript",
-        "Tailwind CSS",
-        "AWS Lambda",
-        "AWS S3",
-        "GitLab CI/CD",
-        "Google Analytics",
-      ],
-      logo: "/images/logos/govtech.gif",
-      projectUrl: "https://careerkaki.gov.sg/",
-      projectName: "Career Kaki",
-    },
-    {
-      company: "Learna Systems Pte Ltd",
-      position: "Software Engineer Intern",
-      duration: "Feb 2023 – Jan 2024",
-      description: [
-        "Developed and maintained Ruiche, an educational social media platform for parents and educators",
-        "Led design and implementation of paid subscription service, spearheading app monetisation strategy with exclusive content delivery",
-        "Enhanced platform UI/UX resulting in increased user engagement and satisfaction",
-        "Built scalable backend systems to support growing user base and feature expansion",
-      ],
-      technologies: ["React", "JavaScript", "PHP", "Laravel", "SQL"],
-      logo: "/images/logos/ruiche.png",
-    },
-  ];
+  // Scroll-drawn timeline line: draws itself as the timeline scrolls through view
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 0.75", "end 0.5"],
+  });
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+    mass: 0.6,
+  });
+  // Position of the glowing "comet" head at the leading edge of the drawn line.
+  const headTop = useTransform(scaleY, (v) => `${v * 100}%`);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -142,7 +64,7 @@ export function WorkExperience() {
     <motion.section
       id="experience"
       ref={ref}
-      className="relative min-h-screen overflow-hidden px-6 py-24"
+      className="relative min-h-screen scroll-mt-24 overflow-hidden px-6 py-24"
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
@@ -162,9 +84,22 @@ export function WorkExperience() {
         </motion.div>
 
         {/* Experience Timeline */}
-        <div className="relative">
-          {/* Central Timeline Line */}
-          <div className="absolute top-0 bottom-0 left-1/2 hidden w-px -translate-x-1/2 transform bg-gradient-to-b from-transparent via-white/15 to-transparent lg:block" />
+        <div ref={timelineRef} className="relative">
+          {/* Central Timeline Line (base track) */}
+          <div className="absolute top-0 bottom-0 left-1/2 hidden w-[2px] -translate-x-1/2 transform bg-white/10 lg:block" />
+          {/* Drawn layer: a thick, glowing cyan line that grows with scroll */}
+          <motion.div
+            className="absolute top-0 left-1/2 hidden h-full w-[3px] origin-top rounded-full bg-gradient-to-b from-cyan-200 via-cyan-400 to-cyan-500 shadow-[0_0_18px_rgba(34,211,238,0.6)] lg:block"
+            style={{ x: "-50%", scaleY: prefersReducedMotion ? 1 : scaleY }}
+          />
+          {/* Comet head riding the leading edge of the drawn line */}
+          {!prefersReducedMotion && (
+            <motion.div
+              aria-hidden
+              className="absolute left-1/2 z-30 hidden h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-100 shadow-[0_0_22px_7px_rgba(34,211,238,0.55)] lg:block"
+              style={{ top: headTop }}
+            />
+          )}
           <div className="space-y-10">
             {experiences.map((exp, index) => (
               <motion.div
@@ -196,7 +131,7 @@ export function WorkExperience() {
                       transition={{ duration: 0.3 }}
                     >
                       <LiquidCard className="relative overflow-visible">
-                        {/* Card sheen — subtle cool refraction on hover */}
+                        {/* Card sheen: subtle cool refraction on hover */}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-white/[0.02] to-cyan-200/[0.04] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                         <div className="relative p-8 lg:p-10">
@@ -244,6 +179,7 @@ export function WorkExperience() {
                                           src={exp.logo}
                                           alt={`${exp.company} logo`}
                                           fill
+                                          sizes="88px"
                                           className="rounded-lg object-contain"
                                           onError={() => {
                                             setFailedLogos((prev) =>
