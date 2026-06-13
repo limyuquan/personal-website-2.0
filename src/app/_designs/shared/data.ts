@@ -186,8 +186,8 @@ export const education: EducationItem[] = [
     gpa: "4.61/5.00",
     gpaLabel: "GPA",
     achievements: [
-      "A+ for IS2238 Economics of IT and AI",
-      "A for CS2100 Computer Organisation, CS2105 Introduction to Computer Networks, ST2334 Probability and Statistics, MA1521 Calculus for Computing",
+      "A+ for CS2106 Introduction to Operating Systems, IS2238 Economics of IT and AI",
+      "A for CS3219 Software Engineering Principles and Patterns, CS2100 Computer Organisation, CS2105 Introduction to Computer Networks, ST2334 Probability and Statistics, MA1521 Calculus for Computing, GEX1014 Logic",
     ],
     logo: "/images/logos/nus.png",
   },

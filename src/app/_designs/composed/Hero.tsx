@@ -189,10 +189,10 @@ export function Hero() {
         >
           <button
             type="button"
-            onClick={() => scrollToSection("projects")}
+            onClick={() => scrollToSection("experience")}
             className="rounded-full bg-white px-8 py-3.5 font-semibold text-black transition hover:bg-zinc-200 active:scale-[0.98]"
           >
-            View projects
+            View experiences
           </button>
           <a
             href={profile.resumeUrl}

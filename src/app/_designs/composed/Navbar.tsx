@@ -24,19 +24,19 @@ const SIZE_STYLES: Record<NavSize, Record<string, string | number>> = {
     maxWidth: "80rem",
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: "rgba(9, 9, 11, 0.55)",
+    backgroundColor: "rgba(9, 9, 11, 0.22)",
   },
   medium: {
     maxWidth: "58rem",
     paddingTop: 12,
     paddingBottom: 12,
-    backgroundColor: "rgba(9, 9, 11, 0.7)",
+    backgroundColor: "rgba(9, 9, 11, 0.35)",
   },
   compact: {
     maxWidth: "44rem",
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: "rgba(9, 9, 11, 0.8)",
+    backgroundColor: "rgba(9, 9, 11, 0.45)",
   },
 };
 
