@@ -16,6 +16,7 @@ import {
 } from "framer-motion";
 import { navSections, profile } from "../shared/data";
 import { EASE, GLASS, scrollToSection } from "./ui";
+import { LiquidGlassSurface } from "./LiquidGlass";
 
 type NavSize = "full" | "medium" | "compact";
 
@@ -24,19 +25,19 @@ const SIZE_STYLES: Record<NavSize, Record<string, string | number>> = {
     maxWidth: "80rem",
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: "rgba(9, 9, 11, 0.22)",
+    backgroundColor: "rgba(9, 9, 11, 0.10)",
   },
   medium: {
     maxWidth: "58rem",
     paddingTop: 12,
     paddingBottom: 12,
-    backgroundColor: "rgba(9, 9, 11, 0.35)",
+    backgroundColor: "rgba(9, 9, 11, 0.16)",
   },
   compact: {
     maxWidth: "44rem",
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: "rgba(9, 9, 11, 0.45)",
+    backgroundColor: "rgba(9, 9, 11, 0.24)",
   },
 };
 
@@ -126,10 +127,13 @@ export function Navbar() {
         initial={SIZE_STYLES.full}
         animate={SIZE_STYLES[size]}
         transition={reduce ? { duration: 0 } : { duration: 0.5, ease: EASE }}
-        className={`pointer-events-auto relative w-full rounded-full ${GLASS} px-5 md:px-6`}
+        className="pointer-events-auto relative w-full rounded-full border border-white/12 px-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.10)] md:px-6"
         aria-label="Primary"
       >
-        <div className="flex items-center justify-between">
+        {/* Translucent liquid glass: transmits + refracts the live page behind
+            the bar (see-through), with specular sheen, rim, and a cyan tint. */}
+        <LiquidGlassSurface className="pointer-events-none absolute inset-0" />
+        <div className="relative z-10 flex items-center justify-between">
           <button
             type="button"
             onClick={() => handleNavigate("#")}
@@ -157,7 +161,9 @@ export function Navbar() {
                       type="button"
                       onClick={() => handleNavigate(section.id)}
                       className={`relative z-10 block rounded-full px-3 py-1.5 text-sm transition-colors ${
-                        isActive ? "text-white" : "text-zinc-300 hover:text-white"
+                        isActive
+                          ? "text-white"
+                          : "text-zinc-300 hover:text-white"
                       }`}
                     >
                       {isActive ? (
@@ -187,7 +193,12 @@ export function Navbar() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-zinc-200 md:hidden"
           >
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden className="h-4 w-4">
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden
+              className="h-4 w-4"
+            >
               {menuOpen ? (
                 <path
                   d="m5 5 10 10M15 5 5 15"
