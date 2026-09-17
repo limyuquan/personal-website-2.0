@@ -71,10 +71,11 @@ export const experiences: ExperienceItem[] = [
     summary:
       "Backend features and LLM evaluation workflows for ByteCloud's AI Assistant.",
     description: [
-      "Built backend features for ByteCloud's AI Assistant, including per-agent LLM evaluation workflows for comparing model performance across agents",
-      "Created evaluation dashboards and simplified run management to make model selection and experiment review easier for internal teams",
-      "Integrated the AI Assistant with a ByteDance knowledge base product, allowing users to attach configurable knowledge bases to their assistants",
-      "Built multi-tenant backend capabilities for ByteClaw, supporting external business integrations and safer lifecycle management for OpenClaw instances",
+      "Built an automated security review system for TAE, ByteDance's agent platform, and worked with the security team to streamline approval rules, increasing network policy releases handled without manual review from 3% to 90% over four months.",
+      "Led a zero-downtime migration of TAE's security policy service, MySQL database, and Redis cache to a new data center; resolved a performance bottleneck that reduced policy publishing time from 87 seconds to 5 seconds.",
+      "Built identity and access controls for TAE's agent-to-service connections, migrating more than 13,600 connections across China and international production environments.",
+      "Developed multi-tenant access controls and APIs for ByteClaw, a managed AI agent platform, enabling business teams and external customers to manage agent instances, backups, model changes, and remote jobs programmatically.",
+      "Built an LLM evaluation framework for ByteCloud's AI Assistant, with 350 test cases and a results dashboard, enabling engineers to compare model accuracy, latency, and cost across four AI agent roles.",
     ],
     technologies: [
       "Go",
