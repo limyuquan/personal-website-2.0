@@ -7,6 +7,7 @@ import { type BlogPost } from "~/lib/blog-types";
 import { formatDate } from "~/lib/format";
 import { ArrowLeftIcon, ClockIcon, TagIcon, CalendarIcon } from "@heroicons/react/24/outline";
 import { MDXContent } from "./MDXContent";
+import { PostSidebar } from "./PostSidebar";
 
 interface BlogPostContentProps {
   post: BlogPost;
@@ -57,6 +58,8 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
       </div>
 
       <article className="relative z-10 max-w-4xl mx-auto px-6 py-32">
+        <PostSidebar content={post.content} />
+
         {/* Back link */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -89,6 +92,14 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
               <CalendarIcon className="w-4 h-4" />
               <time dateTime={post.date}>{formatDate(post.date)}</time>
             </span>
+            {post.updated && post.updated !== post.date && (
+              <>
+                <span className="w-1 h-1 bg-gray-600 rounded-full" />
+                <span>
+                  Updated <time dateTime={post.updated}>{formatDate(post.updated)}</time>
+                </span>
+              </>
+            )}
             <span className="w-1 h-1 bg-gray-600 rounded-full" />
             <span className="flex items-center gap-2">
               <ClockIcon className="w-4 h-4" />

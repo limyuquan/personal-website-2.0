@@ -1,0 +1,222 @@
+---
+title: "How my AI workflow has changed"
+description: "A living record of how I work with AI agents. I update it whenever my workflow changes."
+date: "2026-09-24"
+updated: "2026-09-24"
+tags: ["ai-development", "agents", "software engineering"]
+---
+
+{/*
+  How to update this post when the workflow changes:
+    1. Move "Right now" into the timeline as a new dated entry (same shape as the others).
+    2. Rewrite "Right now" for the new workflow.
+    3. Edit the opinion sections only if my views changed.
+    4. Bump `updated` in the frontmatter.
+*/}
+
+This is a living document. Whenever my workflow changes, I update it. The top section is always how I work today, and everything older moves down into the timeline.
+
+In my [last post](/blog/building-with-ai), I wrote about the lessons I learned from building with AI. This one is about the workflow itself: what it looks like now, and how it got here.
+
+Looking back, the steps have barely changed. I have always planned, built, reviewed and fixed. What keeps changing is how much of the moving between those steps I still do myself.
+
+---
+
+## Right now
+
+*Tools: Claude Code, T3 Code, Codex. Models: fable-5.1 to orchestrate and code, gpt-6-astra to review.*
+
+Every task goes through the same five stages:
+
+1. **Alignment.** The agent researches the problem, and we make sure we understand it the same way.
+2. **Planning.** One plan per phase. I read each one as an HTML page in my own plan viewer.
+3. **Implement, review, fix.** One agent codes, reviewers from a different model family check it, and the number of rounds is capped.
+4. **Testing.** The agent deploys to the test environment and runs the end-to-end tests, sometimes in pre-production too.
+5. **Merge request.** The agent opens it. This is usually the first time I read the code.
+
+Stages 3 and 4 used to be separate. Now the agent does not stop when the reviewers are happy. It keeps going until the change is deployed and tested, and it has standing permission to push branches and deploy to the test environment without asking me.
+
+That moved my job to the two ends. At the start, I make sure we are building the right thing. At the end, I make sure it is clean enough to merge.
+
+A few smaller things have crept in too. An agent checks the first production run after I ship something. A small watcher sets up a new task folder when someone gives me work in chat.
+
+---
+
+## 2023: Stack Overflow first
+
+*Tools: ChatGPT. Models: GPT-3.5.*
+
+**How I worked.** AI was basically not part of my workflow. When I got stuck, I searched Google and Stack Overflow. Every now and then, I asked ChatGPT about an issue.
+
+**What got in the way.** It was not a particularly useful tool yet. I could get more correct information from Stack Overflow than from ChatGPT.
+
+**What I learned.** At that point, AI was something to try when searching failed, not something I relied on.
+
+---
+
+## 2024: Copilot in the editor
+
+*Tools: ChatGPT, GitHub Copilot in VS Code. Models: GPT-3.5 Turbo, then GPT-4o.*
+
+**How I worked.** I used ChatGPT much more regularly, and I started trusting its answers. I also started using the Copilot extension in VS Code for coding.
+
+I still searched Google when I needed to, but for bugs and issues, I leaned on Copilot more and more. Sometimes I asked it how to implement some logic in a file better, and it was good at that. GPT-4o came out in the middle of the year and made it even better.
+
+**What got in the way.** The limit was one file. Changes across several files felt too risky to hand over.
+
+**What I learned.** AI was now good enough to trust inside a small boundary. From here on, the question was how big that boundary could get.
+
+---
+
+## Early 2025: Cursor and agent mode
+
+*Tools: Cursor. Models: Claude 3.5 Sonnet, then Claude 3.7 Sonnet.*
+
+**How I worked.** I switched to Cursor as my main editor and used it every day. Claude Sonnet was easily one of the best coding models at the time, and it could do what I wanted: refactor a function, and sometimes a whole file.
+
+Then Cursor made agent mode the default. Instead of me copying code in and out of a chat, the agent changed the code in my editor directly. I think this was one of the biggest changes to how all of us write code, and it shaped agentic development as we know it now. I switched to it the day it came out.
+
+**What got in the way.** At first it was rough. The undo button did not work the way I wanted, and the code it wrote was not always good.
+
+**What I learned.** Instead of giving up on it, I leaned in and figured out how to work around the problems. It paid off. I shipped much more code, and it was correct most of the time.
+
+---
+
+## Mid 2025: component-sized tasks
+
+*Tools: Cursor. Models: Claude Sonnet 4.*
+
+**How I worked.** I started doing more frontend work. I still used AI in mostly the same way: give it a relatively small task, around the size of one component, ask for the change I wanted, and look at what it did.
+
+**What got in the way.** Turning designs into code felt like it could be better. Copying and pasting code from Figma's dev mode did not feel like the right way to do it. I also did not have much confidence in the model for larger refactors.
+
+**What I learned.** For low-risk work, I would still hand it something bigger, just to see if it could do it. If it could not, there was no harm done. I just reverted the changes. I still test the edge like this today.
+
+---
+
+## Late 2025: Opus 4.5
+
+*Tools: Cursor. Models: Claude Opus 4.5.*
+
+**How I worked.** Opus 4.5 was one of the biggest jumps in model capability I had felt, and it changed how I worked. For the first time, it could take on much larger units of work: multi-file refactors, and UI changes across a whole page.
+
+Cursor had also just released plan mode, which let me review a plan before any code was written. That is when planning before building became a habit.
+
+**What got in the way.** Bigger changes meant more to review. I still read every change myself, sometimes several times, before it went anywhere.
+
+**What I learned.** It felt like the first time I could really take a step back from the code and spend my time on more important things.
+
+---
+
+## Early 2026: hand-holding
+
+*Tools: Cursor, Antigravity. Models: Claude Opus, OpenAI's codex models.*
+
+**How I worked.** At the start of 2026, I moved onto a large codebase that I did not know yet, building an evaluation framework for an AI assistant. So I went back to handing over small pieces of work: one component, one endpoint, one section of a spec.
+
+I planned in one chat, implemented in another, and asked a third model to check the result.
+
+**What got in the way.** I was the glue between every step. I copied review notes from chat to chat, pasted errors back in, and clicked "implement" on every plan.
+
+Anything with side effects, like deploys, database changes or git, I did myself. The agent only ever told me what to run.
+
+**What I learned.** Keeping my hands on everything was the right call, since I did not know the codebase well enough yet to tell whether the agent was right. But most of my day went into carrying context around instead of thinking.
+
+I also liked having a different model check the work than the one that wrote it. That idea has stayed with me ever since.
+
+---
+
+## Spring 2026: structure, by hand
+
+*Tools: Codex app. Models: gpt-5.4, then gpt-5.5.*
+
+**How I worked.** I moved onto a new project and got much stricter about process. Every bugfix and feature went through a planning thread, an implementation thread, one or two review threads, and then a round of fixes.
+
+I also started keeping one document per task: what was confirmed, what I was guessing, and what I did not know yet.
+
+**What got in the way.** I called those threads my "subagents", but they were really just tabs I managed. I still started each one and passed the context between them.
+
+For small changes, that felt like too much work, so I often skipped the process and chatted with one agent instead. And when something broke in a live environment, I was still the agent's hands. It suggested a command, I ran it, and I pasted the output back.
+
+**What I learned.** The structure gave me consistency. Every change went through the same checks, so I trusted the result more than any single run.
+
+This was also when my taste in code formed. It came from reading a lot of agent code and not liking it: helpers used only once, extra layers of abstraction, refactors of code that already worked. I made the same corrections so many times that I wrote them down as rules, and every agent I work with gets them now.
+
+---
+
+## Mid 2026: a thread that runs the threads
+
+*Tools: Codex app. Models: gpt-5.5.*
+
+**How I worked.** I stopped opening the threads myself. One long-running thread planned the work and handed it out. It started a coding thread for each phase, started reviewers when the code was done, and sent their findings back to the coder until nothing important was left. A final reviewer that had never seen the earlier rounds then looked at it fresh.
+
+I also turned my review preferences into a reusable skill, and set up my first agent that did something other than write code. It checked our production logs on a schedule and told me if anything looked wrong.
+
+**What got in the way.** The agents could now build and review a whole phase, but testing it was still on me. I deployed every change and ran the tests myself.
+
+**What I learned.** This was the first time I felt more like a manager than a messenger. I decided what should happen next instead of copying text between windows.
+
+---
+
+## Summer 2026: fable
+
+*Tools: Claude Code, T3 Code, Codex. Models: fable-5, gpt-5.6-sol.*
+
+**How I worked.** Fable was the biggest jump in model quality I have felt so far. Claude became the orchestrator, and OpenAI's models became the reviewers, because a reviewer from a different model family catches different mistakes.
+
+Fable was also better at orchestrating. It told me when we were not aligned yet, and when we were ready to plan and start the implement and review loop.
+
+I wrote things down properly: which model to use for what, my coding standards, and a fixed folder layout for every task. The work I handed off grew from single phases to whole features, and then to a migration that ran for weeks.
+
+Near the end of the summer, I finally let the agents touch the environments. They deployed to the test environment, ran the end-to-end tests, opened merge requests and deployed to pre-production.
+
+**What got in the way.** Two things.
+
+- **Reviewing became my bottleneck.** Every plan was a long markdown file that I had to understand before saying yes. So I built skills that turn each plan into an HTML page, with a simpler "explain it like I am five" version and a recap once it is built. When that was still too slow, I built my own plan viewer that shows every plan for a task in one place.
+- **Cost.** At one point I used up a big chunk of my weekly quota in a single day, mostly on review loops that kept going round and round. I capped the rounds and stopped asking reviewers to chase edge cases that could never happen.
+
+**What I learned.** Correct is not enough. I tried a cheaper model as the coder for a while. Its code worked, but it was over-built, too defensive and hard to read, so I switched the coding back to Claude.
+
+---
+
+## Can I just one-shot everything?
+
+Can I give fable-5.1 a single prompt and trust it to do the whole task? **Almost.**
+
+My gut feeling is that it would work in one shot maybe 60 to 70% of the time. The rest of the time, something would be off: a wrong assumption, a design I would not have chosen, or a change that looks fine until it reaches production.
+
+I am still responsible for that 30 to 40%, so I do not take the risk. That is why I keep the five stages in "Right now".
+
+I think the stages will stay as models get better. They will just merge together or turn into something else, the way testing already merged into the implementation loop. If AI labs keep pushing at this pace, I think one-shotting a whole task will be realistic for most of my work within a year.
+
+---
+
+## Taking a step back with every release
+
+A lot of people are scared to change their workflow. Some say they do not have the time, and some just do not feel the need. I understand that. When something works well enough, changing it feels like effort with no clear reward.
+
+I see it differently. Every model upgrade and every harness update is a chance to take one small step away from steering the whole machine. Sometimes it is a big step, like with fable.
+
+Whenever we hand work to an agent, we put in effort at two ends: alignment at the start, and review at the end. Everything in the middle can be done by the agent. With every frontier model release, I try to step back from one of those two ends and hand the agent a bit more responsibility.
+
+![My share of the work shrinks at both ends with every release, and the agent's share in the middle grows](/images/blog/step-back.svg)
+
+Every week, I review my process with Claude Code. I ask it two things:
+
+- Were there any mistakes I made this week that one more line in my CLAUDE.md would have prevented?
+- What can I change in my workflow so that you can take more control?
+
+Sometimes it does not work. The agent fails, or the result is not what I wanted. So what? Then I know I have taken the agent to the edge of what it can do today, and I can try again with the next model.
+
+---
+
+## What I look for in code review
+
+I almost never look for syntax errors or broken logic anymore. The models are very good at that, and the reviewer agents catch most of what is left. What I actually look for:
+
+- **Comments.** Models love long comments that explain the history of a decision or repeat what the code already says. I want short comments in simple English.
+- **Readability.** Code can be correct and still be painful to read. If I would struggle with it in six months, it is not done.
+- **Which layer the change is in.** Sometimes a model fixes a problem in the wrong place, like a check in the router that belongs in the handler.
+- **Over-engineering.** This is the one I push back on most. Defensive code for cases that cannot happen, helpers used once, abstractions for problems we do not have.
+
+As models get better and people read less code, most of this will probably matter less. Maybe one day code will mostly be read by other agents. But until then, I will still choose to believe that there are people reading my code, and I will keep cleaning it up for them.

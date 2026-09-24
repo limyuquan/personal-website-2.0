@@ -357,4 +357,5 @@ export const navSections: NavSection[] = [
   { name: "Stack", id: "tech-stack" },
   { name: "Education", id: "education" },
   { name: "Projects", id: "projects" },
+  { name: "Blog", id: "/blog", isExternal: true },
 ];

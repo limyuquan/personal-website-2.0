@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect width="800" height="400" rx="16" fill="#0b0b0f"/>
+
+  <!-- Legend -->
+  <rect x="130" y="24" width="14" height="14" rx="3" fill="#a78bfa" fill-opacity="0.25" stroke="#a78bfa"/>
+  <text x="152" y="36" font-size="13" fill="#d1d5db">Me (alignment at the start, review at the end)</text>
+  <rect x="490" y="24" width="14" height="14" rx="3" fill="#22d3ee" fill-opacity="0.2" stroke="#22d3ee"/>
+  <text x="512" y="36" font-size="13" fill="#d1d5db">The agent</text>
+
+  <!-- Early 2026 -->
+  <text x="20" y="92" font-size="14" font-weight="600" fill="#ffffff">Early 2026</text>
+  <rect x="130" y="70" width="204" height="44" rx="8" fill="#a78bfa" fill-opacity="0.25" stroke="#a78bfa"/>
+  <text x="232" y="97" font-size="13" fill="#e5e7eb" text-anchor="middle">plan every step</text>
+  <rect x="338" y="70" width="234" height="44" rx="8" fill="#22d3ee" fill-opacity="0.2" stroke="#22d3ee"/>
+  <text x="455" y="97" font-size="13" fill="#e5e7eb" text-anchor="middle">writes the code</text>
+  <rect x="576" y="70" width="204" height="44" rx="8" fill="#a78bfa" fill-opacity="0.25" stroke="#a78bfa"/>
+  <text x="678" y="97" font-size="13" fill="#e5e7eb" text-anchor="middle">run, test, review</text>
+
+  <!-- Mid 2026 -->
+  <text x="20" y="162" font-size="14" font-weight="600" fill="#ffffff">Mid 2026</text>
+  <rect x="130" y="140" width="152" height="44" rx="8" fill="#a78bfa" fill-opacity="0.25" stroke="#a78bfa"/>
+  <text x="206" y="167" font-size="13" fill="#e5e7eb" text-anchor="middle">align, plan</text>
+  <rect x="286" y="140" width="338" height="44" rx="8" fill="#22d3ee" fill-opacity="0.2" stroke="#22d3ee"/>
+  <text x="455" y="167" font-size="13" fill="#e5e7eb" text-anchor="middle">writes and reviews the code</text>
+  <rect x="628" y="140" width="152" height="44" rx="8" fill="#a78bfa" fill-opacity="0.25" stroke="#a78bfa"/>
+  <text x="704" y="167" font-size="13" fill="#e5e7eb" text-anchor="middle">test, review</text>
+
+  <!-- Now -->
+  <text x="20" y="232" font-size="14" font-weight="600" fill="#ffffff">Now</text>
+  <rect x="130" y="210" width="100" height="44" rx="8" fill="#a78bfa" fill-opacity="0.25" stroke="#a78bfa"/>
+  <text x="180" y="237" font-size="13" fill="#e5e7eb" text-anchor="middle">align</text>
+  <rect x="234" y="210" width="466" height="44" rx="8" fill="#22d3ee" fill-opacity="0.2" stroke="#22d3ee"/>
+  <text x="467" y="237" font-size="13" fill="#e5e7eb" text-anchor="middle">plans, writes, reviews, deploys and tests</text>
+  <rect x="704" y="210" width="76" height="44" rx="8" fill="#a78bfa" fill-opacity="0.25" stroke="#a78bfa"/>
+  <text x="742" y="237" font-size="13" fill="#e5e7eb" text-anchor="middle">review</text>
+
+  <!-- Next release -->
+  <text x="20" y="302" font-size="14" font-weight="600" fill="#9ca3af">Next release</text>
+  <rect x="130" y="280" width="56" height="44" rx="8" fill="#a78bfa" fill-opacity="0.12" stroke="#a78bfa" stroke-dasharray="4 4"/>
+  <rect x="190" y="280" width="546" height="44" rx="8" fill="#22d3ee" fill-opacity="0.1" stroke="#22d3ee" stroke-dasharray="4 4"/>
+  <text x="463" y="307" font-size="13" fill="#9ca3af" text-anchor="middle">more of the task?</text>
+  <rect x="740" y="280" width="40" height="44" rx="8" fill="#a78bfa" fill-opacity="0.12" stroke="#a78bfa" stroke-dasharray="4 4"/>
+
+  <!-- Step back arrows -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+  <line x1="136" y1="358" x2="236" y2="358" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="248" y="363" font-size="13" fill="#d1d5db">step back from alignment</text>
+  <line x1="774" y1="358" x2="674" y2="358" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="662" y="363" font-size="13" fill="#d1d5db" text-anchor="end">step back from review</text>
+</svg>

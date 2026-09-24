@@ -14,6 +14,7 @@ interface Frontmatter {
   title: string;
   description: string;
   date: string;
+  updated?: string;
   tags?: string[];
   pinned?: boolean;
 }
@@ -52,6 +53,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     title: frontmatter.title,
     description: frontmatter.description,
     date: frontmatter.date,
+    updated: frontmatter.updated,
     tags: frontmatter.tags ?? [],
     readingTime: stats.text,
     pinned: frontmatter.pinned,
@@ -79,6 +81,7 @@ export function getPostMeta(slug: string): BlogPostMeta | null {
     title: frontmatter.title,
     description: frontmatter.description,
     date: frontmatter.date,
+    updated: frontmatter.updated,
     tags: frontmatter.tags ?? [],
     readingTime: stats.text,
     pinned: frontmatter.pinned,

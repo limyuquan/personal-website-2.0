@@ -5,6 +5,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import { useEffect, useState } from "react";
 import rehypePrettyCode from "rehype-pretty-code";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import { slugify } from "~/lib/format";
 
 interface MDXContentProps {
   content: string;
@@ -15,8 +16,13 @@ const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1 className="text-3xl md:text-4xl font-bold mt-12 mb-6 text-white" {...props} />
   ),
+  // The id lets the sidebar link to each section
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="text-2xl md:text-3xl font-bold mt-10 mb-4 text-white" {...props} />
+    <h2
+      id={typeof props.children === "string" ? slugify(props.children) : undefined}
+      className="text-2xl md:text-3xl font-bold mt-10 mb-4 text-white scroll-mt-28"
+      {...props}
+    />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3 className="text-xl md:text-2xl font-semibold mt-8 mb-3 text-white" {...props} />
