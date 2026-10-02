@@ -8,11 +8,11 @@
 import { useMemo, useRef, type ReactNode } from "react";
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import { useReducedMotion } from "~/lib/use-reduced-motion";
 import type { PongTheme } from "../shared/PongCanvas";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
@@ -141,7 +141,11 @@ export function WordReveal({
   const words = useMemo(() => text.split(" "), [text]);
 
   if (reduce) {
-    return <p className={`${className} text-white`}>{text}</p>;
+    return (
+      <p ref={ref} className={`relative ${className} text-white`}>
+        {text}
+      </p>
+    );
   }
 
   return (

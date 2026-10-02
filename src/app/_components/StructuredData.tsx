@@ -1,5 +1,7 @@
 import Script from "next/script";
 
+import { projects } from "../_designs/shared/data";
+
 export function StructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
@@ -135,44 +137,19 @@ export function StructuredData() {
         creator: {
           "@id": "https://www.limyuquan.com/#person",
         },
-        hasPart: [
-          {
-            "@type": "SoftwareApplication",
-            name: "Multitwitcher",
-            description:
-              "Platform that allows you to watch multiple Twitch streamers at once, or switch between them with a single click",
-            url: "https://multitwitcher.vercel.app/",
-            applicationCategory: "WebApplication",
-            operatingSystem: "Web",
-            author: {
-              "@id": "https://www.limyuquan.com/#person",
-            },
-            programmingLanguage: [
-              "React",
-              "Next.js",
-              "TypeScript",
-              "Tailwind CSS",
-            ],
-          },
-          {
-            "@type": "SoftwareApplication",
-            name: "Reflective Minds Journaling",
-            description:
-              "Simple and intuitive platform to record daily thoughts and experiences with AI-powered features",
-            applicationCategory: "WebApplication",
-            operatingSystem: "Web",
-            author: {
-              "@id": "https://www.limyuquan.com/#person",
-            },
-            programmingLanguage: [
-              "React",
-              "Flask",
-              "JavaScript",
-              "Python",
-              "MySQL",
-            ],
-          },
-        ],
+        hasPart: projects.map((project) => ({
+          "@type": "SoftwareApplication",
+          name: project.title,
+          description: project.description,
+          ...(project.liveUrl ? { url: project.liveUrl } : {}),
+          image: project.screenshots.map(
+            (screenshot) => `https://www.limyuquan.com${screenshot.src}`,
+          ),
+          applicationCategory: "WebApplication",
+          operatingSystem: "Web",
+          author: { "@id": "https://www.limyuquan.com/#person" },
+          keywords: project.technologies.join(", "),
+        })),
       },
       {
         "@type": "ProfessionalService",

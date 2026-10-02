@@ -211,74 +211,277 @@ export interface ProjectItem {
   description: string;
   features: string[];
   technologies: string[];
-  githubUrl: string;
+  githubUrl?: string;
   liveUrl?: string;
-  imageUrls: string[];
+  screenshots: { src: string; alt: string; label: string }[];
   /** Accent used for the scroll-highlight background treatment */
   accentHex: string;
   /** Same accent as "r, g, b" for alpha compositing */
   accentRGB: string;
 }
 
+// Ordered by the combined strength of engineering scope and visual design.
 export const projects: ProjectItem[] = [
   {
-    title: "Multitwitcher",
+    title: "nayaPoca",
     description:
-      "A platform to watch multiple Twitch streamers at once, or switch between them with a single click. The best way to view live-streamed events from multiple POVs.",
+      "A full-stack photocard platform for izna fans: discover cards, build a collection, and identify a card from a photo. A searchable catalog brings the collecting experience together with community contributions and moderation.",
+    features: [
+      "Virtualized catalog with faceted search and shareable filters",
+      "3D card viewer with front/back images and GIF export",
+      "Collection tracking, progress, and shareable templates",
+      "On-device image recognition and moderated image contributions",
+    ],
     technologies: [
-      "React",
       "Next.js",
       "TypeScript",
-      "Tailwind CSS",
-      "Twitch API",
-      "Vercel",
+      "Convex",
+      "WorkOS",
+      "Three.js",
+      "Transformers.js",
     ],
+    liveUrl: "https://nayapoca.vercel.app/",
+    screenshots: [
+      {
+        src: "/images/projects/nayapoca-catalog.webp",
+        alt: "nayaPoca catalog populated with Set The Tempo photocards and era, card type, and image filters",
+        label: "Searchable photocard catalog",
+      },
+      {
+        src: "/images/projects/nayapoca-viewer.webp",
+        alt: "nayaPoca interactive 3D photocard viewer with collection sidebar and card details",
+        label: "Interactive 3D card viewer",
+      },
+    ],
+    accentHex: "#22d3ee",
+    accentRGB: "34, 211, 238",
+  },
+  {
+    title: "naya/bio",
+    description:
+      "A link-in-bio builder that turns a fan profile into a personal collect book. Fans arrange links, socials, music, and a custom fan card, then publish a page with a look inspired by their favorite member or era.",
     features: [
-      "Watch multiple Twitch streamers at once",
-      "Customisable stream windows",
-      "Real time chat",
-      "Custom group themes",
+      "Drag-and-drop block editor with a live page preview",
+      "Member, era, and custom themes with accessible colors",
+      "Draft autosave, undo/redo, and explicit publishing",
+      "Custom usernames, share links, and QR codes",
     ],
-    githubUrl: "https://github.com/limyuquan/multitwitch",
-    liveUrl: "https://multitwitcher.vercel.app/",
-    imageUrls: [
-      "/images/projects/multitwitcher1.png",
-      "/images/projects/multitwitcher.png",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Convex",
+      "WorkOS",
+      "Zustand",
+      "dnd-kit",
+    ],
+    liveUrl: "https://nayabio.vercel.app/",
+    screenshots: [
+      {
+        src: "/images/projects/nayabio-style.webp",
+        alt: "naya/bio theme picker with member and era designs beside a populated fan-page preview",
+        label: "Theme builder and live preview",
+      },
+      {
+        src: "/images/projects/nayabio-editor.webp",
+        alt: "naya/bio block editor with a sample profile, social icons, links, and a live page preview",
+        label: "Drag-and-drop page editor",
+      },
+      {
+        src: "/images/projects/nayabio-home.webp",
+        alt: "naya/bio landing page with a photocard fan and custom username input",
+        label: "Create a fan card",
+      },
+    ],
+    accentHex: "#ec4899",
+    accentRGB: "236, 72, 153",
+  },
+  {
+    title: "izna Showcase",
+    description:
+      "An interactive fan site with six individually art-directed member experiences. Each page has its own visual language, pairing curated photography with scroll-driven storytelling, playful interactions, and an explorable discography.",
+    features: [
+      "Six distinct member designs and interactive photo galleries",
+      "Scroll-driven transitions, typography, and visual effects",
+      "Era-by-era photography and member profiles",
+      "Responsive layouts and optimized image variants",
+    ],
+    technologies: ["Astro", "TypeScript", "GSAP", "Lenis", "CSS"],
+    liveUrl: "https://izna-showcase.vercel.app/",
+    screenshots: [
+      {
+        src: "/images/projects/showcase-jungeun.webp",
+        alt: "izna Showcase Jungeun page with cinematic photography, oversized typography, and era navigation",
+        label: "Jungeun: cinematic storytelling",
+      },
+      {
+        src: "/images/projects/showcase-koko.webp",
+        alt: "izna Showcase Koko page with violet typography, portrait, and paw-shaped navigation",
+        label: "Koko: a distinct visual identity",
+      },
+      {
+        src: "/images/projects/showcase-sarang.webp",
+        alt: "izna Showcase Sarang page with heart-shaped bokeh and a photographic focus effect",
+        label: "Sarang: photographic focus effects",
+      },
+      {
+        src: "/images/projects/showcase-home.webp",
+        alt: "izna Showcase home page presenting six member photo albums on glass shelves",
+        label: "Interactive member album shelf",
+      },
     ],
     accentHex: "#a78bfa",
     accentRGB: "167, 139, 250",
   },
   {
-    title: "Reflective Minds",
+    title: "Crop Helper",
     description:
-      "A journaling platform designed to give users a simple and intuitive place to record their daily thoughts and experiences.",
+      "A browser-based image tool that finds photocards in a photo and turns them into clean, perspective-corrected crops. Machine-learning detection and adjustable corner guides make multi-card photos practical to process without uploading the original image.",
+    features: [
+      "On-device ONNX corner detection with a geometric fallback",
+      "Up to six independently adjustable card boundaries",
+      "Perspective correction, rotation, and full-resolution previews",
+      "Copy or save individual crops as lossless PNGs",
+    ],
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "ONNX Runtime Web",
+      "Web Workers",
+      "Canvas",
+    ],
+    liveUrl: "https://image-crop-helper.vercel.app/",
+    screenshots: [
+      {
+        src: "/images/projects/crop-helper-multi.webp",
+        alt: "Crop Helper cropping two photocards from a six-card photo with adjustable corner guides and independent previews",
+        label: "Multi-card cropping and previews",
+      },
+    ],
+    accentHex: "#fb923c",
+    accentRGB: "251, 146, 60",
+  },
+  {
+    title: "Multitwitcher",
+    description:
+      "A multi-stream Twitch workspace for following live events from several perspectives. A keyboard-driven channel launcher feeds a flexible viewing layout, with live previews, resizable tiles, and switchable chat.",
+    features: [
+      "Channel search with live status and multiview previews",
+      "Resizable stream tiles with focus and drag-to-reorder",
+      "Keyboard command palette for managing the viewing layout",
+      "Switchable Twitch chat and stream-group themes",
+    ],
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "tRPC",
+      "Twitch API",
+      "dnd-kit",
+      "Tailwind CSS",
+    ],
+    githubUrl: "https://github.com/limyuquan/multitwitch",
+    liveUrl: "https://multitwitcher.vercel.app/",
+    screenshots: [
+      {
+        src: "/images/projects/multitwitch-setup.webp",
+        alt: "Multitwitcher keyboard-driven channel launcher with two live channels and side-by-side stream previews",
+        label: "Channel launcher and live previews",
+      },
+      {
+        src: "/images/projects/multitwitch-watch.webp",
+        alt: "Multitwitcher showing two Twitch streams side by side with switchable chat",
+        label: "Multi-stream viewing and chat",
+      },
+    ],
+    accentHex: "#9147ff",
+    accentRGB: "145, 71, 255",
+  },
+  {
+    title: "izna Seatmate Finder",
+    description:
+      "A real-time seatmate finder for an izna concert in Singapore. Fans locate their seat or standing queue number, discover nearby fans, and find people sharing freebies through an interactive venue map.",
+    features: [
+      "Zoomable SVG seating map and standing queue grids",
+      "Live seat claims, nearby fans, and freebie discovery",
+      "Search and member filters with optional profile details",
+      "Cross-device PIN recovery, rate limits, and moderation",
+    ],
+    technologies: ["Next.js", "TypeScript", "Convex", "SVG", "Tailwind CSS"],
+    liveUrl: "https://izna-seatmap.vercel.app/",
+    screenshots: [
+      {
+        src: "/images/projects/seatmap-populated.webp",
+        alt: "izna Seatmate Finder venue map with sample claimed seats, member colors, and freebie markers",
+        label: "Interactive venue map",
+      },
+      {
+        src: "/images/projects/seatmap-neighbours.webp",
+        alt: "izna Seatmate Finder sample fan profile with a map of nearby fans and their seats",
+        label: "Meet the fans around your seat",
+      },
+    ],
+    accentHex: "#f9a8d4",
+    accentRGB: "249, 168, 212",
+  },
+  {
+    title: "naya Calendar",
+    description:
+      "A fan calendar for keeping up with izna performances, releases, broadcasts, and member activities. A galaxy-inspired interface brings a busy schedule into one place, with local-time event details and Google Calendar integration.",
+    features: [
+      "Live event updates and member-specific activity filters",
+      "Desktop month grid and mobile day-by-day agenda",
+      "Local-time event details with all-day event support",
+      "Google Calendar synchronization and calendar subscription",
+    ],
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Convex",
+      "Google Calendar API",
+      "Motion",
+      "Tailwind CSS",
+    ],
+    liveUrl: "https://nayacalendar.com/",
+    screenshots: [
+      {
+        src: "/images/projects/calendar-month.webp",
+        alt: "naya Calendar June 2026 month view populated with comeback activities, performances, and broadcasts",
+        label: "A full month of fan activities",
+      },
+      {
+        src: "/images/projects/calendar-event.webp",
+        alt: "naya Calendar event detail modal with date, local time, and participating members",
+        label: "Event details in local time",
+      },
+    ],
+    accentHex: "#c084fc",
+    accentRGB: "192, 132, 252",
+  },
+  {
+    title: "Plan Dashboard",
+    description:
+      "A local workspace for reading development plans side by side. HTML and Markdown documents become searchable, resizable panes, with saved layouts for each project phase and live updates as plans change.",
+    features: [
+      "Drag-and-drop tabs and resizable layouts with up to six panes",
+      "Saved workspaces and deep links for each project phase",
+      "File watching and live updates shared across browser tabs",
+      "HTML previews, themed Markdown, and keyboard navigation",
+    ],
     technologies: [
       "React",
-      "Flask",
-      "Javascript",
-      "Python",
-      "MySQL",
-      "Vercel",
-      "Heroku",
+      "TypeScript",
+      "Vite",
+      "Server-Sent Events",
+      "BroadcastChannel",
     ],
-    features: [
-      "AI-powered journal prompt generation",
-      "Journal entry creation, editing, and deletion",
-      "Search, sorting and filtering",
-      "Emotion-labeling, tagging, and templating",
-      "Emotion visualization",
-      "Achievement system",
+    screenshots: [
+      {
+        src: "/images/projects/plan-dashboard.webp",
+        alt: "Plan Dashboard populated with sample project plans in three panes: Markdown plan, architecture diagram, and capture notes",
+        label: "Saved workspace with sample plans",
+      },
     ],
-    githubUrl: "https://github.com/limyuquan/orbital-reflectiveminds",
-    imageUrls: [
-      "/images/projects/journal.png",
-      "/images/projects/journal1.png",
-      "/images/projects/journal2.png",
-      "/images/projects/journal3.png",
-      "/images/projects/journal4.png",
-    ],
-    accentHex: "#34d399",
-    accentRGB: "52, 211, 153",
+    accentHex: "#5eead4",
+    accentRGB: "94, 234, 212",
   },
 ];
 

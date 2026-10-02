@@ -7,7 +7,8 @@
 // faint grid.
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { useReducedMotion } from "~/lib/use-reduced-motion";
 import { EASE, GLASS_PILL, PONG_CYAN, scrollToSection } from "./ui";
 import { profile } from "../shared/data";
 import { PongCanvas, type PongTheme } from "../shared/PongCanvas";

@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "~/lib/use-reduced-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useInView as useIntersectionInView } from "react-intersection-observer";
 import { FaGithub } from "react-icons/fa";
-import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowUpRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 
 import { projects, type ProjectItem } from "../shared/data";
 import { SectionHeading } from "./ui";
@@ -21,15 +26,17 @@ const useIsomorphicLayoutEffect =
 function ProjectLinks({ project }: { project: ProjectItem }) {
   return (
     <div className="flex flex-wrap gap-3">
-      <a
-        href={project.githubUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 rounded-full border border-white/15 px-5 py-2 text-sm text-zinc-200 transition-colors hover:border-white/30 hover:text-white"
-      >
-        <FaGithub className="size-3.5" />
-        Code
-      </a>
+      {project.githubUrl && (
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 rounded-full border border-white/15 px-5 py-2 text-sm text-zinc-200 transition-colors hover:border-white/30 hover:text-white"
+        >
+          <FaGithub className="size-3.5" />
+          Code
+        </a>
+      )}
       {project.liveUrl && (
         <a
           href={project.liveUrl}
@@ -68,19 +75,77 @@ function ProjectBody({ project }: { project: ProjectItem }) {
 }
 
 function ProjectCover({ project }: { project: ProjectItem }) {
-  const cover = project.imageUrls[0];
+  const [index, setIndex] = useState(0);
+  const screenshot = project.screenshots[index];
+  const count = project.screenshots.length;
+  const changeImage = (direction: number) => {
+    setIndex((current) => (current + direction + count) % count);
+  };
+
+  if (!screenshot) return null;
+
   return (
-    <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10">
-      {cover && (
+    <figure
+      role="group"
+      aria-label={`${project.title} screenshots`}
+      onKeyDown={(event) => {
+        if (count < 2) return;
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          event.preventDefault();
+          event.stopPropagation();
+          changeImage(event.key === "ArrowLeft" ? -1 : 1);
+        }
+      }}
+    >
+      <a
+        href={screenshot.src}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`View full-size ${project.title} screenshot: ${screenshot.label}`}
+        className="relative block aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
+      >
         <Image
-          src={cover}
-          alt={`${project.title} screenshot`}
+          src={screenshot.src}
+          alt={screenshot.alt}
           fill
           sizes="(min-width: 1024px) 38rem, 100vw"
-          className="object-cover"
+          quality={90}
+          className="object-contain"
         />
-      )}
-    </div>
+      </a>
+      <figcaption className="mt-3 flex min-h-10 items-center justify-between gap-3">
+        <span
+          aria-live="polite"
+          aria-atomic="true"
+          className="text-sm text-zinc-400"
+        >
+          {screenshot.label}
+        </span>
+        {count > 1 && (
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={() => changeImage(-1)}
+              aria-label={`Previous ${project.title} screenshot`}
+              className="flex size-10 items-center justify-center rounded-full border border-white/15 text-zinc-300 transition-colors hover:border-white/30 hover:text-white focus-visible:outline-2 focus-visible:outline-cyan-300"
+            >
+              <ChevronLeftIcon aria-hidden className="size-4" />
+            </button>
+            <span className="min-w-9 text-center text-xs text-zinc-500 tabular-nums">
+              {index + 1} / {count}
+            </span>
+            <button
+              type="button"
+              onClick={() => changeImage(1)}
+              aria-label={`Next ${project.title} screenshot`}
+              className="flex size-10 items-center justify-center rounded-full border border-white/15 text-zinc-300 transition-colors hover:border-white/30 hover:text-white focus-visible:outline-2 focus-visible:outline-cyan-300"
+            >
+              <ChevronRightIcon aria-hidden className="size-4" />
+            </button>
+          </div>
+        )}
+      </figcaption>
+    </figure>
   );
 }
 
@@ -101,6 +166,7 @@ function ProjectsHorizontal() {
         x: () => -distance(),
         ease: "none",
         scrollTrigger: {
+          id: "projects-gallery",
           trigger: wrap,
           start: "top top",
           end: () => "+=" + distance(),
@@ -121,42 +187,76 @@ function ProjectsHorizontal() {
     return () => ctx.revert();
   }, []);
 
+  // Keep the component root outside GSAP's pin spacer so React can replace
+  // this layout safely when the viewport or motion preference changes.
   return (
-    <section
-      id="projects"
-      ref={wrapRef}
-      className="relative h-[100dvh] overflow-hidden"
-    >
-      {projects.map((project, i) => (
-        <motion.div
-          key={project.title}
-          aria-hidden
-          initial={false}
-          animate={{ opacity: active === i ? 1 : 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(ellipse at center, rgba(${project.accentRGB}, 0.16), transparent 70%)`,
-          }}
-        />
-      ))}
-      <div className="absolute top-28 left-1/2 z-10 w-full max-w-6xl -translate-x-1/2 px-6">
-        <SectionHeading lead="Featured" accent="Projects" />
-      </div>
-      <div ref={trackRef} className="flex h-[100dvh] items-center">
-        {projects.map((project) => (
-          <div
+    <div>
+      <section
+        id="projects"
+        ref={wrapRef}
+        className="relative h-[100dvh] overflow-hidden"
+      >
+        {projects.map((project, i) => (
+          <motion.div
             key={project.title}
-            className="flex w-screen shrink-0 items-center justify-center px-10 xl:px-16"
-          >
-            <div className="grid w-full max-w-6xl -translate-y-3.5 items-center gap-12 lg:grid-cols-[6fr_5fr] xl:gap-16">
-              <ProjectCover project={project} />
-              <ProjectBody project={project} />
-            </div>
-          </div>
+            aria-hidden
+            initial={false}
+            animate={{ opacity: active === i ? 1 : 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="absolute inset-0"
+            style={{
+              background: `radial-gradient(ellipse at center, rgba(${project.accentRGB}, 0.16), transparent 70%)`,
+            }}
+          />
         ))}
-      </div>
-    </section>
+        <div className="absolute top-28 left-1/2 z-10 w-full max-w-6xl -translate-x-1/2 px-6">
+          <SectionHeading lead="Featured" accent="Projects" />
+        </div>
+        <div ref={trackRef} className="flex h-[100dvh] items-center">
+          {projects.map((project, i) => (
+            <div
+              key={project.title}
+              inert={active !== i}
+              className="flex w-screen shrink-0 items-center justify-center px-10 xl:px-16"
+            >
+              <div className="grid w-full max-w-6xl -translate-y-3.5 items-center gap-12 lg:grid-cols-[6fr_5fr] xl:gap-16">
+                <ProjectCover project={project} />
+                <ProjectBody project={project} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <nav
+          aria-label="Choose a project"
+          className="absolute inset-x-6 bottom-8 z-10 flex flex-wrap justify-center gap-2"
+        >
+          {projects.map((project, i) => (
+            <button
+              key={project.title}
+              type="button"
+              aria-current={active === i ? "true" : undefined}
+              onClick={() => {
+                const trigger = ScrollTrigger.getById("projects-gallery");
+                if (!trigger) return;
+                window.scrollTo({
+                  top:
+                    trigger.start +
+                    ((trigger.end - trigger.start) * i) / (projects.length - 1),
+                  behavior: "smooth",
+                });
+              }}
+              className={`rounded-full border px-3 py-2 text-xs transition-colors focus-visible:outline-2 focus-visible:outline-cyan-300 ${
+                active === i
+                  ? "border-white/30 bg-white/10 text-white"
+                  : "border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
+              }`}
+            >
+              {project.title}
+            </button>
+          ))}
+        </nav>
+      </section>
+    </div>
   );
 }
 

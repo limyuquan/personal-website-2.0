@@ -5,7 +5,8 @@
 // watermark rises slightly into place the first time it scrolls into view.
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "~/lib/use-reduced-motion";
 import { ArrowUpIcon } from "@heroicons/react/24/outline";
 import { FaFileAlt, FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { navSections, profile } from "../shared/data";
