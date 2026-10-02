@@ -15,10 +15,10 @@ import {
   useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import { useReducedMotion } from "~/lib/use-reduced-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SectionHeading } from "./ui";

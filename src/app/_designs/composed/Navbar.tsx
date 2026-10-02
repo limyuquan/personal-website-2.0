@@ -11,9 +11,9 @@ import {
   AnimatePresence,
   motion,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
 } from "framer-motion";
+import { useReducedMotion } from "~/lib/use-reduced-motion";
 import { navSections, profile } from "../shared/data";
 import { EASE, GLASS, scrollToSection } from "./ui";
 import { LiquidGlassSurface } from "./LiquidGlass";

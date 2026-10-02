@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useReducedMotion } from "~/lib/use-reduced-motion";
 import { useInView } from "react-intersection-observer";
 import { useRef, useState } from "react";
 import { LiquidCard } from "../../_components/LiquidCard";
@@ -79,7 +74,7 @@ export function ExperienceSection() {
         <motion.div className="mb-24 text-center" variants={itemVariants}>
           <h2 className="text-6xl leading-tight font-bold text-white md:text-8xl">
             Work
-            <span className="block liquid-text">Experience</span>
+            <span className="liquid-text block">Experience</span>
           </h2>
         </motion.div>
 
