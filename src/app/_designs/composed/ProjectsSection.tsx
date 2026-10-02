@@ -113,12 +113,8 @@ function ProjectCover({ project }: { project: ProjectItem }) {
           className="object-contain"
         />
       </a>
-      <figcaption className="mt-3 flex min-h-10 items-center justify-between gap-3">
-        <span
-          aria-live="polite"
-          aria-atomic="true"
-          className="text-sm text-zinc-400"
-        >
+      <div className="mt-3 flex items-center justify-end">
+        <span aria-live="polite" aria-atomic="true" className="sr-only">
           {screenshot.label}
         </span>
         {count > 1 && (
@@ -144,7 +140,7 @@ function ProjectCover({ project }: { project: ProjectItem }) {
             </button>
           </div>
         )}
-      </figcaption>
+      </div>
     </figure>
   );
 }

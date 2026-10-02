@@ -5,36 +5,35 @@ The featured list balances engineering scope, visual design, and how clearly a v
 1. **nayaPoca** — the broadest product: a virtualized, faceted catalog, collections, 3D viewing, browser-side recognition, and contribution/moderation workflows.
 2. **naya/bio** — a complete publishing product with a block editor, live previews, theme design, autosave, undo/redo, authentication, and shareable pages.
 3. **izna Showcase** — the strongest visual storytelling: six separately art-directed member pages with custom galleries and scroll effects.
-4. **Crop Helper** — focused engineering with on-device ONNX inference, worker-based perspective correction, and independently editable crop boundaries.
-5. **Multitwitcher** — a redesigned keyboard-driven launcher, live previews, resizable stream layout, reorder/focus interactions, and chat switching.
-6. **izna Seatmate Finder** — interactive venue mapping, realtime data, nearby-seat discovery, recovery, and moderation.
-7. **naya Calendar** — polished schedule browsing with local times, member filtering, Google Calendar sync, and subscription.
-8. **Plan Dashboard** — a finished local tool with pane management, persisted workspaces, HTML/Markdown rendering, file watching, and cross-tab updates.
+4. **Multitwitcher** — a redesigned keyboard-driven launcher, live previews, resizable stream layout, reorder/focus interactions, and chat switching.
+5. **izna Seatmate Finder** — interactive venue mapping, realtime data, nearby-seat discovery, recovery, and moderation.
+6. **naya Calendar** — polished schedule browsing with local times, member filtering, Google Calendar sync, and subscription.
+7. **Plan Dashboard** — a finished local tool with pane management, persisted workspaces, HTML/Markdown rendering, file watching, and cross-tab updates.
 
-Reflective Minds and its unused screenshots were removed. The old Multitwitcher PNGs were replaced. Private repositories have no public Code button; only Multitwitcher has a public source link. Plan Dashboard runs locally and has no Live site button.
+Reflective Minds and Crop Helper, along with their unused screenshots, were removed. The old Multitwitcher PNGs were replaced. Private repositories have no public Code button; only Multitwitcher has a public source link. Plan Dashboard runs locally and has no Live site button.
 
 ## Screenshot sources
 
 All product images are real browser screenshots, captured at 1440 × 900 and exported to WebP. The raw PNGs and capture scripts are in the sibling `../portfolio-research/` research directory; that directory is outside this website repository.
 
-| Images | Source and state |
-| --- | --- |
-| `nayapoca-catalog` | Live `/catalog?era=18&cardType=4&hasImage=true`; existing public Set The Tempo cards. No seeded records. |
-| `nayapoca-viewer` | Live `/card/1671`; existing public card in the interactive 3D viewer. |
-| `nayabio-style`, `nayabio-editor` | Local `/dev/editor?tab=style` and `/dev/editor`; the repository's existing Juno demo profile. The harness has no saver and makes no database writes. |
-| `nayabio-home` | Live landing page. |
-| `showcase-*` | Live landing page and `/members/jungeun`, `/members/koko`, `/members/sarang`; existing imagery and interactions. |
-| `crop-helper-*` | Live cropper with a local six-card contact sheet assembled from existing nayaPoca landing photos. Boundaries were adjusted through the actual editor; previews are produced by the actual crop engine. The optional contribution switch stayed off. |
-| `multitwitch-setup`, `multitwitch-watch` | Live site, with xQc and ESLCS selected in an isolated browser session. Real live preview thumbnails and Twitch embeds; streams were played and no chat messages were sent. |
+| Images                                    | Source and state                                                                                                                                                                               |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nayapoca-home`                           | Live landing page with the photocard hero and catalog/collection links.                                                                                                                        |
+| `nayapoca-catalog`                        | Live `/catalog?era=18&cardType=4&hasImage=true`; existing public Set The Tempo cards. No seeded records.                                                                                       |
+| `nayapoca-viewer`                         | Live `/card/1671`; existing public card in the interactive 3D viewer.                                                                                                                          |
+| `nayabio-style`, `nayabio-editor`         | Local `/dev/editor?tab=style` and `/dev/editor`; the repository's existing Juno demo profile. The harness has no saver and makes no database writes.                                           |
+| `nayabio-home`                            | Live landing page.                                                                                                                                                                             |
+| `showcase-*`                              | Live landing page and `/members/jungeun`, `/members/koko`, `/members/sarang`; existing imagery and interactions.                                                                               |
+| `multitwitch-setup`, `multitwitch-watch`  | Live site, with xQc and ESLCS selected in an isolated browser session. Real live preview thumbnails and Twitch embeds; streams were played and no chat messages were sent.                     |
 | `seatmap-populated`, `seatmap-neighbours` | Live frontend with browser-only Convex response fixtures: 42 fictional claimed seats, generic nicknames, and sample freebie notes. No real contact details and no production claims or writes. |
-| `calendar-month`, `calendar-event` | Live `https://nayacalendar.com/`, navigated to June 2026 to show an existing, populated schedule. Browser timezone: Asia/Singapore. |
-| `plan-dashboard` | Local dashboard pointed at a newly created sample docs tree. Three panes show a fictional portfolio plan, an HTML diagram, and capture notes. No work documents were accessed or copied. |
+| `calendar-month`, `calendar-event`        | Live `https://nayacalendar.com/`, navigated to June 2026 to show an existing, populated schedule. Browser timezone: Asia/Singapore.                                                            |
+| `plan-dashboard`                          | Local dashboard pointed at a newly created sample docs tree. Three panes show a fictional portfolio plan, an HTML diagram, and capture notes. No work documents were accessed or copied.       |
 
 Live URLs were checked in the browser. The GitHub homepage for the calendar still pointed at the obsolete Vercel URL; the portfolio uses the owner's confirmed `https://nayacalendar.com/` instead. nayaPoca's initial server-rendered landing sections failed in the capture environment, but the client catalog and viewer loaded their real production data successfully.
 
 ## Maintenance
 
-Project content, image labels, alt text, and order live in `src/app/_designs/shared/data.ts`. Search structured data reads the same list. Each screenshot can be opened at full size; multi-image cards have Previous/Next controls and support arrow keys while focused. Desktop project buttons jump directly to each horizontal panel. Mobile and reduced-motion layouts use stacked cards.
+Project content, image labels, alt text, and order live in `src/app/_designs/shared/data.ts`. Search structured data reads the same list. Each screenshot can be opened at full size; multi-image cards have Previous/Next controls and support arrow keys while focused. Landing pages lead each gallery where the product has a dedicated landing page (nayaPoca, naya/bio, and izna Showcase); other products lead with their main interface. Screenshot labels are only used for accessibility, with no visible captions. Technology lists focus on frameworks, languages, services, and APIs. Desktop project buttons jump directly to each horizontal panel. Mobile and reduced-motion layouts use stacked cards.
 
 ## Validation
 

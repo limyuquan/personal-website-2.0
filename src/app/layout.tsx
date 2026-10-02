@@ -39,7 +39,6 @@ export const metadata: Metadata = {
     "nayaPoca",
     "naya/bio",
     "izna Showcase",
-    "Crop Helper",
     "izna Seatmate Finder",
     "naya Calendar",
     "Plan Dashboard",

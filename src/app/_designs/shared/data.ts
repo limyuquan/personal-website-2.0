@@ -232,16 +232,14 @@ export const projects: ProjectItem[] = [
       "Collection tracking, progress, and shareable templates",
       "On-device image recognition and moderated image contributions",
     ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Convex",
-      "WorkOS",
-      "Three.js",
-      "Transformers.js",
-    ],
+    technologies: ["Next.js", "TypeScript", "Convex", "WorkOS"],
     liveUrl: "https://nayapoca.vercel.app/",
     screenshots: [
+      {
+        src: "/images/projects/nayapoca-home.webp",
+        alt: "nayaPoca landing page with a colorful photocard arrangement and catalog and collection links",
+        label: "Photocard collecting for every naya",
+      },
       {
         src: "/images/projects/nayapoca-catalog.webp",
         alt: "nayaPoca catalog populated with Set The Tempo photocards and era, card type, and image filters",
@@ -266,16 +264,14 @@ export const projects: ProjectItem[] = [
       "Draft autosave, undo/redo, and explicit publishing",
       "Custom usernames, share links, and QR codes",
     ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Convex",
-      "WorkOS",
-      "Zustand",
-      "dnd-kit",
-    ],
+    technologies: ["Next.js", "TypeScript", "Convex", "WorkOS"],
     liveUrl: "https://nayabio.vercel.app/",
     screenshots: [
+      {
+        src: "/images/projects/nayabio-home.webp",
+        alt: "naya/bio landing page with a photocard fan and custom username input",
+        label: "Create a fan card",
+      },
       {
         src: "/images/projects/nayabio-style.webp",
         alt: "naya/bio theme picker with member and era designs beside a populated fan-page preview",
@@ -285,11 +281,6 @@ export const projects: ProjectItem[] = [
         src: "/images/projects/nayabio-editor.webp",
         alt: "naya/bio block editor with a sample profile, social icons, links, and a live page preview",
         label: "Drag-and-drop page editor",
-      },
-      {
-        src: "/images/projects/nayabio-home.webp",
-        alt: "naya/bio landing page with a photocard fan and custom username input",
-        label: "Create a fan card",
       },
     ],
     accentHex: "#ec4899",
@@ -305,9 +296,14 @@ export const projects: ProjectItem[] = [
       "Era-by-era photography and member profiles",
       "Responsive layouts and optimized image variants",
     ],
-    technologies: ["Astro", "TypeScript", "GSAP", "Lenis", "CSS"],
+    technologies: ["Astro", "TypeScript", "CSS"],
     liveUrl: "https://izna-showcase.vercel.app/",
     screenshots: [
+      {
+        src: "/images/projects/showcase-home.webp",
+        alt: "izna Showcase home page presenting six member photo albums on glass shelves",
+        label: "Interactive member album shelf",
+      },
       {
         src: "/images/projects/showcase-jungeun.webp",
         alt: "izna Showcase Jungeun page with cinematic photography, oversized typography, and era navigation",
@@ -323,42 +319,9 @@ export const projects: ProjectItem[] = [
         alt: "izna Showcase Sarang page with heart-shaped bokeh and a photographic focus effect",
         label: "Sarang: photographic focus effects",
       },
-      {
-        src: "/images/projects/showcase-home.webp",
-        alt: "izna Showcase home page presenting six member photo albums on glass shelves",
-        label: "Interactive member album shelf",
-      },
     ],
     accentHex: "#a78bfa",
     accentRGB: "167, 139, 250",
-  },
-  {
-    title: "Crop Helper",
-    description:
-      "A browser-based image tool that finds photocards in a photo and turns them into clean, perspective-corrected crops. Machine-learning detection and adjustable corner guides make multi-card photos practical to process without uploading the original image.",
-    features: [
-      "On-device ONNX corner detection with a geometric fallback",
-      "Up to six independently adjustable card boundaries",
-      "Perspective correction, rotation, and full-resolution previews",
-      "Copy or save individual crops as lossless PNGs",
-    ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "ONNX Runtime Web",
-      "Web Workers",
-      "Canvas",
-    ],
-    liveUrl: "https://image-crop-helper.vercel.app/",
-    screenshots: [
-      {
-        src: "/images/projects/crop-helper-multi.webp",
-        alt: "Crop Helper cropping two photocards from a six-card photo with adjustable corner guides and independent previews",
-        label: "Multi-card cropping and previews",
-      },
-    ],
-    accentHex: "#fb923c",
-    accentRGB: "251, 146, 60",
   },
   {
     title: "Multitwitcher",
@@ -370,14 +333,7 @@ export const projects: ProjectItem[] = [
       "Keyboard command palette for managing the viewing layout",
       "Switchable Twitch chat and stream-group themes",
     ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "tRPC",
-      "Twitch API",
-      "dnd-kit",
-      "Tailwind CSS",
-    ],
+    technologies: ["Next.js", "TypeScript", "Twitch API"],
     githubUrl: "https://github.com/limyuquan/multitwitch",
     liveUrl: "https://multitwitcher.vercel.app/",
     screenshots: [
@@ -405,7 +361,7 @@ export const projects: ProjectItem[] = [
       "Search and member filters with optional profile details",
       "Cross-device PIN recovery, rate limits, and moderation",
     ],
-    technologies: ["Next.js", "TypeScript", "Convex", "SVG", "Tailwind CSS"],
+    technologies: ["Next.js", "TypeScript", "Convex"],
     liveUrl: "https://izna-seatmap.vercel.app/",
     screenshots: [
       {
@@ -432,14 +388,7 @@ export const projects: ProjectItem[] = [
       "Local-time event details with all-day event support",
       "Google Calendar synchronization and calendar subscription",
     ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Convex",
-      "Google Calendar API",
-      "Motion",
-      "Tailwind CSS",
-    ],
+    technologies: ["Next.js", "TypeScript", "Convex", "Google Calendar API"],
     liveUrl: "https://nayacalendar.com/",
     screenshots: [
       {
@@ -466,13 +415,7 @@ export const projects: ProjectItem[] = [
       "File watching and live updates shared across browser tabs",
       "HTML previews, themed Markdown, and keyboard navigation",
     ],
-    technologies: [
-      "React",
-      "TypeScript",
-      "Vite",
-      "Server-Sent Events",
-      "BroadcastChannel",
-    ],
+    technologies: ["React", "TypeScript", "Vite"],
     screenshots: [
       {
         src: "/images/projects/plan-dashboard.webp",
