@@ -1,0 +1,500 @@
+{
+  "/images/projects/calendar-event-v2.webp": {
+    "width": 2000,
+    "height": 1250,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/calendar-event-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/calendar-event-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/calendar-event-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/calendar-event-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/calendar-event-v2-1920.webp"
+      },
+      {
+        "width": 2000,
+        "src": "/images/projects/calendar-event-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/calendar-month-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/calendar-month-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/calendar-month-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/calendar-month-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/calendar-month-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/calendar-month-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/calendar-month-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/multitwitch-setup.webp": {
+    "width": 1440,
+    "height": 900,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/multitwitch-setup-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/multitwitch-setup-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/multitwitch-setup-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/multitwitch-setup-1280.webp"
+      },
+      {
+        "width": 1440,
+        "src": "/images/projects/multitwitch-setup.webp"
+      }
+    ]
+  },
+  "/images/projects/multitwitch-watch.webp": {
+    "width": 1440,
+    "height": 900,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/multitwitch-watch-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/multitwitch-watch-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/multitwitch-watch-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/multitwitch-watch-1280.webp"
+      },
+      {
+        "width": 1440,
+        "src": "/images/projects/multitwitch-watch.webp"
+      }
+    ]
+  },
+  "/images/projects/nayabio-editor-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/nayabio-editor-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/nayabio-editor-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/nayabio-editor-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/nayabio-editor-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/nayabio-editor-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/nayabio-editor-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/nayabio-home-v2.webp": {
+    "width": 2400,
+    "height": 1138,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/nayabio-home-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/nayabio-home-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/nayabio-home-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/nayabio-home-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/nayabio-home-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/nayabio-home-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/nayabio-style-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/nayabio-style-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/nayabio-style-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/nayabio-style-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/nayabio-style-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/nayabio-style-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/nayabio-style-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/nayapoca-catalog-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/nayapoca-catalog-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/nayapoca-catalog-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/nayapoca-catalog-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/nayapoca-catalog-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/nayapoca-catalog-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/nayapoca-catalog-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/nayapoca-home-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/nayapoca-home-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/nayapoca-home-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/nayapoca-home-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/nayapoca-home-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/nayapoca-home-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/nayapoca-home-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/nayapoca-viewer-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/nayapoca-viewer-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/nayapoca-viewer-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/nayapoca-viewer-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/nayapoca-viewer-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/nayapoca-viewer-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/nayapoca-viewer-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/plan-dashboard.webp": {
+    "width": 1440,
+    "height": 900,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/plan-dashboard-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/plan-dashboard-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/plan-dashboard-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/plan-dashboard-1280.webp"
+      },
+      {
+        "width": 1440,
+        "src": "/images/projects/plan-dashboard.webp"
+      }
+    ]
+  },
+  "/images/projects/seatmap-neighbours-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/seatmap-neighbours-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/seatmap-neighbours-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/seatmap-neighbours-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/seatmap-neighbours-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/seatmap-neighbours-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/seatmap-neighbours-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/seatmap-populated-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/seatmap-populated-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/seatmap-populated-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/seatmap-populated-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/seatmap-populated-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/seatmap-populated-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/seatmap-populated-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/showcase-home-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/showcase-home-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/showcase-home-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/showcase-home-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/showcase-home-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/showcase-home-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/showcase-home-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/showcase-koko-v2.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/showcase-koko-v2-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/showcase-koko-v2-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/showcase-koko-v2-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/showcase-koko-v2-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/showcase-koko-v2-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/showcase-koko-v2.webp"
+      }
+    ]
+  },
+  "/images/projects/showcase-mai.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/showcase-mai-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/showcase-mai-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/showcase-mai-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/showcase-mai-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/showcase-mai-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/showcase-mai.webp"
+      }
+    ]
+  },
+  "/images/projects/showcase-saebi.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/showcase-saebi-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/showcase-saebi-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/showcase-saebi-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/showcase-saebi-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/showcase-saebi-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/showcase-saebi.webp"
+      }
+    ]
+  }
+}

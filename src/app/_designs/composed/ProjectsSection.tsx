@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useReducedMotion } from "~/lib/use-reduced-motion";
+import { getProjectImage, projectImageLoader } from "~/lib/project-images";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useInView as useIntersectionInView } from "react-intersection-observer";
@@ -74,18 +75,52 @@ function ProjectBody({ project }: { project: ProjectItem }) {
   );
 }
 
-function ProjectCover({ project }: { project: ProjectItem }) {
+function ProjectCover({
+  project,
+  sizes,
+}: {
+  project: ProjectItem;
+  sizes: string;
+}) {
   const [index, setIndex] = useState(0);
+  const { ref, inView } = useIntersectionInView({
+    rootMargin: "600px",
+    triggerOnce: true,
+  });
   const screenshot = project.screenshots[index];
   const count = project.screenshots.length;
+
+  useEffect(() => {
+    if (!inView || count < 2) return;
+    // Warm both directions only after this gallery approaches the viewport.
+    for (const direction of new Set([1, count - 1])) {
+      const next = project.screenshots[(index + direction) % count];
+      if (!next) continue;
+      const image = getProjectImage(next.src);
+      const { props } = getImageProps({
+        src: next.src,
+        alt: next.alt,
+        width: image.width,
+        height: image.height,
+        loader: projectImageLoader,
+        sizes,
+      });
+      const preload = new window.Image();
+      preload.sizes = props.sizes ?? "";
+      preload.srcset = props.srcSet ?? "";
+      preload.src = props.src;
+    }
+  }, [count, inView, index, project.screenshots, sizes]);
   const changeImage = (direction: number) => {
     setIndex((current) => (current + direction + count) % count);
   };
 
   if (!screenshot) return null;
+  const image = getProjectImage(screenshot.src);
 
   return (
     <figure
+      ref={ref}
       role="group"
       aria-label={`${project.title} screenshots`}
       onKeyDown={(event) => {
@@ -102,15 +137,17 @@ function ProjectCover({ project }: { project: ProjectItem }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`View full-size ${project.title} screenshot: ${screenshot.label}`}
-        className="relative block aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
+        className="block overflow-hidden rounded-xl border border-white/10 bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
       >
         <Image
           src={screenshot.src}
           alt={screenshot.alt}
-          fill
-          sizes="(min-width: 1024px) 38rem, 100vw"
-          quality={90}
-          className="object-contain"
+          width={image.width}
+          height={image.height}
+          loader={projectImageLoader}
+          sizes={sizes}
+          loading={inView ? "eager" : "lazy"}
+          className="h-auto w-full"
         />
       </a>
       <div className="mt-3 flex items-center justify-end">
@@ -216,7 +253,10 @@ function ProjectsHorizontal() {
               className="flex w-screen shrink-0 items-center justify-center px-10 xl:px-16"
             >
               <div className="grid w-full max-w-6xl -translate-y-3.5 items-center gap-12 lg:grid-cols-[6fr_5fr] xl:gap-16">
-                <ProjectCover project={project} />
+                <ProjectCover
+                  project={project}
+                  sizes="(min-width: 1024px) 600px, calc(100vw - 3rem)"
+                />
                 <ProjectBody project={project} />
               </div>
             </div>
@@ -273,7 +313,10 @@ function ProjectStackItem({ project }: { project: ProjectItem }) {
           background: `radial-gradient(ellipse at center, rgba(${project.accentRGB}, 0.16), transparent 70%)`,
         }}
       />
-      <ProjectCover project={project} />
+      <ProjectCover
+        project={project}
+        sizes="(min-width: 1152px) 1104px, calc(100vw - 3rem)"
+      />
       <div className="mt-8">
         <ProjectBody project={project} />
       </div>

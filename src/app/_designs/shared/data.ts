@@ -236,18 +236,18 @@ export const projects: ProjectItem[] = [
     liveUrl: "https://nayapoca.vercel.app/",
     screenshots: [
       {
-        src: "/images/projects/nayapoca-home.webp",
+        src: "/images/projects/nayapoca-home-v2.webp",
         alt: "nayaPoca landing page with a colorful photocard arrangement and catalog and collection links",
         label: "Photocard collecting for every naya",
       },
       {
-        src: "/images/projects/nayapoca-catalog.webp",
+        src: "/images/projects/nayapoca-catalog-v2.webp",
         alt: "nayaPoca catalog populated with Set The Tempo photocards and era, card type, and image filters",
         label: "Searchable photocard catalog",
       },
       {
-        src: "/images/projects/nayapoca-viewer.webp",
-        alt: "nayaPoca interactive 3D photocard viewer with collection sidebar and card details",
+        src: "/images/projects/nayapoca-viewer-v2.webp",
+        alt: "nayaPoca interactive 3D photocard viewer with an angled card, viewing controls, and card details",
         label: "Interactive 3D card viewer",
       },
     ],
@@ -268,18 +268,18 @@ export const projects: ProjectItem[] = [
     liveUrl: "https://nayabio.vercel.app/",
     screenshots: [
       {
-        src: "/images/projects/nayabio-home.webp",
+        src: "/images/projects/nayabio-home-v2.webp",
         alt: "naya/bio landing page with a photocard fan and custom username input",
         label: "Create a fan card",
       },
       {
-        src: "/images/projects/nayabio-style.webp",
-        alt: "naya/bio theme picker with member and era designs beside a populated fan-page preview",
+        src: "/images/projects/nayabio-style-v2.webp",
+        alt: "naya/bio theme picker with member and era designs beside a populated Nebula fan-page preview",
         label: "Theme builder and live preview",
       },
       {
-        src: "/images/projects/nayabio-editor.webp",
-        alt: "naya/bio block editor with a sample profile, social icons, links, and a live page preview",
+        src: "/images/projects/nayabio-editor-v2.webp",
+        alt: "naya/bio block editor with a sample profile, social icons, links, and a live Nebula page preview",
         label: "Drag-and-drop page editor",
       },
     ],
@@ -300,24 +300,24 @@ export const projects: ProjectItem[] = [
     liveUrl: "https://izna-showcase.vercel.app/",
     screenshots: [
       {
-        src: "/images/projects/showcase-home.webp",
+        src: "/images/projects/showcase-home-v2.webp",
         alt: "izna Showcase home page presenting six member photo albums on glass shelves",
         label: "Interactive member album shelf",
       },
       {
-        src: "/images/projects/showcase-jungeun.webp",
-        alt: "izna Showcase Jungeun page with cinematic photography, oversized typography, and era navigation",
-        label: "Jungeun: cinematic storytelling",
+        src: "/images/projects/showcase-mai.webp",
+        alt: "izna Showcase Mai page with an orange magazine cover, portrait, playful typography, and era navigation",
+        label: "Mai: magazine-inspired art direction",
       },
       {
-        src: "/images/projects/showcase-koko.webp",
+        src: "/images/projects/showcase-koko-v2.webp",
         alt: "izna Showcase Koko page with violet typography, portrait, and paw-shaped navigation",
         label: "Koko: a distinct visual identity",
       },
       {
-        src: "/images/projects/showcase-sarang.webp",
-        alt: "izna Showcase Sarang page with heart-shaped bokeh and a photographic focus effect",
-        label: "Sarang: photographic focus effects",
+        src: "/images/projects/showcase-saebi.webp",
+        alt: "izna Showcase Saebi page with a sharp portrait framed by pink and gold palace artwork and elegant typography",
+        label: "Saebi: a pink and gold palace",
       },
     ],
     accentHex: "#a78bfa",
@@ -365,12 +365,12 @@ export const projects: ProjectItem[] = [
     liveUrl: "https://izna-seatmap.vercel.app/",
     screenshots: [
       {
-        src: "/images/projects/seatmap-populated.webp",
+        src: "/images/projects/seatmap-populated-v2.webp",
         alt: "izna Seatmate Finder venue map with sample claimed seats, member colors, and freebie markers",
         label: "Interactive venue map",
       },
       {
-        src: "/images/projects/seatmap-neighbours.webp",
+        src: "/images/projects/seatmap-neighbours-v2.webp",
         alt: "izna Seatmate Finder sample fan profile with a map of nearby fans and their seats",
         label: "Meet the fans around your seat",
       },
@@ -392,13 +392,13 @@ export const projects: ProjectItem[] = [
     liveUrl: "https://nayacalendar.com/",
     screenshots: [
       {
-        src: "/images/projects/calendar-month.webp",
+        src: "/images/projects/calendar-month-v2.webp",
         alt: "naya Calendar June 2026 month view populated with comeback activities, performances, and broadcasts",
         label: "A full month of fan activities",
       },
       {
-        src: "/images/projects/calendar-event.webp",
-        alt: "naya Calendar event detail modal with date, local time, and participating members",
+        src: "/images/projects/calendar-event-v2.webp",
+        alt: "naya Calendar Set The Tempo Comeback event details with date, local time, and participating members",
         label: "Event details in local time",
       },
     ],
