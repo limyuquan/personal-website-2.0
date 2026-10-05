@@ -1,6 +1,6 @@
 "use client";
 
-// Paper's stack layout on the dark theme: four typographic columns, no cards.
+// Paper's stack layout on the dark theme: five typographic columns, no cards.
 // Hovering a tool slides its name aside and fades in the brand-colored icon.
 
 import { techGroups } from "../shared/data";
@@ -19,7 +19,7 @@ export function StackSection() {
           sub="The tools I reach for, from quick prototypes to production systems."
         />
 
-        <div className="mt-14 grid grid-cols-2 gap-x-8 gap-y-14 md:mt-20 md:grid-cols-4 md:gap-x-10">
+        <div className="mt-14 grid grid-cols-2 gap-x-8 gap-y-14 md:mt-20 md:grid-cols-3 md:gap-x-10 lg:grid-cols-5">
           {techGroups.map((group, groupIndex) => (
             <Reveal key={group.title} delay={groupIndex * 0.06}>
               <h3 className="font-mono text-xs tracking-[0.18em] text-zinc-500 uppercase">
