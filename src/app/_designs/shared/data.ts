@@ -27,7 +27,10 @@ import {
   SiConfluence,
   SiPytest,
   SiJest,
+  SiClaude,
+  SiOpenai,
 } from "react-icons/si";
+import { AntigravityIcon, CursorIcon, T3CodeIcon } from "./brandIcons";
 
 export const profile = {
   name: "Yu Quan Lim",
@@ -486,6 +489,16 @@ export const techGroups: TechGroup[] = [
       { name: "Confluence", Icon: SiConfluence, color: "#ffffff" },
       { name: "Pytest", Icon: SiPytest, color: "#0A9EDC" },
       { name: "Jest", Icon: SiJest, color: "#C21325" },
+    ],
+  },
+  {
+    title: "AI Tools",
+    items: [
+      { name: "Claude Code", Icon: SiClaude, color: "#D97757" },
+      { name: "Codex", Icon: SiOpenai, color: "#ffffff" },
+      { name: "T3 Code", Icon: T3CodeIcon, color: "#ffffff" },
+      { name: "Cursor", Icon: CursorIcon, color: "#ffffff" },
+      { name: "Antigravity", Icon: AntigravityIcon, color: "#ffffff" },
     ],
   },
 ];
