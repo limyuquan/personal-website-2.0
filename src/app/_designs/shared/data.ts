@@ -29,10 +29,8 @@ import {
   SiJest,
   SiClaude,
   SiOpenai,
-  SiGoogle,
 } from "react-icons/si";
-import { BsCursorFill } from "react-icons/bs";
-import { LuTerminal } from "react-icons/lu";
+import { AntigravityIcon, CursorIcon, T3CodeIcon } from "./brandIcons";
 
 export const profile = {
   name: "Yu Quan Lim",
@@ -498,9 +496,9 @@ export const techGroups: TechGroup[] = [
     items: [
       { name: "Claude Code", Icon: SiClaude, color: "#D97757" },
       { name: "Codex", Icon: SiOpenai, color: "#ffffff" },
-      { name: "T3 Code", Icon: LuTerminal, color: "#ffffff" },
-      { name: "Antigravity", Icon: SiGoogle, color: "#4285F4" },
-      { name: "Cursor", Icon: BsCursorFill, color: "#ffffff" },
+      { name: "T3 Code", Icon: T3CodeIcon, color: "#ffffff" },
+      { name: "Cursor", Icon: CursorIcon, color: "#ffffff" },
+      { name: "Antigravity", Icon: AntigravityIcon, color: "#ffffff" },
     ],
   },
 ];
