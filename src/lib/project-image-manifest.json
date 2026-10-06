@@ -291,29 +291,123 @@
       }
     ]
   },
-  "/images/projects/plan-dashboard.webp": {
-    "width": 1440,
-    "height": 900,
+  "/images/projects/planner-home.webp": {
+    "width": 2400,
+    "height": 1500,
     "variants": [
       {
         "width": 480,
-        "src": "/images/projects/responsive/plan-dashboard-480.webp"
+        "src": "/images/projects/responsive/planner-home-480.webp"
       },
       {
         "width": 640,
-        "src": "/images/projects/responsive/plan-dashboard-640.webp"
+        "src": "/images/projects/responsive/planner-home-640.webp"
       },
       {
         "width": 960,
-        "src": "/images/projects/responsive/plan-dashboard-960.webp"
+        "src": "/images/projects/responsive/planner-home-960.webp"
       },
       {
         "width": 1280,
-        "src": "/images/projects/responsive/plan-dashboard-1280.webp"
+        "src": "/images/projects/responsive/planner-home-1280.webp"
       },
       {
-        "width": 1440,
-        "src": "/images/projects/plan-dashboard.webp"
+        "width": 1920,
+        "src": "/images/projects/responsive/planner-home-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/planner-home.webp"
+      }
+    ]
+  },
+  "/images/projects/planner-panes.webp": {
+    "width": 2400,
+    "height": 1433,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/planner-panes-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/planner-panes-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/planner-panes-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/planner-panes-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/planner-panes-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/planner-panes.webp"
+      }
+    ]
+  },
+  "/images/projects/planner-recap.webp": {
+    "width": 2400,
+    "height": 1650,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/planner-recap-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/planner-recap-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/planner-recap-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/planner-recap-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/planner-recap-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/planner-recap.webp"
+      }
+    ]
+  },
+  "/images/projects/planner-settings.webp": {
+    "width": 2400,
+    "height": 1433,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/planner-settings-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/planner-settings-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/planner-settings-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/planner-settings-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/planner-settings-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/planner-settings.webp"
       }
     ]
   },

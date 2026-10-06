@@ -216,6 +216,8 @@ export interface ProjectItem {
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
+  /** Text for the live link when it is not a running app, e.g. a landing page */
+  liveLabel?: string;
   screenshots: { src: string; alt: string; label: string }[];
   /** Accent used for the scroll-highlight background treatment */
   accentHex: string;
@@ -223,8 +225,49 @@ export interface ProjectItem {
   accentRGB: string;
 }
 
-// Ordered by the combined strength of engineering scope and visual design.
+// Planner leads as the featured open-source project; the rest are ordered
+// by the combined strength of engineering scope and visual design.
 export const projects: ProjectItem[] = [
+  {
+    title: "Planner",
+    description:
+      "An open-source dashboard for reading the HTML and Markdown plans that coding agents write. Every plan, explainer, and recap of a task phase opens side by side in editor-style split panes and reloads the moment an agent writes or edits it. Works with any agent that writes files.",
+    features: [
+      "Editor-style split panes with drag-and-drop tabs and resizable layouts",
+      "Workspaces per project phase, remembered layouts, and shareable deep links",
+      "Live notifications and in-place reloads as agents write plans, with scroll positions kept",
+      "Folder layout, phases, and file types configured in settings, with a live preview",
+      "Bundled agent skills that generate readable HTML plan pages",
+    ],
+    technologies: ["TypeScript", "React", "Node.js", "Vite"],
+    githubUrl: "https://github.com/limyuquan/planner",
+    liveUrl: "https://limyuquan.github.io/planner/",
+    liveLabel: "Landing page",
+    screenshots: [
+      {
+        src: "/images/projects/planner-home.webp",
+        alt: "Planner landing page with the headline Keep up with what your agents plan, a new plan notification, and a live demo with three plans open side by side",
+        label: "Landing page with live demo",
+      },
+      {
+        src: "/images/projects/planner-panes.webp",
+        alt: "Planner with a workspace sidebar and a plan, an ELI5 explainer, and a recap open in three split panes",
+        label: "Plans from one phase in split panes",
+      },
+      {
+        src: "/images/projects/planner-settings.webp",
+        alt: "Planner settings dialog with folder rules, phase pattern, and doc types beside a live preview of the tasks, phases, and docs it finds",
+        label: "Folder rules with a live preview",
+      },
+      {
+        src: "/images/projects/planner-recap.webp",
+        alt: "An agent-written recap page rendered in Planner with a bar chart of lines per file and a written breakdown of the change",
+        label: "An agent-written recap page",
+      },
+    ],
+    accentHex: "#5eead4",
+    accentRGB: "94, 234, 212",
+  },
   {
     title: "nayaPoca",
     description:
@@ -407,27 +450,6 @@ export const projects: ProjectItem[] = [
     ],
     accentHex: "#c084fc",
     accentRGB: "192, 132, 252",
-  },
-  {
-    title: "Plan Dashboard",
-    description:
-      "A local workspace for reading development plans side by side. HTML and Markdown documents become searchable, resizable panes, with saved layouts for each project phase and live updates as plans change.",
-    features: [
-      "Drag-and-drop tabs and resizable layouts with up to six panes",
-      "Saved workspaces and deep links for each project phase",
-      "File watching and live updates shared across browser tabs",
-      "HTML previews, themed Markdown, and keyboard navigation",
-    ],
-    technologies: ["React", "TypeScript", "Vite"],
-    screenshots: [
-      {
-        src: "/images/projects/plan-dashboard.webp",
-        alt: "Plan Dashboard populated with sample project plans in three panes: Markdown plan, architecture diagram, and capture notes",
-        label: "Saved workspace with sample plans",
-      },
-    ],
-    accentHex: "#5eead4",
-    accentRGB: "94, 234, 212",
   },
 ];
 
