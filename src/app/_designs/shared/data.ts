@@ -225,11 +225,11 @@ export interface ProjectItem {
   accentRGB: string;
 }
 
-// Plan Dashboard leads as the featured open-source project; the rest are ordered
+// Planner leads as the featured open-source project; the rest are ordered
 // by the combined strength of engineering scope and visual design.
 export const projects: ProjectItem[] = [
   {
-    title: "Plan Dashboard",
+    title: "Planner",
     description:
       "An open-source dashboard for reading the HTML and Markdown plans that coding agents write. Every plan, explainer, and recap of a task phase opens side by side in editor-style split panes and reloads the moment an agent writes or edits it. Works with any agent that writes files.",
     features: [
@@ -245,23 +245,23 @@ export const projects: ProjectItem[] = [
     liveLabel: "Landing page",
     screenshots: [
       {
-        src: "/images/projects/plan-dashboard-home.webp",
-        alt: "Plan Dashboard landing page with the headline Keep up with what your agents plan, a new plan notification, and a live demo with three plans open side by side",
+        src: "/images/projects/planner-home.webp",
+        alt: "Planner landing page with the headline Keep up with what your agents plan, a new plan notification, and a live demo with three plans open side by side",
         label: "Landing page with live demo",
       },
       {
-        src: "/images/projects/plan-dashboard-panes.webp",
-        alt: "Plan Dashboard with a workspace sidebar and a plan, an ELI5 explainer, and a recap open in three split panes",
+        src: "/images/projects/planner-panes.webp",
+        alt: "Planner with a workspace sidebar and a plan, an ELI5 explainer, and a recap open in three split panes",
         label: "Plans from one phase in split panes",
       },
       {
-        src: "/images/projects/plan-dashboard-settings.webp",
-        alt: "Plan Dashboard settings dialog with folder rules, phase pattern, and doc types beside a live preview of the tasks, phases, and docs it finds",
+        src: "/images/projects/planner-settings.webp",
+        alt: "Planner settings dialog with folder rules, phase pattern, and doc types beside a live preview of the tasks, phases, and docs it finds",
         label: "Folder rules with a live preview",
       },
       {
-        src: "/images/projects/plan-dashboard-recap.webp",
-        alt: "An agent-written recap page rendered in Plan Dashboard with a bar chart of lines per file and a written breakdown of the change",
+        src: "/images/projects/planner-recap.webp",
+        alt: "An agent-written recap page rendered in Planner with a bar chart of lines per file and a written breakdown of the change",
         label: "An agent-written recap page",
       },
     ],
