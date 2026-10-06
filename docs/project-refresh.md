@@ -2,7 +2,7 @@
 
 The featured list balances engineering scope, visual design, and how clearly a visitor can explore each product. The ordering is editorial rather than a score:
 
-1. **Plan Dashboard** — featured first, by choice rather than score (added 6 October 2026): now open source at `limyuquan/plan-dashboard` with its own landing page, `https://limyuquan.github.io/plan-dashboard/`. A local dashboard that shows an agent's HTML/Markdown plans side by side in split panes, with per-phase workspaces, live reloads, configurable folder rules, and bundled agent skills.
+1. **Plan Dashboard** — featured first, by choice rather than score (added 6 October 2026): now open source at `limyuquan/planner` with its own landing page, `https://limyuquan.github.io/planner/`. A local dashboard that shows an agent's HTML/Markdown plans side by side in split panes, with per-phase workspaces, live reloads, configurable folder rules, and bundled agent skills.
 2. **nayaPoca** — the broadest product: a virtualized, faceted catalog, collections, 3D viewing, browser-side recognition, and contribution/moderation workflows.
 3. **naya/bio** — a complete publishing product with a block editor, live previews, theme design, autosave, undo/redo, authentication, and shareable pages.
 4. **izna Showcase** — the strongest visual storytelling: six separately art-directed member pages with custom galleries and scroll effects.
@@ -10,7 +10,7 @@ The featured list balances engineering scope, visual design, and how clearly a v
 6. **izna Seatmate Finder** — interactive venue mapping, realtime data, nearby-seat discovery, recovery, and moderation.
 7. **naya Calendar** — polished schedule browsing with local times, member filtering, Google Calendar sync, and subscription.
 
-Reflective Minds and Crop Helper, along with their unused screenshots, were removed. The old Multitwitcher PNGs were replaced. Private repositories have no public Code button; only Multitwitcher and Plan Dashboard have public source links. Plan Dashboard now links to its public repository and landing page.
+Reflective Minds and Crop Helper, along with their unused screenshots, were removed. The old Multitwitcher PNGs were replaced. Private repositories have no public Code button; only Multitwitcher and Plan Dashboard have public source links. Plan Dashboard (repository renamed to `planner`) links to its public repository and a Landing page button instead of Live site.
 
 ## Screenshot sources
 

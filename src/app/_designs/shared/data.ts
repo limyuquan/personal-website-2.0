@@ -216,6 +216,8 @@ export interface ProjectItem {
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
+  /** Text for the live link when it is not a running app, e.g. a landing page */
+  liveLabel?: string;
   screenshots: { src: string; alt: string; label: string }[];
   /** Accent used for the scroll-highlight background treatment */
   accentHex: string;
@@ -238,8 +240,9 @@ export const projects: ProjectItem[] = [
       "Bundled agent skills that generate readable HTML plan pages",
     ],
     technologies: ["TypeScript", "React", "Node.js", "Vite"],
-    githubUrl: "https://github.com/limyuquan/plan-dashboard",
-    liveUrl: "https://limyuquan.github.io/plan-dashboard/",
+    githubUrl: "https://github.com/limyuquan/planner",
+    liveUrl: "https://limyuquan.github.io/planner/",
+    liveLabel: "Landing page",
     screenshots: [
       {
         src: "/images/projects/plan-dashboard-home.webp",
