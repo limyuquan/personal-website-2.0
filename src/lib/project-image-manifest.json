@@ -502,8 +502,8 @@
     ]
   },
   "/images/projects/shelf-home.webp": {
-    "width": 2440,
-    "height": 1800,
+    "width": 2400,
+    "height": 1500,
     "variants": [
       {
         "width": 480,
@@ -526,7 +526,7 @@
         "src": "/images/projects/responsive/shelf-home-1920.webp"
       },
       {
-        "width": 2440,
+        "width": 2400,
         "src": "/images/projects/shelf-home.webp"
       }
     ]
