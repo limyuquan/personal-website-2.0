@@ -225,9 +225,49 @@ export interface ProjectItem {
   accentRGB: string;
 }
 
-// Planner leads as the featured open-source project; the rest are ordered
-// by the combined strength of engineering scope and visual design.
+// shelf and Planner lead as the featured open-source projects; the rest are
+// ordered by the combined strength of engineering scope and visual design.
 export const projects: ProjectItem[] = [
+  {
+    title: "shelf",
+    description:
+      "An open-source lending library for coding agents' skills. Keep Agent Skills in one library and borrow them into the projects that need them; using a skill renews its loan, and skills nobody uses go back on the shelf. A CLI and local dashboard work with Claude Code, Codex, Cursor, and any agent that reads SKILL.md folders.",
+    features: [
+      "Borrow, renew, and return skills with due dates, renewed automatically by agent hooks",
+      "One library as the source of truth, with revisions, promote, and update",
+      "Local dashboard for attention, projects, activity, and per-project context cost",
+      "Local audits before importing skills from elsewhere",
+      "Single local binary with JSON output for every command; no account needed",
+    ],
+    technologies: ["TypeScript", "Bun", "React", "Hono"],
+    githubUrl: "https://github.com/limyuquan/shelf",
+    liveUrl: "https://limyuquan.github.io/shelf/",
+    liveLabel: "Landing page",
+    screenshots: [
+      {
+        src: "/images/projects/shelf-home.webp",
+        alt: "shelf landing page with the headline A lending library for your agents' skills, an npm install command, and a preview of the dashboard",
+        label: "Landing page",
+      },
+      {
+        src: "/images/projects/shelf-attention.webp",
+        alt: "shelf dashboard Attention view grouping skill loans across projects into overdue, edited, due soon, and updates available",
+        label: "Loans that need attention",
+      },
+      {
+        src: "/images/projects/shelf-project.webp",
+        alt: "shelf project page for billing-api listing borrowed skills with status and due dates, suggested skills, and recent agent activity",
+        label: "A project's borrowed skills",
+      },
+      {
+        src: "/images/projects/shelf-insights.webp",
+        alt: "shelf Insights view with context cost per project at session start and a chart of skills active per day",
+        label: "Context cost and skill usage",
+      },
+    ],
+    accentHex: "#a5b4fc",
+    accentRGB: "165, 180, 252",
+  },
   {
     title: "Planner",
     description:

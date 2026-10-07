@@ -42,6 +42,7 @@ export const metadata: Metadata = {
     "izna Seatmate Finder",
     "naya Calendar",
     "Planner",
+    "shelf",
   ],
   authors: [{ name: "Yu Quan Lim", url: "https://www.limyuquan.com" }],
   creator: "Yu Quan Lim",
