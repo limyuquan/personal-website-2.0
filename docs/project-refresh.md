@@ -2,15 +2,16 @@
 
 The featured list balances engineering scope, visual design, and how clearly a visitor can explore each product. The ordering is editorial rather than a score:
 
-1. **Planner** (formerly Plan Dashboard) — featured first, by choice rather than score (added 6 October 2026): now open source at `limyuquan/planner` with its own landing page, `https://limyuquan.github.io/planner/`. A local dashboard that shows an agent's HTML/Markdown plans side by side in split panes, with per-phase workspaces, live reloads, configurable folder rules, and bundled agent skills.
-2. **nayaPoca** — the broadest product: a virtualized, faceted catalog, collections, 3D viewing, browser-side recognition, and contribution/moderation workflows.
-3. **naya/bio** — a complete publishing product with a block editor, live previews, theme design, autosave, undo/redo, authentication, and shareable pages.
-4. **izna Showcase** — the strongest visual storytelling: six separately art-directed member pages with custom galleries and scroll effects.
-5. **Multitwitcher** — a redesigned keyboard-driven launcher, live previews, resizable stream layout, reorder/focus interactions, and chat switching.
-6. **izna Seatmate Finder** — interactive venue mapping, realtime data, nearby-seat discovery, recovery, and moderation.
-7. **naya Calendar** — polished schedule browsing with local times, member filtering, Google Calendar sync, and subscription.
+1. **shelf** — featured first (added 7 October 2026): open source at `limyuquan/shelf` with a landing page, `https://limyuquan.github.io/shelf/`. A lending library for agent skills: a CLI and local dashboard that borrow skills into projects with due dates, renew them on use, and return unused ones.
+2. **Planner** (formerly Plan Dashboard) — featured second, by choice rather than score (added 6 October 2026): now open source at `limyuquan/planner` with its own landing page, `https://limyuquan.github.io/planner/`. A local dashboard that shows an agent's HTML/Markdown plans side by side in split panes, with per-phase workspaces, live reloads, configurable folder rules, and bundled agent skills.
+3. **nayaPoca** — the broadest product: a virtualized, faceted catalog, collections, 3D viewing, browser-side recognition, and contribution/moderation workflows.
+4. **naya/bio** — a complete publishing product with a block editor, live previews, theme design, autosave, undo/redo, authentication, and shareable pages.
+5. **izna Showcase** — the strongest visual storytelling: six separately art-directed member pages with custom galleries and scroll effects.
+6. **Multitwitcher** — a redesigned keyboard-driven launcher, live previews, resizable stream layout, reorder/focus interactions, and chat switching.
+7. **izna Seatmate Finder** — interactive venue mapping, realtime data, nearby-seat discovery, recovery, and moderation.
+8. **naya Calendar** — polished schedule browsing with local times, member filtering, Google Calendar sync, and subscription.
 
-Reflective Minds and Crop Helper, along with their unused screenshots, were removed. The old Multitwitcher PNGs were replaced. Private repositories have no public Code button; only Multitwitcher and Planner have public source links. Planner (renamed from Plan Dashboard; repository `planner`) links to its public repository and a Landing page button instead of Live site.
+Reflective Minds and Crop Helper, along with their unused screenshots, were removed. The old Multitwitcher PNGs were replaced. Private repositories have no public Code button; only Multitwitcher, Planner, and shelf have public source links. Planner (renamed from Plan Dashboard; repository `planner`) links to its public repository and a Landing page button instead of Live site.
 
 ## Screenshot sources
 
@@ -27,6 +28,8 @@ All product images are real browser screenshots exported to WebP. The refreshed 
 | `multitwitch-setup`, `multitwitch-watch`             | Live site, with xQc and ESLCS selected in an isolated browser session. Real live preview thumbnails and Twitch embeds; streams were played and no chat messages were sent.                                                                                                                                                                  |
 | `seatmap-populated-v2`, `seatmap-neighbours-v2`      | Live frontend with browser-only Convex response fixtures: 42 fictional claimed seats, generic nicknames, and sample freebie notes. The main view starts cleanly at the map controls rather than halfway through the concert heading. No real contact details and no production claims or writes.                                            |
 | `calendar-month-v2`, `calendar-event-v2`             | Live `https://nayacalendar.com/`, navigated to June 2026 to show an existing, populated schedule. Browser timezone: Asia/Singapore; browser clock: 1 June 2026, so upcoming events retain their actual active styling instead of the past-event dimming. The close-up shows the real Set The Tempo Comeback modal at a 1000 × 625 viewport. |
+| `shelf-home`                                         | The live landing page above the fold at 1440 × 900 (2×).                                                                                                                                                                                                                                                                                    |
+| `shelf-attention`, `shelf-project`, `shelf-insights` | The repository's published dashboard media (`assets/media/dashboard.png`, `project.png`, `insights.png`), which use the project's example data.                                                                                                                                                                                             |
 | `planner-home`                                       | The landing page above the fold at 1440 × 900 (2×), with the hero's live demo running. The site and its in-memory demo were built from the public repository (`npm run build:demo`) and served locally because the headless browser could not reach github.io; the content is identical to the published page.                              |
 | `planner-panes`, `planner-settings`, `planner-recap` | The repository's own published landing-page media (`site/media/hero.png`, `settings.jpg`, `page-recap-chart.jpg`): three split panes of the demo plans, the settings dialog with its live preview, and an agent-written recap page. They show the repository's sample docs, not work documents.                                             |
 
@@ -44,7 +47,7 @@ Run `npm run images:projects` after changing the source WebPs in `public/images/
 
 - `npm run check` passes (two existing default-export warnings in config files).
 - `npm run build` passes.
-- All 20 gallery images decode successfully and their full-size links return HTTP 200; there are no unused project image assets.
+- All 24 gallery images decode successfully and their full-size links return HTTP 200; there are no unused project image assets.
 - Browser checks cover 1440 × 900 desktop, 1024 × 768 desktop, 390 × 844 mobile, and reduced motion; screenshot Previous/Next and arrow-key controls; first/last project navigation; image loading; and horizontal overflow.
 - Additional desktop/mobile/reduced-motion checks at 2× pixel density verify naya/bio's frame hugs the image, project images request static files instead of `/_next/image`, and Next navigation reuses the prefetched image without another transfer. naya/bio's landing uses a 35 KB file on the tested desktop and a 25 KB file on mobile; the original is 94 KB. All generated image widths match the manifest. Deployment previews require Vercel authentication in the command-line environment, so image timing measurements use the local production build.
 - Reduced-motion testing exposed an existing hydration mismatch in the hero and a missing scroll target in the reduced-motion text reveal. A shared `useSyncExternalStore` media-query hook now keeps server and initial client rendering consistent, the text reveal retains its ref in both modes, and the pinned project layout has a stable root outside the GSAP spacer so React can replace it safely. Live media-preference changes and desktop/mobile layout transitions were also checked.

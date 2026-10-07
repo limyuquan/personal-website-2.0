@@ -471,6 +471,126 @@
       }
     ]
   },
+  "/images/projects/shelf-attention.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/shelf-attention-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/shelf-attention-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/shelf-attention-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/shelf-attention-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/shelf-attention-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/shelf-attention.webp"
+      }
+    ]
+  },
+  "/images/projects/shelf-home.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/shelf-home-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/shelf-home-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/shelf-home-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/shelf-home-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/shelf-home-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/shelf-home.webp"
+      }
+    ]
+  },
+  "/images/projects/shelf-insights.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/shelf-insights-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/shelf-insights-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/shelf-insights-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/shelf-insights-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/shelf-insights-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/shelf-insights.webp"
+      }
+    ]
+  },
+  "/images/projects/shelf-project.webp": {
+    "width": 2400,
+    "height": 1500,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/projects/responsive/shelf-project-480.webp"
+      },
+      {
+        "width": 640,
+        "src": "/images/projects/responsive/shelf-project-640.webp"
+      },
+      {
+        "width": 960,
+        "src": "/images/projects/responsive/shelf-project-960.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/images/projects/responsive/shelf-project-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/images/projects/responsive/shelf-project-1920.webp"
+      },
+      {
+        "width": 2400,
+        "src": "/images/projects/shelf-project.webp"
+      }
+    ]
+  },
   "/images/projects/showcase-home-v2.webp": {
     "width": 2400,
     "height": 1500,
