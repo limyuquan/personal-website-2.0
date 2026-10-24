@@ -65,21 +65,14 @@ export function LiquidCard({
           transformStyle: "preserve-3d",
         }}
       >
-        {/* Subtle background effect */}
-        <div className="absolute inset-0 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10" />
+        {/* Subtle background effect. No backdrop-filter: over this black
+            section it was visually a no-op, but it re-blurred the backdrop
+            every frame the card scrolled, tilted or scaled. */}
+        <div className="absolute inset-0 rounded-2xl bg-white/5 border border-white/10" />
         
-        {/* Subtle animated border */}
-        <motion.div
-          className="absolute inset-0 rounded-2xl border border-white/20"
-          animate={{
-            opacity: [0.3, 0.6, 0.3]
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
+        {/* Subtle animated border: CSS keyframes (compositor-driven) instead
+            of a per-card JS loop; pausable via .pause-offscreen */}
+        <div className="liquid-border-pulse pause-offscreen absolute inset-0 rounded-2xl border border-white/20" />
         
         {/* Content container */}
         <div className="relative z-10 w-full h-full">

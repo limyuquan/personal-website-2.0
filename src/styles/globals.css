@@ -15,6 +15,29 @@
   perspective: 1000px;
 }
 
+/* LiquidCard border pulse: same as Motion's opacity [0.3, 0.6, 0.3],
+   3s, easeInOut (applied per segment), looping. Runs on the compositor. */
+@keyframes liquid-border-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.liquid-border-pulse {
+  opacity: 0.3;
+  animation: liquid-border-pulse 3s ease-in-out infinite;
+}
+
+/* Stop infinite loops while their section is scrolled out of view
+   (the section toggles [data-offscreen] from an IntersectionObserver). */
+[data-offscreen] .pause-offscreen {
+  animation-play-state: paused;
+}
+
 /* Liquid Glass Effect */
 .glass-nav {
   background: rgba(0, 0, 0, 0.5);

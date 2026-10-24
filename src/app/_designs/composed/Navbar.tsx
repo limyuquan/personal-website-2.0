@@ -61,26 +61,50 @@ export function Navbar() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
+  // Mirrors of state read by the per-scroll-frame handler so it only calls
+  // setState on an actual change (no re-render scheduled per scroll frame).
+  const sizeRef = useRef(size);
+  const menuOpenRef = useRef(menuOpen);
+  const activeIdRef = useRef(activeId);
+  useEffect(() => {
+    sizeRef.current = size;
+    menuOpenRef.current = menuOpen;
+    activeIdRef.current = activeId;
+  }, [size, menuOpen, activeId]);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? latest;
     const inHero = latest < heroBottomRef.current - 100;
+    let next: NavSize | null = null;
 
     if (latest < 80) {
       // At the very top of the hero: full width.
-      setSize("full");
+      next = "full";
     } else if (inHero) {
       // Scrolled within the hero: settle at the medium "peek" width.
-      setSize("medium");
+      next = "medium";
     } else if (latest > previous) {
       // Past the hero, scrolling down: collapse to compact.
-      setSize("compact");
-      setMenuOpen(false);
+      next = "compact";
+      if (menuOpenRef.current) {
+        menuOpenRef.current = false;
+        setMenuOpen(false);
+      }
     } else if (latest < previous) {
       // Past the hero, scrolling up: medium "peek" width.
-      setSize("medium");
+      next = "medium";
     }
 
-    if (latest < 320) setActiveId("#");
+    // Refs are updated eagerly so a second scroll event before the re-render
+    // compares against the pending value, not the stale rendered one.
+    if (next && next !== sizeRef.current) {
+      sizeRef.current = next;
+      setSize(next);
+    }
+    if (latest < 320 && activeIdRef.current !== "#") {
+      activeIdRef.current = "#";
+      setActiveId("#");
+    }
   });
 
   // Active section: keep a thin activation band just under the navbar so that

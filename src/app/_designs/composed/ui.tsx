@@ -72,6 +72,17 @@ export function SectionHeading({
   );
 }
 
+// Fade-up keyframes. A `transform` string (not framer's `y`) lets framer hand
+// the slide to WAAPI, so it runs on the compositor like the opacity fade
+// instead of re-painting the block every frame. Same translateY values and
+// easing; `transitionEnd` restores `transform: none` exactly as `y: 0` did.
+const REVEAL_HIDDEN = { opacity: 0, transform: "translateY(24px)" };
+const REVEAL_SHOWN = {
+  opacity: 1,
+  transform: "translateY(0px)",
+  transitionEnd: { transform: "none" },
+};
+
 /** Fade-up on first viewport entry. */
 export function Reveal({
   children,
@@ -85,8 +96,8 @@ export function Reveal({
   const reduce = useReducedMotion();
   return (
     <motion.div
-      initial={reduce ? false : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduce ? false : REVEAL_HIDDEN}
+      whileInView={REVEAL_SHOWN}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.7, delay, ease: EASE }}
       className={className}

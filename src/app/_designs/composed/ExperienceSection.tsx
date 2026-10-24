@@ -1,9 +1,15 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { useReducedMotion } from "~/lib/use-reduced-motion";
 import { useInView } from "react-intersection-observer";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LiquidCard } from "../../_components/LiquidCard";
 import {
   CalendarIcon,
@@ -21,6 +27,26 @@ export function ExperienceSection() {
   const [failedLogos, setFailedLogos] = useState<Set<number>>(new Set());
   const prefersReducedMotion = useReducedMotion();
 
+  // Pause the infinite CSS loops (node pings, card border pulse) while the
+  // section is off-screen. Toggling a DOM attribute avoids a React re-render.
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const setSectionRef = useCallback(
+    (node: HTMLElement | null) => {
+      sectionRef.current = node;
+      ref(node);
+    },
+    [ref],
+  );
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      el.toggleAttribute("data-offscreen", !entry?.isIntersecting);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // Scroll-drawn timeline line: draws itself as the timeline scrolls through view
   const timelineRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -33,7 +59,29 @@ export function ExperienceSection() {
     mass: 0.6,
   });
   // Position of the glowing "comet" head at the leading edge of the drawn line.
-  const headTop = useTransform(scaleY, (v) => `${v * 100}%`);
+  // Driven as translateY instead of `top` so scrolling never forces layout.
+  // Rounded to device pixels to land exactly where the old pixel-snapped
+  // `top: N%` put it (crisp edges, no subpixel shimmer).
+  const timelineHeight = useMotionValue(0);
+  useEffect(() => {
+    const el = timelineRef.current;
+    if (!el) return;
+    timelineHeight.set(el.offsetHeight);
+    const observer = new ResizeObserver(() =>
+      timelineHeight.set(el.offsetHeight),
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [timelineHeight]);
+  const headY = useTransform<number, number>(
+    [scaleY, timelineHeight],
+    ([v = 0, h = 0]) => {
+      // Also runs during SSR to compute the initial value.
+      const dpr =
+        typeof window === "undefined" ? 1 : window.devicePixelRatio || 1;
+      return Math.round(v * h * dpr) / dpr;
+    },
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -58,7 +106,7 @@ export function ExperienceSection() {
   return (
     <motion.section
       id="experience"
-      ref={ref}
+      ref={setSectionRef}
       className="relative min-h-screen scroll-mt-24 overflow-hidden px-6 py-24"
       variants={containerVariants}
       initial="hidden"
@@ -82,7 +130,11 @@ export function ExperienceSection() {
         <div ref={timelineRef} className="relative">
           {/* Central Timeline Line (base track) */}
           <div className="absolute top-0 bottom-0 left-1/2 hidden w-[2px] -translate-x-1/2 transform bg-white/10 lg:block" />
-          {/* Drawn layer: a thick, glowing cyan line that grows with scroll */}
+          {/* Drawn layer: a thick, glowing cyan line that grows with scroll.
+              Deliberately not promoted to its own layer: when painted under
+              scaleY, Skia narrows the glow with the scale, and a composited
+              (bitmap-scaled) layer would visibly change that look. The
+              per-frame repaint is a tiny rect and costs no layout. */}
           <motion.div
             className="absolute top-0 left-1/2 hidden h-full w-[3px] origin-top rounded-full bg-gradient-to-b from-cyan-200 via-cyan-400 to-cyan-500 shadow-[0_0_18px_rgba(34,211,238,0.6)] lg:block"
             style={{ x: "-50%", scaleY: prefersReducedMotion ? 1 : scaleY }}
@@ -91,8 +143,8 @@ export function ExperienceSection() {
           {!prefersReducedMotion && (
             <motion.div
               aria-hidden
-              className="absolute left-1/2 z-30 hidden h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-100 shadow-[0_0_22px_7px_rgba(34,211,238,0.55)] lg:block"
-              style={{ top: headTop }}
+              className="absolute top-0 left-1/2 z-30 hidden h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-100 shadow-[0_0_22px_7px_rgba(34,211,238,0.55)] lg:block"
+              style={{ y: headY }}
             />
           )}
           <div className="space-y-10">
@@ -109,8 +161,10 @@ export function ExperienceSection() {
                   animate={inView ? { scale: 1 } : { scale: 0 }}
                   transition={{ delay: 0.3 + index * 0.2, duration: 0.5 }}
                 >
-                  <div className="h-6 w-6 transform-gpu rounded-full border-4 border-slate-900 bg-cyan-400 shadow-lg shadow-cyan-400/30 will-change-transform">
-                    <div className="absolute inset-0 animate-ping rounded-full bg-cyan-400 opacity-30" />
+                  {/* `relative` keeps the ping's containing block (formerly
+                      created by transform-gpu/will-change) without a layer */}
+                  <div className="relative h-6 w-6 rounded-full border-4 border-slate-900 bg-cyan-400 shadow-lg shadow-cyan-400/30">
+                    <div className="pause-offscreen absolute inset-0 animate-ping rounded-full bg-cyan-400 opacity-30" />
                   </div>
                 </motion.div>
 
@@ -133,12 +187,9 @@ export function ExperienceSection() {
                           {/* Header */}
                           <div className="mb-8 flex items-start justify-between">
                             <div className="flex-1">
-                              <motion.h3
-                                className="mb-3 transform-gpu text-2xl font-bold text-white transition-colors duration-300 will-change-transform group-hover:text-cyan-400 lg:text-3xl"
-                                layoutId={`position-${index}`}
-                              >
+                              <h3 className="mb-3 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-cyan-400 lg:text-3xl">
                                 {exp.position}
-                              </motion.h3>
+                              </h3>
                               <div className="mb-2 flex items-center gap-3 text-lg font-semibold text-cyan-400/90">
                                 <BuildingOfficeIcon className="h-5 w-5" />
                                 {exp.company}
@@ -162,8 +213,11 @@ export function ExperienceSection() {
                                 whileHover={{ scale: 1.1 }}
                               >
                                 <div className="relative h-16 w-16 lg:h-22 lg:w-22">
-                                  <div className="absolute inset-0 rounded-2xl bg-cyan-400/10 blur-xl transition-all duration-300 group-hover:bg-cyan-400/20" />
-                                  <div className="relative h-full w-full rounded-2xl border border-white/15 bg-white/5 p-2 backdrop-blur-sm transition-all duration-300 group-hover:border-white/25 group-hover:bg-white/10">
+                                  {/* /20 at 50% opacity == /10; fading opacity
+                                      instead of the bg colour avoids
+                                      re-rasterising the blur every frame */}
+                                  <div className="absolute inset-0 rounded-2xl bg-cyan-400/20 opacity-50 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
+                                  <div className="relative h-full w-full rounded-2xl border border-white/15 bg-white/5 p-2 backdrop-blur-sm transition-colors duration-300 group-hover:border-white/25 group-hover:bg-white/10">
                                     {failedLogos.has(index) ? (
                                       <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-white/10 text-2xl font-bold text-white lg:text-3xl">
                                         {exp.company.charAt(0)}
@@ -220,18 +274,27 @@ export function ExperienceSection() {
                             </h4>
                             <div className="flex flex-wrap gap-2">
                               {exp.technologies.map((tech, idx) => (
+                                // Entrance on the wrapper, hover on the chip, so the
+                                // staggered entrance delay never applies to hover.
+                                // Timing matches what the old CSS transition-all +
+                                // transitionDelay actually rendered.
                                 <motion.span
                                   key={idx}
-                                  className="transform-gpu rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-gray-300 transition-all duration-300 will-change-transform hover:border-white/20 hover:bg-white/10 hover:text-white"
-                                  whileHover={{ scale: 1.05, y: -2 }}
-                                  transition={{ duration: 0.2 }}
                                   initial={{ opacity: 0, y: 20 }}
                                   animate={inView ? { opacity: 1, y: 0 } : {}}
-                                  style={{
-                                    transitionDelay: `${0.1 * idx + 0.9}s`,
+                                  transition={{
+                                    delay: 0.1 * idx + 0.9,
+                                    duration: 0.3,
+                                    ease: [0.4, 0, 0.2, 1],
                                   }}
                                 >
-                                  {tech}
+                                  <motion.span
+                                    className="block rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-gray-300 transition-colors duration-300 hover:border-white/20 hover:bg-white/10 hover:text-white"
+                                    whileHover={{ scale: 1.05, y: -2 }}
+                                    transition={{ duration: 0.2 }}
+                                  >
+                                    {tech}
+                                  </motion.span>
                                 </motion.span>
                               ))}
                             </div>
@@ -249,7 +312,7 @@ export function ExperienceSection() {
                                 href={exp.projectUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/40 hover:bg-white/10 hover:text-cyan-300"
+                                className="group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:border-cyan-400/40 hover:bg-white/10 hover:text-cyan-300"
                                 whileHover={{ scale: 1.02, y: -2 }}
                                 whileTap={{ scale: 0.98 }}
                               >

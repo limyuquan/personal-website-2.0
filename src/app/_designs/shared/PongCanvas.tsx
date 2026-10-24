@@ -72,6 +72,7 @@ interface PongCanvasProps {
  */
 export function PongCanvas({ theme, className, onPaddleHit }: PongCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const animationRef = useRef<number>(0);
   const ballRef = useRef<Ball>({
     position: { x: 0, y: 0 },
@@ -418,10 +419,9 @@ export function PongCanvas({ theme, className, onPaddleHit }: PongCanvasProps) {
 
   const gameLoop = useCallback(
     (timestamp: number) => {
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext("2d");
+      const ctx = ctxRef.current;
 
-      if (!ctx || !canvas) {
+      if (!ctx) {
         animationRef.current = requestAnimationFrame(gameLoop);
         return;
       }
@@ -482,6 +482,7 @@ export function PongCanvas({ theme, className, onPaddleHit }: PongCanvasProps) {
         if (ctx) {
           ctx.scale(dpr, dpr);
         }
+        ctxRef.current = ctx;
 
         dimensionsRef.current = {
           width: window.innerWidth,
@@ -517,15 +518,46 @@ export function PongCanvas({ theme, className, onPaddleHit }: PongCanvasProps) {
     // Honor reduced motion: render a single static frame, no game loop.
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext("2d");
+      const ctx = ctxRef.current;
       if (ctx) render(ctx);
       return;
     }
 
-    animationRef.current = requestAnimationFrame(gameLoop);
+    // Only run while the canvas is on screen and the tab is visible. Off
+    // screen the loop still costs a full-viewport clear + redraw (and a canvas
+    // commit) every frame for nothing. Pausing just stops the clock: the ball
+    // resumes exactly where it left off.
+    const canvas = canvasRef.current;
+    let onScreen = true;
+    let running = false;
+    const sync = () => {
+      const shouldRun = onScreen && document.visibilityState === "visible";
+      if (shouldRun === running) return;
+      running = shouldRun;
+      if (running) {
+        // Fresh clock and paddle sample so the first frame back has no time
+        // jump or pointer-velocity spike from the paused interval.
+        lastTimeRef.current = 0;
+        paddleRef.current.lastPosition = { ...paddleRef.current.position };
+        animationRef.current = requestAnimationFrame(gameLoop);
+      } else {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = 0;
+      }
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry) return;
+      onScreen = entry.isIntersecting;
+      sync();
+    });
+    if (canvas) observer.observe(canvas);
+    document.addEventListener("visibilitychange", sync);
+    sync();
 
     return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }

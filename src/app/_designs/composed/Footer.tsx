@@ -12,6 +12,16 @@ import { FaFileAlt, FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { navSections, profile } from "../shared/data";
 import { EASE, Reveal, scrollToSection } from "./ui";
 
+// `transform` strings (not `y`) so framer runs the rise via WAAPI on the
+// compositor; the huge stroked watermark is rasterised once, not per frame.
+const WATERMARK_RISE = {
+  hidden: { transform: "translateY(80px)" },
+  visible: {
+    transform: "translateY(0px)",
+    transitionEnd: { transform: "none" },
+  },
+};
+
 function backToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -106,7 +116,7 @@ export function Footer() {
         viewport={{ once: true, amount: 0.2 }}
       >
         <motion.div
-          variants={{ hidden: { y: 80 }, visible: { y: 0 } }}
+          variants={WATERMARK_RISE}
           transition={{ duration: 0.9, ease: EASE }}
         >
           <div
