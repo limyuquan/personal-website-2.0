@@ -41,6 +41,12 @@ const SIZE_STYLES: Record<NavSize, Record<string, string | number>> = {
   },
 };
 
+// Hoisted so React skips re-rendering the static glass layers on every
+// size / active-section change of the bar.
+const GLASS_SURFACE = (
+  <LiquidGlassSurface className="pointer-events-none absolute inset-0" />
+);
+
 export function Navbar() {
   const reduce = useReducedMotion();
   const [size, setSize] = useState<NavSize>("full");
@@ -156,7 +162,7 @@ export function Navbar() {
       >
         {/* Translucent liquid glass: transmits + refracts the live page behind
             the bar (see-through), with specular sheen, rim, and a cyan tint. */}
-        <LiquidGlassSurface className="pointer-events-none absolute inset-0" />
+        {GLASS_SURFACE}
         <div className="relative z-10 flex items-center justify-between">
           <button
             type="button"

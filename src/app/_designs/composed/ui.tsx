@@ -5,12 +5,13 @@
 // ONE design: dark zinc-950, single cyan accent, Glacier glass surfaces,
 // original liquid-text headings.
 
-import { useMemo, useRef, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import {
+  cancelFrame,
+  frame,
   motion,
+  transform,
   useScroll,
-  useTransform,
-  type MotionValue,
 } from "framer-motion";
 import { useReducedMotion } from "~/lib/use-reduced-motion";
 import type { PongTheme } from "../shared/PongCanvas";
@@ -107,22 +108,7 @@ export function Reveal({
   );
 }
 
-function RevealWord({
-  word,
-  progress,
-  range,
-}: {
-  word: string;
-  progress: MotionValue<number>;
-  range: [number, number];
-}) {
-  const color = useTransform(progress, range, ["#3f3f46", "#ffffff"]);
-  return (
-    <motion.span style={{ color }} className="mr-[0.28em] inline-block">
-      {word}
-    </motion.span>
-  );
-}
+const WORD_COLORS = ["#3f3f46", "#ffffff"];
 
 /**
  * The Kinetic scroll-linked word reveal: words light from zinc-700 to white
@@ -150,6 +136,50 @@ export function WordReveal({
     offset: [`start ${startOffset}`, `end ${endOffset}`],
   });
   const words = useMemo(() => text.split(" "), [text]);
+  // The exact interpolator useTransform(progress, range, WORD_COLORS) builds.
+  const colorAt = useMemo(
+    () =>
+      words.map((_, i) =>
+        transform([i / words.length, (i + 1) / words.length], WORD_COLORS),
+      ),
+    [words],
+  );
+  // Render-time colours, fixed so a re-render never overwrites live ones.
+  const initial = useMemo(
+    () => colorAt.map((colorOf) => colorOf(scrollYProgress.get())),
+    [colorAt, scrollYProgress],
+  );
+  const spans = useRef<(HTMLSpanElement | null)[]>([]);
+
+  // One subscription per paragraph; only words whose range was crossed recompute.
+  useEffect(() => {
+    if (reduce) return;
+    let last: number | null = null;
+    const shown: string[] = [];
+    const update = () => {
+      const p = scrollYProgress.get();
+      const lo = last === null ? 0 : Math.min(p, last);
+      const hi = last === null ? 1 : Math.max(p, last);
+      last = p;
+      for (let i = 0; i < words.length; i++) {
+        if ((i + 1) / words.length < lo || i / words.length > hi) continue;
+        const color = colorAt[i]!(p);
+        const span = spans.current[i];
+        if (span && color !== shown[i]) {
+          shown[i] = color;
+          span.style.color = color;
+        }
+      }
+    };
+    update();
+    const unsubscribe = scrollYProgress.on("change", () =>
+      frame.preRender(update, false, true),
+    );
+    return () => {
+      unsubscribe();
+      cancelFrame(update);
+    };
+  }, [reduce, scrollYProgress, colorAt, words]);
 
   if (reduce) {
     return (
@@ -163,12 +193,16 @@ export function WordReveal({
     // `relative` so framer's useScroll can compute the target's offset.
     <p ref={ref} className={`relative ${className}`}>
       {words.map((word, i) => (
-        <RevealWord
+        <span
           key={`${word}-${i}`}
-          word={word}
-          progress={scrollYProgress}
-          range={[i / words.length, (i + 1) / words.length]}
-        />
+          ref={(el) => {
+            spans.current[i] = el;
+          }}
+          style={{ color: initial[i] }}
+          className="mr-[0.28em] inline-block"
+        >
+          {word}
+        </span>
       ))}
     </p>
   );

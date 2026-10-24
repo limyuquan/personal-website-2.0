@@ -12,6 +12,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   motion,
+  useMotionTemplate,
   useMotionValue,
   useTransform,
   type MotionValue,
@@ -67,9 +68,6 @@ function pointAt(fraction: number) {
   };
 }
 
-// Brightness a crest dims to once fully desaturated.
-const DIM = 0.45;
-
 interface StopMeta {
   item: EducationItem;
   stageLabel: string;
@@ -77,15 +75,18 @@ interface StopMeta {
   stat: string;
 }
 
+// No layer for the crest: a lone composited image is GPU-scaled and softer.
 function Crest({
   item,
+  filter,
   className,
 }: {
   item: EducationItem;
+  filter?: MotionValue<string>;
   className: string;
 }) {
   return (
-    <div className={className}>
+    <motion.div style={filter ? { filter } : undefined} className={className}>
       <Image
         src={item.logo}
         alt={`${item.institution} crest`}
@@ -93,66 +94,7 @@ function Crest({
         sizes="288px"
         className="object-contain"
       />
-    </div>
-  );
-}
-
-function CrestLayer({
-  item,
-  opacity,
-  filter,
-}: {
-  item: EducationItem;
-  opacity: MotionValue<number>;
-  filter?: string;
-}) {
-  return (
-    <motion.div
-      aria-hidden={filter ? true : undefined}
-      style={{ opacity }}
-      className="absolute inset-0 mix-blend-plus-lighter will-change-[opacity]"
-    >
-      <Image
-        src={item.logo}
-        alt={filter ? "" : `${item.institution} crest`}
-        fill
-        sizes="288px"
-        className="object-contain"
-        style={filter ? { filter } : undefined}
-      />
     </motion.div>
-  );
-}
-
-// Same pixels as animating `grayscale(t) brightness(1 - (1 - DIM) * t)`, but
-// compositor-only. That filter is linear in premultiplied colour:
-//   (1 - (1 - DIM)t) * [(1 - t) * colour + t * gray], alpha unchanged,
-// so it equals an additive (plus-lighter) sum of three statically filtered
-// copies — colour, grayscale(1), and a black silhouette that restores the
-// alpha the dimming must keep. Static filters rasterise once; only the
-// layers' opacity changes per frame, and an isolated group keeps the
-// additive blend from touching the backdrop.
-function FadingCrest({
-  item,
-  desaturation,
-  className,
-}: {
-  item: EducationItem;
-  desaturation: MotionValue<number>;
-  className: string;
-}) {
-  const colour = useTransform(
-    desaturation,
-    (t) => (1 - (1 - DIM) * t) * (1 - t),
-  );
-  const gray = useTransform(desaturation, (t) => (1 - (1 - DIM) * t) * t);
-  const shade = useTransform(desaturation, (t) => (1 - DIM) * t);
-  return (
-    <div className={`${className} isolate`}>
-      <CrestLayer item={item} opacity={colour} />
-      <CrestLayer item={item} opacity={gray} filter="grayscale(1)" />
-      <CrestLayer item={item} opacity={shade} filter="brightness(0)" />
-    </div>
   );
 }
 
@@ -249,10 +191,14 @@ function EducationPinned({
   const secondOpacity = useTransform(progress, [0.53, 0.62, 1], [0, 1, 1]);
   const secondY = useTransform(progress, [0.53, 1], [40, 0]);
 
-  // Crest colour: vivid while its school is focused, desaturated + dimmed
-  // (grayscale 1, brightness DIM) as you scroll away.
-  const firstDesat = useTransform(progress, [0, 0.45], [0, 1]);
-  const secondDesat = useTransform(progress, [0.55, 1], [1, 0]);
+  // Crest colour: vivid while its school is focused, desaturated + dimmed as
+  // you scroll away.
+  const firstGray = useTransform(progress, [0, 0.45], [0, 1]);
+  const firstBright = useTransform(progress, [0, 0.45], [1, 0.45]);
+  const firstFilter = useMotionTemplate`grayscale(${firstGray}) brightness(${firstBright})`;
+  const secondGray = useTransform(progress, [0.55, 1], [1, 0]);
+  const secondBright = useTransform(progress, [0.55, 1], [0.45, 1]);
+  const secondFilter = useMotionTemplate`grayscale(${secondGray}) brightness(${secondBright})`;
 
   const firstActive = useTransform(progress, [0.45, 0.55], [1, 0.35]);
   const secondActive = useTransform(progress, [0.45, 0.55], [0.35, 1]);
@@ -268,18 +214,16 @@ function EducationPinned({
         </div>
 
         <div className="relative mx-auto mt-6 h-[20rem] w-full max-w-6xl px-6 md:mt-10">
-          {/* will-change: each block is its own layer, so the per-frame
-              opacity/y scrub is a compositor update, not a re-raster of the
-              big headline + copy. */}
+          {/* No will-change: as a layer the fractional centring lands 1px off. */}
           <motion.div
             style={{ opacity: firstOpacity, y: firstY }}
-            className="absolute inset-x-6 top-1/2 -translate-y-1/2 will-change-[opacity,transform]"
+            className="absolute inset-x-6 top-1/2 -translate-y-1/2"
           >
             <div className="grid items-center gap-10 md:grid-cols-[1.5fr_1fr]">
               <MonumentText meta={first} />
-              <FadingCrest
+              <Crest
                 item={first.item}
-                desaturation={firstDesat}
+                filter={firstFilter}
                 className="relative hidden h-56 w-56 justify-self-center md:block lg:h-64 lg:w-64"
               />
             </div>
@@ -287,13 +231,13 @@ function EducationPinned({
 
           <motion.div
             style={{ opacity: secondOpacity, y: secondY }}
-            className="absolute inset-x-6 top-1/2 -translate-y-1/2 will-change-[opacity,transform]"
+            className="absolute inset-x-6 top-1/2 -translate-y-1/2"
           >
             <div className="grid items-center gap-10 md:grid-cols-[1.5fr_1fr]">
               <MonumentText meta={second} />
-              <FadingCrest
+              <Crest
                 item={second.item}
-                desaturation={secondDesat}
+                filter={secondFilter}
                 className="relative hidden h-56 w-56 justify-self-center md:block lg:h-64 lg:w-64"
               />
             </div>
