@@ -9,13 +9,15 @@ interface GoogleAnalyticsProps {
 export function GoogleAnalytics({ gtag }: GoogleAnalyticsProps) {
   return (
     <>
+      {/* lazyOnload: gtag loads once the page is idle, not during the hero
+          entrance animations; page_view still fires when it does. */}
       <Script
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${gtag}`}
       />
       <Script
         id="google-analytics"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];

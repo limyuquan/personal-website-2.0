@@ -6,7 +6,7 @@
 // eyebrow rolls through a set of titles, and the ambient pong plays over a
 // faint grid.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import { useReducedMotion } from "~/lib/use-reduced-motion";
 import { EASE, GLASS_PILL, PONG_CYAN, scrollToSection } from "./ui";
@@ -28,14 +28,34 @@ const ROLE_INTERVAL = 2800;
 
 function RoleRotator({ reduce }: { reduce: boolean }) {
   const [index, setIndex] = useState(0);
+  const rollRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (reduce) return;
-    const id = setInterval(
-      () => setIndex((prev) => (prev + 1) % ROLES.length),
-      ROLE_INTERVAL,
-    );
-    return () => clearInterval(id);
+    let id: ReturnType<typeof setInterval> | undefined;
+    const start = () => {
+      id ??= setInterval(
+        () => setIndex((prev) => (prev + 1) % ROLES.length),
+        ROLE_INTERVAL,
+      );
+    };
+    const stop = () => {
+      clearInterval(id);
+      id = undefined;
+    };
+    start();
+    // Off screen, each roll still re-renders and animates every word for
+    // nothing; resume on the same cadence when the hero comes back.
+    const el = rollRef.current;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) start();
+      else stop();
+    });
+    if (el) observer.observe(el);
+    return () => {
+      observer.disconnect();
+      stop();
+    };
   }, [reduce]);
 
   if (reduce) {
@@ -47,6 +67,7 @@ function RoleRotator({ reduce }: { reduce: boolean }) {
 
   return (
     <span
+      ref={rollRef}
       className="relative inline-flex overflow-hidden py-1 align-middle"
       style={{ perspective: 600 }}
     >

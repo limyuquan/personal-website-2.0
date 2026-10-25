@@ -1,7 +1,14 @@
 "use client";
 
 import Image, { getImageProps } from "next/image";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { motion } from "framer-motion";
 import { useReducedMotion } from "~/lib/use-reduced-motion";
 import { getProjectImage, projectImageLoader } from "~/lib/project-images";
@@ -78,9 +85,11 @@ function ProjectBody({ project }: { project: ProjectItem }) {
 function ProjectCover({
   project,
   sizes,
+  eager = false,
 }: {
   project: ProjectItem;
   sizes: string;
+  eager?: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const { ref, inView } = useIntersectionInView({
@@ -146,7 +155,7 @@ function ProjectCover({
           height={image.height}
           loader={projectImageLoader}
           sizes={sizes}
-          loading={inView ? "eager" : "lazy"}
+          loading={inView || eager ? "eager" : "lazy"}
           className="h-auto w-full"
         />
       </a>
@@ -182,10 +191,56 @@ function ProjectCover({
   );
 }
 
+// Memoised so a change of active project re-renders only the two slides
+// whose `inert` flips, not every cover and body in the gallery.
+const ProjectSlide = memo(function ProjectSlide({
+  project,
+  inert,
+  eager,
+}: {
+  project: ProjectItem;
+  inert: boolean;
+  eager: boolean;
+}) {
+  return (
+    <div
+      inert={inert}
+      className="flex w-screen shrink-0 items-center justify-center px-10 xl:px-16"
+    >
+      <div className="grid w-full max-w-6xl -translate-y-3.5 items-center gap-12 lg:grid-cols-[6fr_5fr] xl:gap-16">
+        <ProjectCover
+          project={project}
+          sizes="(min-width: 1024px) 600px, calc(100vw - 3rem)"
+          eager={eager}
+        />
+        <ProjectBody project={project} />
+      </div>
+    </div>
+  );
+});
+
 function ProjectsHorizontal() {
   const wrapRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
+  // Backdrops currently mounted: the active one plus any still fading out.
+  // `fadeIn` is false only for the one shown when the gallery first mounts.
+  const [backdrops, setBackdrops] = useState([{ index: 0, fadeIn: false }]);
+  // Slides sit outside the section's clip until scrubbed in, so their lazy
+  // images would otherwise start loading mid-scrub. Load them as the
+  // gallery approaches instead.
+  const { ref: nearRef, inView: near } = useIntersectionInView({
+    rootMargin: "100% 0px",
+    triggerOnce: true,
+  });
+  const setWrapRef = useCallback(
+    (node: HTMLElement | null) => {
+      wrapRef.current = node;
+      nearRef(node);
+    },
+    [nearRef],
+  );
 
   useIsomorphicLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -211,7 +266,15 @@ function ProjectsHorizontal() {
               projects.length - 1,
               Math.round(self.progress * (projects.length - 1)),
             );
-            setActive((prev) => (prev === index ? prev : index));
+            // Runs every scrubbed frame; only touch React when it changes.
+            if (index === activeRef.current) return;
+            activeRef.current = index;
+            setActive(index);
+            setBackdrops((prev) =>
+              prev.some((b) => b.index === index)
+                ? prev
+                : [...prev, { index, fadeIn: true }],
+            );
           },
         },
       });
@@ -226,40 +289,44 @@ function ProjectsHorizontal() {
     <div>
       <section
         id="projects"
-        ref={wrapRef}
+        ref={setWrapRef}
         className="relative h-[100dvh] overflow-hidden"
       >
-        {projects.map((project, i) => (
-          <motion.div
-            key={project.title}
-            aria-hidden
-            initial={false}
-            animate={{ opacity: active === i ? 1 : 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="absolute inset-0"
-            style={{
-              background: `radial-gradient(ellipse at center, rgba(${project.accentRGB}, 0.16), transparent 70%)`,
-            }}
-          />
-        ))}
+        {/* Faded-out backdrops unmount, so at most the active one and those
+            still fading are composited. Each keeps its own layer while
+            mounted, so a crossfade never re-rasterises the pinned section. */}
+        {projects.map((project, i) => {
+          const backdrop = backdrops.find((b) => b.index === i);
+          if (!backdrop) return null;
+          return (
+            <motion.div
+              key={project.title}
+              aria-hidden
+              initial={backdrop.fadeIn ? { opacity: 0 } : false}
+              animate={{ opacity: active === i ? 1 : 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              onAnimationComplete={(definition: { opacity?: number }) => {
+                if (definition.opacity !== 0 || activeRef.current === i) return;
+                setBackdrops((prev) => prev.filter((b) => b.index !== i));
+              }}
+              className="absolute inset-0 will-change-[opacity]"
+              style={{
+                background: `radial-gradient(ellipse at center, rgba(${project.accentRGB}, 0.16), transparent 70%)`,
+              }}
+            />
+          );
+        })}
         <div className="absolute top-28 left-1/2 z-10 w-full max-w-6xl -translate-x-1/2 px-6">
           <SectionHeading lead="Featured" accent="Projects" />
         </div>
         <div ref={trackRef} className="flex h-[100dvh] items-center">
           {projects.map((project, i) => (
-            <div
+            <ProjectSlide
               key={project.title}
+              project={project}
               inert={active !== i}
-              className="flex w-screen shrink-0 items-center justify-center px-10 xl:px-16"
-            >
-              <div className="grid w-full max-w-6xl -translate-y-3.5 items-center gap-12 lg:grid-cols-[6fr_5fr] xl:gap-16">
-                <ProjectCover
-                  project={project}
-                  sizes="(min-width: 1024px) 600px, calc(100vw - 3rem)"
-                />
-                <ProjectBody project={project} />
-              </div>
-            </div>
+              eager={near}
+            />
           ))}
         </div>
         <nav
